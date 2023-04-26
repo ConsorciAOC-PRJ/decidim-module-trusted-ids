@@ -5,17 +5,17 @@ es:
       idcat_mobil:
         name: IdCat Mòbil
     verifications:
-      idcat_mobil:
+      trusted_ids:
         errors:
-          invalid_method: No se pudo verificar. El método de verificación OAuth2 no fue 'idcat_mobil' como se esperaba.
-          invalid_status: No se pudo verificar. La verificación OAuth2 no ha sido correcta.
+          invalid_method: Could not verify you. OAuth2 verification method was not 'idcat_mobil' as expected.
+          invalid_status: Could not verify you. OAuth2 verification was not ok.
         invalid:
-          email_intro: No ha sido posible otorgarle la autorización IdCat Mòbil.
-          email_outro: Por favor, póngase en contacto con el soporte en su plataforma para comprobar qué ha fallado.
-          email_subject: Usted no ha podido ser autorizado para IdCat Mòbil
-          notification_title: Autenticación IdCat Mòbil no válida
+          email_intro: It has not been possible to grant you the IdCat Mòbil authorization.
+          email_outro: Please, contact the support at your platform to check what has gone wrong.
+          email_subject: You could not be authorized for IdCat Mòbil
+          notification_title: Invalid IdCat Mòbil authentication
         ok:
-          email_intro: Se le ha concedido la autorización IdCat Mòbil.
-          email_outro: Ahora puede realizar todas las acciones que requieren la autorización de IdCat Mòbil.
-          email_subject: Has sido autorizado con IdCat Mòbil
-          notification_title: La autenticación con IdCat Mòbil ha sido exitosa
+          email_intro: You have been granted IdCat Mòbil authorization.
+          email_outro: You can now perform all actions that require IdCat Mòbil authorization.
+          email_subject: You've been authorized for IdCat Mòbil
+          notification_title: Successful IdCat Mòbil authentication

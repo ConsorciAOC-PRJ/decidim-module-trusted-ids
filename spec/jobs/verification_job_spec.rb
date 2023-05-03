@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-require "decidim/verifications/id_cat_mobil_handler"
+require "decidim/verifications/trusted_ids_handler"
 
 module Decidim::TrustedIds
   describe VerificationJob do

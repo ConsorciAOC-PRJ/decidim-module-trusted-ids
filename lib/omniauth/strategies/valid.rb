@@ -7,7 +7,7 @@ module OmniAuth
   module Strategies
     # extracted and adapted from
     # https://github.com/gencat/omniauth-idcat_mobil/blob/master/lib/omniauth/strategies/idcat_mobil.rb
-    # IdCat mòbil references:
+    # VALID references:
     # - https://www.aoc.cat/wp-content/uploads/2016/01/di-valid-1.pdf
     class Valid < OmniAuth::Strategies::OAuth2
       # constructor arguments after `app`, the first argument, that should be a RackApp
@@ -77,8 +77,8 @@ module OmniAuth
       #
       # We're overriding solely to log.
       def request_phase
-        idcat_log("In `request_phase`, with params: redirect_uri=>#{callback_url}, options=>#{options.authorize_params}")
-        idcat_log("`request_phase`, redirecting the user to AOC...")
+        log("In `request_phase`, with params: redirect_uri=>#{callback_url}, options=>#{options.authorize_params}")
+        log("`request_phase`, redirecting the user to AOC...")
         super
       end
 
@@ -88,19 +88,19 @@ module OmniAuth
       # In case of success we still have to ask the authentication provider for the access_token.
       # That's what we do in this callback.
       def callback_phase
-        idcat_log("In `callback_phase` with request params: #{request.params}")
-        idcat_log("Both should be equal otherwise a 'CSRF detected' error is raised: params state[#{request.params["state"]}] =? [#{session["omniauth.state"]}] session state.")
+        log("In `callback_phase` with request params: #{request.params}")
+        log("Both should be equal otherwise a 'CSRF detected' error is raised: params state[#{request.params["state"]}] =? [#{session["omniauth.state"]}] session state.")
         super
       end
 
       def raw_info
         if @raw_info
-          idcat_log("Access token response was: #{access_token.try(:response)}")
+          log("Access token response was: #{access_token.try(:response)}")
         else
-          idcat_log("Performing getUserInfo...")
+          log("Performing getUserInfo...")
           response = access_token.get(options.user_info_path)
           result = [:status, :headers, :body].collect { |m| response.send(m) }
-          idcat_log("getUserInfo response status/headers/body: #{result}")
+          log("getUserInfo response status/headers/body: #{result}")
           @raw_info = response.parsed
           # Logout to avoid problems with IdCat mòbil's cookie session when trying to login again.
           logout_url = URI.join(options.site, "/o/oauth2/logout?token=#{access_token.token}").to_s
@@ -115,12 +115,12 @@ module OmniAuth
 
       private
 
-      def idcat_log(msg)
-        idcat_logger.debug(msg)
+      def log(msg)
+        logger.debug(msg)
       end
 
-      def idcat_logger
-        @idcat_logger ||= defined?(Rails.logger) ? Rails.logger : Logger.new($stdout, progname: "valid")
+      def logger
+        @logger ||= defined?(Rails.logger) ? Rails.logger : Logger.new($stdout, progname: "valid")
       end
     end
   end

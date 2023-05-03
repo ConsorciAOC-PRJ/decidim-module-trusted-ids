@@ -14,6 +14,28 @@ module Decidim
         # root to: "trusted_ids#index"
       end
 
+      config.to_prepare do
+        # Adds some global css/javascript to the application
+        Decidim::Devise::SessionsController.include(Decidim::TrustedIds::NeedsTrustedIdsSnippets)
+        Decidim::ApplicationController.include(Decidim::TrustedIds::NeedsTrustedIdsSnippets)
+      end
+
+      initializer "decidim_trusted_ids.omniauth" do
+        next unless Decidim::TrustedIds.omniauth && Decidim::TrustedIds.omniauth[:enabled].present?
+
+        # Decidim use the secrets configuration to decide whether to show the omniauth provider, we add it here
+        Rails.application.secrets[:omniauth][Decidim::TrustedIds.omniauth_provider.to_sym] = Decidim::TrustedIds.omniauth
+
+        Rails.application.config.middleware.use OmniAuth::Builder do
+          provider Decidim::TrustedIds.omniauth_provider,
+                   client_id: Decidim::TrustedIds.omniauth[:client_id],
+                   client_secret: Decidim::TrustedIds.omniauth[:client_secret],
+                   site: Decidim::TrustedIds.omniauth[:site],
+                   icon_path: Decidim::TrustedIds.omniauth[:icon_path],
+                   scope: Decidim::TrustedIds.omniauth[:scope]
+        end
+      end
+
       initializer "decidim_trusted_ids.webpacker.assets_path" do
         Decidim.register_assets_path File.expand_path("app/packs", root)
       end

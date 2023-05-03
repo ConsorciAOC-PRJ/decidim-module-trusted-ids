@@ -2,12 +2,11 @@
 
 module Decidim
   module Verifications
-    # A Handler form object that just holds OAuth2 data provided by AOC when performing "IdCat mòbil" authentication.
-    class IdCatMobilHandler < AuthorizationHandler
+    class TrustedIdsHandler < AuthorizationHandler
       attribute :oauth_data, Hash
 
       validates :unique_id, presence: true
-      validate :idcatmobil_method?, :has_ok_status?
+      validate :trusted_ids_method?, :ok_status?
 
       def unique_id
         oauth_data["identifier"]
@@ -21,23 +20,18 @@ module Decidim
         Decidim::User.find(oauth_data[:user_id])
       end
 
-      #-----------------------------------------------------------
       private
 
-      #-----------------------------------------------------------
-
-      def idcatmobil_method?
-        return true if oauth_data["method"] == "idcatmobil"
+      def trusted_ids_method?
+        return if oauth_data["method"] == TrustedIds.omniauth_provider.to_s
 
         errors.add(:base, I18n.t("decidim.verifications.trusted_ids.errors.invalid_method"))
-        false
       end
 
-      def has_ok_status?
-        return true if oauth_data["status"] == "ok"
+      def ok_status?
+        return if oauth_data["status"] == "ok"
 
         errors.add(:base, I18n.t("decidim.verifications.trusted_ids.errors.invalid_status"))
-        false
       end
     end
   end

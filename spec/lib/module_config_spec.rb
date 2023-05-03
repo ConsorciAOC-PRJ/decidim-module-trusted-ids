@@ -128,8 +128,8 @@ module Decidim
                                "omniauth_provider" => "valid",
                                "omniauth" => {
                                  "enabled" => false,
-                                 "client_id" => nil,
-                                 "client_secret" => nil,
+                                 "client_id" => "",
+                                 "client_secret" => "",
                                  "site" => nil,
                                  "icon_path" => "media/images/valid-icon.png",
                                  "scope" => "autenticacio_usuari"

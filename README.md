@@ -20,8 +20,12 @@ Workflow:
 
 ### Registration methods:
 
-User registration and login through IdCat Mòbil, an authentication method that uses OAuth 2.0 protocol.
-_IdCat mòbil_ is an identity validator from VÀLid (Validador d'Identitats del Consorci AOC).
+As is shown in the previous workflow, this module implements two stages for user registration:
+
+- A OAuth 2.0 authentication (login & register) method that is configurable. At the moment the only supported provider is `valid` (is an identity validator from the [AOC](https://www.aoc.cat/) consortium. However, it is possible to add other providers in the future, PR are welcome, see the [CONTRIBUTING](CONTRIBUTING.md) file for more information.
+
+- A verification system.... todo
+
 
 ## Installation
 
@@ -45,7 +49,44 @@ bundle install
 
 ## Usage
 
-todo..
+This plugin comes prepared to be used solely with `ENV` variables, but you can also configure it through an initializer.
+
+By default, you can use these variables to configure the module:
+
+-- | -- | --
+Environment variable | Description | Default value
+--- | --- | ---
+`OMNIAUTH_PROVIDER` | The OAuth2 provider to use. Currently only `valid` is available. | `valid`
+`VALID_CLIENT_ID` | The OAuth2 client ID. Note that the prefix `VALID` is because `OMNIAUTH_PROVIDER` is set to "valid". Other values will require to name this variable accordingly (for instance `FOO_CLIENT_ID`). **IF this variable is empty, no oauth login will be used**. | `nil`
+`VALID_CLIENT_SECRET` | The OAuth2 client secret. | `nil`
+`VALID_SITE` | The OAuth2 site. | `nil`
+`VALID_ICON` | The icon used for the login button. | `media/images/valid-icon.png`
+`VALID_SCOPE` | The OAuth2 scope that returns the necessary fields for registration (some OAuth method might override this making it unnecessary). | `autenticacio_usuari`
+-- | -- | --
+
+### Via initializer
+
+If you are using a different source for your settings, you can also configure this module through an initializer. 
+
+For instance, create a file `config/initializers/decidim_trusted_ids.rb` with the following content:
+
+```ruby
+Decidim::TrustedIds.configure do |config|
+  # The name of the omniauth provider, must be registered in Decidim.
+	config.omniauth_provider = "valid"
+	config.omniauth = {
+		enabled: true,
+		client_id: "my-client-id",
+		client_secret: "my-client-secret",
+		site: "https://identitats-pre.aoc.cat",
+		scope: "autenticacio_usuari",
+		icon: "media/images/valid-icon.png"
+	},
+	...
+end
+```
+
+For the complete list of available options, see the [trusted_ids](lib/decidim/trusted_ids.rb) file.
 
 ## Contributing
 

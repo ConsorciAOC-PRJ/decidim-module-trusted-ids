@@ -15,7 +15,7 @@ module Decidim
       ActiveRecord::Type::Boolean.new.deserialize(val.to_s.downcase)
     end
 
-    # Public: This is the main configuration entry point for the TrustedIds
+    # The name of the omniauth provider, must be registered in Decidim.
     config_accessor :omniauth_provider do
       ENV.fetch("OMNIAUTH_PROVIDER", "valid")
     end

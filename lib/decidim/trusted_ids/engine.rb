@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "omniauth/idcat_mobil"
+require "omniauth/strategies"
 
 module Decidim
   module TrustedIds

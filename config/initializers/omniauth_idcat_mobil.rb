@@ -10,9 +10,9 @@ if Rails.application.secrets.dig(:omniauth, :trusted_ids).present?
                request = Rack::Request.new(env)
                organization = Decidim::Organization.find_by(host: request.host)
                provider_config = organization.enabled_omniauth_providers[:trusted_ids]
-               env["omniauth.strategy"].options[:client_id] = provider_config[:client_id] || ENV["IDCAT_MOBIL_CLIENT_ID"]
-               env["omniauth.strategy"].options[:client_secret] = provider_config[:client_secret] || ENV["IDCAT_MOBIL_CLIENT_SECRET"]
-               env["omniauth.strategy"].options[:site] = provider_config[:site_url] || ENV["IDCAT_MOBIL_SITE_URL"]
+               env["omniauth.strategy"].options[:client_id] = provider_config[:client_id] || ENV["VALID_CLIENT_ID"]
+               env["omniauth.strategy"].options[:client_secret] = provider_config[:client_secret] || ENV["VALID_CLIENT_SECRET"]
+               env["omniauth.strategy"].options[:site] = provider_config[:site_url] || ENV["VALID_SITE_URL"]
              },
       scope: :autenticacio_usuari
     )

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+ENV["VALID_CLIENT_ID"] = ""
+ENV["VALID_CLIENT_SECRET"] = ""
 require "spec_helper"
 require "json"
 require "fileutils"

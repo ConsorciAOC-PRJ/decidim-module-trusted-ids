@@ -1,3 +1,7 @@
 # frozen_string_literal: true
 
-require "omniauth/strategies/valid"
+module OmniAuth
+  module Strategies
+    autoload :Valid, "omniauth/strategies/valid"
+  end
+end

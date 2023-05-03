@@ -20,5 +20,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency "decidim", Decidim::TrustedIds::COMPAT_DECIDIM_VERSION
   s.add_dependency "decidim-core", Decidim::TrustedIds::COMPAT_DECIDIM_VERSION
+  s.add_dependency "decidim-verifications", Decidim::TrustedIds::COMPAT_DECIDIM_VERSION
   s.add_development_dependency "decidim-dev", Decidim::TrustedIds::COMPAT_DECIDIM_VERSION
 end

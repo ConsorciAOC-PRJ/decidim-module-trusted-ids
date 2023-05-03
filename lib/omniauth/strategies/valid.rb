@@ -20,7 +20,7 @@ module OmniAuth
       }
       # will be merged with token_params
       option :token_options, [:client_id, :client_secret]
-
+      option :with_locale_path_segment, false
       option :user_info_path, "/serveis-rest/getUserInfo"
 
       # uid: this is a unique string identifier that is globally unique to the provider you're writing
@@ -33,6 +33,7 @@ module OmniAuth
         {
           email: raw_info["email"],
           name: raw_info["name"],
+          nickname: sanitized_nickname,
           prefix: raw_info["prefix"],
           phone: raw_info["phone"],
           surname1: raw_info["surname1"],
@@ -54,19 +55,25 @@ module OmniAuth
 
       def client
         options.client_options[:site] = options.site
-        options.client_options[:authorize_url] = URI.join(options.site, "/o/oauth2/auth").to_s
+
+        base_url = options.site
+
+        base_url = URI.join(base_url, "/#{request[:locale]}/") if options.with_locale_path_segment
+
+        options.client_options[:authorize_url] = URI.join(base_url, "/o/oauth2/auth").to_s
+        options.client_options[:token_url] = URI.join(base_url, "/o/oauth2/token").to_s
+
         options.client_options[:authorize_params] = {
           scope: :autenticacio_usuari,
           response_type: :code,
           approval_prompt: :auto,
           access_type: :online
         }
-        options.client_options[:token_url] = URI.join(options.site, "/o/oauth2/token").to_s
-        options.client_options[:auth_token_params] = {
-          client_id: super.id,
-          client_secret: super.secret,
-          redirect_uri: callback_url
-        }
+        # options.client_options[:auth_token_params] = {
+        #   client_id: super.id,
+        #   client_secret: super.secret,
+        #   redirect_uri: callback_url
+        # }
         super
       end
 
@@ -102,7 +109,7 @@ module OmniAuth
           result = [:status, :headers, :body].collect { |m| response.send(m) }
           log("getUserInfo response status/headers/body: #{result}")
           @raw_info = response.parsed
-          # Logout to avoid problems with IdCat mòbil's cookie session when trying to login again.
+          # Logout to avoid problems with Valid's cookie session when trying to login again.
           logout_url = URI.join(options.site, "/o/oauth2/logout?token=#{access_token.token}").to_s
           access_token.get(logout_url)
         end
@@ -111,6 +118,11 @@ module OmniAuth
 
       def callback_url
         full_host + callback_path
+      end
+
+      def sanitized_nickname
+        # TODO: restrict nicknamize to the current organization
+        Decidim::UserBaseEntity.nicknamize(raw_info["name"] || raw_info["email"])
       end
 
       private

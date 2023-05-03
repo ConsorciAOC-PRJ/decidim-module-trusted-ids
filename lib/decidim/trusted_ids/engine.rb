@@ -17,7 +17,6 @@ module Decidim
       config.to_prepare do
         # Adds some global css/javascript to the application
         Decidim::Devise::SessionsController.include(Decidim::TrustedIds::NeedsTrustedIdsSnippets)
-        Decidim::ApplicationController.include(Decidim::TrustedIds::NeedsTrustedIdsSnippets)
       end
 
       initializer "decidim_trusted_ids.omniauth" do

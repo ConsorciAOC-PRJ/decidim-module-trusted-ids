@@ -3,6 +3,7 @@ en:
   decidim:
     trusted_ids:
       providers:
+        # Omniauth providers are also used as the authorization name for the "trusted_ids_handler", see zz_fallbacks.rb
         valid:
           name: VÀLid
           description: VÀLid is the digital identity service of the Government of Catalonia.

@@ -21,7 +21,29 @@ The omniauth method **must** return the `uid` property with an unique identifier
 	end
 	```
 
-3. todo...
+3. Add the name and description that will be used to present the authorization button in the [locales](config/locales/en.yml) file.
+	```yaml
+	en:
+	  decidim:
+	    trusted_ids:
+	      providers:
+	        valid:
+	          name: VÀLid
+	          description: VÀLid is the digital identity service of the Government of Catalonia.
+					foo_bar:
+						name: "Foo Bar"
+						description: "Foo Bar description"
+	```
+
+
+
+4. In your application, use the ENV `OMNIAUTH_PROVIDER=foo_bar` or create an initializer to specify the default omniauth provider:
+	```ruby
+	Decidim::TrustedIds.configure do |config|
+	  config.omniauth_provider = :foo_bar
+	end
+	```
+
 
 
 

@@ -3,6 +3,8 @@ en:
   decidim:
     authorization_handlers:
       trusted_ids_handler:
+        explanation: This authorization method is granted to all users that use a
+          Trusted ID login method.
         name: Trusted IDs
     events:
       trusted_ids:
@@ -15,8 +17,8 @@ en:
             notification_title: Invalid authorization with the "Trusted IDs" method
           ok:
             email_intro: You have been granted the "Trusted IDs" authorization.
-            email_outro: You can now perform all actions that require the "Trusted IDs"
-              authorization.
+            email_outro: You can now perform all actions that require the "Trusted
+              IDs" authorization.
             email_subject: Authorization successful
             notification_title: Successful authorization with the "Trusted IDs" method
     system:

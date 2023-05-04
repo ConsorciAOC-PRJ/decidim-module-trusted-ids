@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "decidim/trusted_ids/on_omniauth_registration_listener"
+require "decidim/trusted_ids/verifications"
 require "decidim/trusted_ids/engine"
 
 module Decidim

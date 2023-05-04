@@ -39,6 +39,18 @@ module Decidim
         end
       end
 
+      initializer "decidim_trusted_ids.authorizations" do
+        # Triggers user verification after login/registration
+        ActiveSupport::Notifications.subscribe "decidim.user.omniauth_registration" do |_name, data|
+          Decidim::TrustedIds::OmniauthVerificationJob.perform_later(data)
+        end
+
+        # Generic verification method for the integrate OAuth mechanism
+        Decidim::Verifications.register_workflow(:trusted_ids) do |workflow|
+          workflow.form = "Decidim::TrustedIds::Verifications::TrustedIdsHandler"
+        end
+      end
+
       initializer "decidim_trusted_ids.webpacker.assets_path" do
         Decidim.register_assets_path File.expand_path("app/packs", root)
       end

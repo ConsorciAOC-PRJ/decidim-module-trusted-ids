@@ -2,16 +2,15 @@
 
 require "spec_helper"
 
-require "decidim/verifications/trusted_ids_handler"
-
 module Decidim::TrustedIds
-  describe VerificationJob do
+  describe OmniauthVerificationJob do
     def pending_to_be_finished
       pending("Implementation pending, this Decidim module does not support user verification")
     end
 
     let!(:user) { create(:user) }
-    let!(:identity) { create(:identity, provider: "idecat_mobil", user: user) }
+    let(:provider) { "valid" }
+    let!(:identity) { create(:identity, provider: provider, user: user) }
     let(:oauth_data) do
       {
         user_id: user.id,

@@ -17,7 +17,7 @@ shared_context "with stubs example api" do
   end
 
   before do
-    # allow(Decidim::Civicrm::Api).to receive(:url).and_return(url)
+    # allow(Decidim::TrustedIds::Api).to receive(:url).and_return(url)
     stub_request(http_method, /api\.example\.org/)
       .to_return(status: http_status, body: data.to_json, headers: {})
   end

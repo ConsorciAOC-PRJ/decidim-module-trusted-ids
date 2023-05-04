@@ -9,6 +9,7 @@ module Decidim
 
         validates :uid, presence: true
         validate :trusted_ids_provider?
+        validate :exising_trusted_ids_identity?
 
         def metadata
           super.merge(
@@ -23,12 +24,28 @@ module Decidim
           )
         end
 
+        # no public attributes
+        def form_attributes
+          attributes.except(:id, :user, :provider, :uid).keys
+        end
+
+        def to_partial_path
+          "decidim/trusted_ids/verifications/form"
+        end
+
         private
 
         def trusted_ids_provider?
+          return if errors.any?
           return if provider == TrustedIds.omniauth_provider.to_s
 
           errors.add(:base, I18n.t("decidim.verifications.trusted_ids.errors.invalid_method"))
+        end
+
+        def exising_trusted_ids_identity?
+          return if user&.identities&.exists?(provider: TrustedIds.omniauth_provider)
+
+          errors.add(:base, I18n.t("decidim.verifications.trusted_ids.errors.no_identity"))
         end
       end
     end

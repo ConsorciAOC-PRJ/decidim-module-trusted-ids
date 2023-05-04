@@ -1,6 +1,10 @@
 ---
 en:
   decidim:
+    trusted_ids:
+      verifications:
+        form:
+          cancel: Cancel authorization
     authorization_handlers:
       trusted_ids_handler:
         explanation: This authorization method is granted to all users that use a
@@ -36,3 +40,5 @@ en:
           invalid_method: Could not verify you. OAuth2 verification method is not
             supported.
           invalid_status: Could not verify you. OAuth2 verification was not ok.
+          no_identity: Could not verify you. OAuth2 verification did not return
+            an identify.

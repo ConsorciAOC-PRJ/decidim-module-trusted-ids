@@ -14,9 +14,12 @@ module Decidim
         # root to: "trusted_ids#index"
       end
 
-      config.to_prepare do
-        # Adds some global css/javascript to the application
-        Decidim::Devise::SessionsController.include(Decidim::TrustedIds::NeedsTrustedIdsSnippets)
+      initializer "decidim_trusted_ids.controller_addons", after: "decidim.action_controller" do
+        config.to_prepare do
+          # Adds some global css/javascript to the application
+          Decidim::Devise::SessionsController.include(Decidim::TrustedIds::NeedsTrustedIdsSnippets)
+          Decidim::Verifications::AuthorizationsController.include(Decidim::TrustedIds::NeedsTrustedIdsSnippets)
+        end
       end
 
       initializer "decidim_trusted_ids.omniauth" do

@@ -1,13 +1,30 @@
+<% provider = Decidim::TrustedIds.omniauth_provider&.to_sym %>
+<% if Devise.mappings[:user].omniauthable? && current_organization.enabled_omniauth_providers.dig(provider, :enabled) %>
 TODO:
-
 to be verified you need to login with oauth trusted id
+<div class="social-register">
+  <%= link_to decidim.send("user_#{provider}_omniauth_authorize_path"), class: "button button--social button--#{normalize_provider_name(provider)}", method: :post do %>
+    <span class="button--social__icon">
+      <%= oauth_icon provider %>
+    </span>
+    <span class="button--social__text">
+      <%= t("devise.shared.links.sign_in_with_provider", provider: normalize_provider_name(provider).titleize) %>
+    </span>
+  <% end %>
+</div>
+<% else %>
+TODO: no omniauth method available
+<% end %>
 
 <div>
-  <%= form.submit t(".cancel"), class: "button expanded secondary" %>
+  <%= form.submit t(".cancel"), class: "button expanded secondary hollow" %>
 </div>
 
 <style>
   .actions {
+    display: none;
+  }
+  .skip {
     display: none;
   }
 </style>

@@ -84,8 +84,8 @@ module OmniAuth
       #
       # We're overriding solely to log.
       # def request_phase
-      #   log("In `request_phase`, with params: redirect_uri=>#{callback_url}, options=>#{options.authorize_params}")
-      #   log("`request_phase`, redirecting the user to AOC...")
+      #   custom_log("In `request_phase`, with params: redirect_uri=>#{callback_url}, options=>#{options.authorize_params}")
+      #   custom_log("`request_phase`, redirecting the user to AOC...")
       #   super
       # end
 
@@ -95,19 +95,19 @@ module OmniAuth
       # # In case of success we still have to ask the authentication provider for the access_token.
       # # That's what we do in this callback.
       # def callback_phase
-      #   log("In `callback_phase` with request params: #{request.params}")
-      #   log("Both should be equal otherwise a 'CSRF detected' error is raised: params state[#{request.params["state"]}] =? [#{session["omniauth.state"]}] session state.")
+      #   custom_log("In `callback_phase` with request params: #{request.params}")
+      #   custom_log("Both should be equal otherwise a 'CSRF detected' error is raised: params state[#{request.params["state"]}] =? [#{session["omniauth.state"]}] session state.")
       #   super
       # end
 
       def raw_info
         if @raw_info
-          log("Access token response was: #{access_token.try(:response)}")
+          custom_log("Access token response was: #{access_token.try(:response)}")
         else
-          log("Performing getUserInfo...")
+          custom_log("Performing getUserInfo...")
           response = access_token.get(options.user_info_path)
           result = [:status, :headers, :body].collect { |m| response.send(m) }
-          log("getUserInfo response status/headers/body: #{result}")
+          custom_log("getUserInfo response status/headers/body: #{result}")
           @raw_info = response.parsed
           # Logout to avoid problems with Valid's cookie session when trying to login again.
           logout_url = URI.join(options.site, "/o/oauth2/logout?token=#{access_token.token}").to_s
@@ -127,7 +127,7 @@ module OmniAuth
 
       private
 
-      def log(msg)
+      def custom_log(msg)
         logger.debug(msg)
       end
 

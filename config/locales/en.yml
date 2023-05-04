@@ -2,13 +2,20 @@
 en:
   decidim:
     trusted_ids:
+      providers:
+        valid:
+          name: VÀLid
+          description: VÀLid is the digital identity service of the Government of Catalonia.
+        default:
+          name: Trusted IDs
+          description: This authorization method is granted to all users that use a Trusted ID login method.
       verifications:
         form:
           cancel: Cancel authorization
     authorization_handlers:
       trusted_ids_handler:
-        explanation: This authorization method is granted to all users that use a
-          Trusted ID login method.
+        # "name" and "explanation" are here for reference only, they are resolved dynamically in zz_fallbacks.rb
+        explanation: This authorization method is granted to all users that use a Trusted ID login method.
         name: Trusted IDs
     events:
       trusted_ids:

@@ -12,7 +12,13 @@ Translations:
 
 This module is an evolution of the original [IdCat Mòbil](https://github.com/gencat/decidim-module-idcat_mobil) that was funded by the Department d'Exteriors of [Generalitat de Catalunya](http://gencat.cat) and developed by [CodiTramuntana](http://coditramuntana.com/).
 
-The main goal of this module is to decouple the authentication method from the IdCat Mòbil and pursue a more agnostic with a registry of providers. It also implements additional user options for extended verification methods using Via Oberta (or other providers) with improved user's control over personal data management.
+On of the goals of this module is to decouple the authentication method from the IdCat Mòbil and pursue a more agnostic with a registry of providers. It also implements additional user options for extended verification methods using Via Oberta (or other providers) with improved user's control over personal data management.
+
+The main goal, though, is to provide an, opinionated, easy to use, and secure authentication method for Decidim with **strong authentication systems**. That is, OAuth authentication systems that provide a unique identifier for each user. Preferably from official entities. Each user logged using this system will be verified automatically using the integrated verification method that this plugin provides, and will save the unique identifier as metadata.
+
+Later on, this metadata will be used to connect to an additional, configurable, API to retrieve more information about the user. This information will be used to verify the user's identity with more granularity (for instance, restrict user actions to certain user properties, such as which census belongs to).
+
+Finally, GDPR regulations are very present in this workflow, so user consent is a must. This plugins adds some additional steps to the registration process to give the user more control over the data that is being used, and to give the user the ability to revoke consent at any time.
 
 Workflow:
 
@@ -56,7 +62,7 @@ By default, you can use these variables to configure the module:
 Environment variable | Description | Default value
 --- | --- | ---
 `OMNIAUTH_PROVIDER` | The OAuth2 provider to use. Currently only `valid` is available. | `valid`
-`VALID_CLIENT_ID` | The OAuth2 client ID. Note that the prefix `VALID` is because `OMNIAUTH_PROVIDER` is set to "valid". Other values will require to name this variable accordingly (for instance `FOO_CLIENT_ID`). **IF this variable is empty, no oauth login will be used**. | `nil`
+`VALID_CLIENT_ID` | The OAuth2 client ID. Note that the prefix `VALID` is because `OMNIAUTH_PROVIDER` is set to "valid". Other values will require to name this variable accordingly (for instance `FOO_CLIENT_ID`). **IF this variable is empty, no OAuth login will be used**. | `nil`
 `VALID_CLIENT_SECRET` | The OAuth2 client secret. | `nil`
 `VALID_SITE` | The OAuth2 site. | `nil`
 `VALID_ICON` | The icon used for the login button. | `media/images/valid-icon.png`
@@ -129,7 +135,7 @@ defining these in the commands shown above.
 #### Webpacker notes
 
 As latests versions of Decidim, this repository uses Webpacker for Rails. This means that compilation
-of assets is required everytime a Javascript or CSS file is modified. Usually, this happens
+of assets is required every time a Javascript or CSS file is modified. Usually, this happens
 automatically, but in some cases (specially when actively changes that type of files) you want to 
 speed up the process. 
 

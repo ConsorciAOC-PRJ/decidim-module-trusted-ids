@@ -26,7 +26,7 @@ module Decidim
         omniauth[:site] = "https://identitats.aoc.cat" if omniauth[:site].blank?
         omniauth[:icon_path] = "media/images/#{Decidim::TrustedIds.omniauth_provider.downcase}-icon.png" if omniauth[:icon_path].blank?
         omniauth[:scope] = "autenticacio_usuari" if omniauth[:scope].blank?
-        # Decidim use the secrets configuration to decide whether to show the omniauth provider, we add it here
+        # Decidim uses the secrets configuration to decide whether to show the omniauth provider, we add it here
         Rails.application.secrets[:omniauth][Decidim::TrustedIds.omniauth_provider.to_sym] = omniauth
 
         Rails.application.config.middleware.use OmniAuth::Builder do

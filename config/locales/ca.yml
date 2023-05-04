@@ -1,13 +1,19 @@
 ---
 ca:
   decidim:
-    components:
-      idcat_mobil:
-        name: IdCat Mòbil
+    system:
+      organizations:
+        omniauth_settings:
+          valid:
+            client_id: Client ID
+            client_secret: Client secret
+            icon_path: Icon (always in the form of media/images/some-image.png)
+            scope: Scope
+            site: Site url
     verifications:
       trusted_ids:
         errors:
-          invalid_method: Could not verify you. OAuth2 verification method was not 'idcat_mobil' as expected.
+          invalid_method: Could not verify you. OAuth2 verification method is not supported.
           invalid_status: Could not verify you. OAuth2 verification was not ok.
         invalid:
           email_intro: It has not been possible to grant you the IdCat Mòbil authorization.

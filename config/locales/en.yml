@@ -1,6 +1,15 @@
 ---
 en:
   decidim:
+    system:
+      organizations:
+        omniauth_settings:
+          valid:
+            client_id: Client ID
+            client_secret: Client secret
+            icon_path: Icon (always in the form of media/images/some-image.png)
+            scope: Scope
+            site: Site url
     verifications:
       trusted_ids:
         errors:

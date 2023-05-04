@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-ENV["VALID_CLIENT_ID"] = ""
-ENV["VALID_CLIENT_SECRET"] = ""
 require "spec_helper"
 require "json"
 require "fileutils"
@@ -100,7 +98,7 @@ module Decidim
                                  "enabled" => true,
                                  "client_id" => "client_id",
                                  "client_secret" => "client_secret",
-                                 "site" => nil,
+                                 "site" => "https://identitats.aoc.cat",
                                  "icon_path" => "media/images/valid-icon.png",
                                  "scope" => "autenticacio_usuari"
                                },
@@ -113,7 +111,7 @@ module Decidim
                                                  "enabled" => true,
                                                  "client_id" => "client_id",
                                                  "client_secret" => "client_secret",
-                                                 "site" => nil,
+                                                 "site" => "https://identitats.aoc.cat",
                                                  "icon_path" => "media/images/valid-icon.png",
                                                  "scope" => "autenticacio_usuari"
                                                })
@@ -128,9 +126,9 @@ module Decidim
                                "omniauth_provider" => "valid",
                                "omniauth" => {
                                  "enabled" => false,
-                                 "client_id" => "",
-                                 "client_secret" => "",
-                                 "site" => nil,
+                                 "client_id" => nil,
+                                 "client_secret" => nil,
+                                 "site" => "https://identitats.aoc.cat",
                                  "icon_path" => "media/images/valid-icon.png",
                                  "scope" => "autenticacio_usuari"
                                },
@@ -139,7 +137,14 @@ module Decidim
       end
 
       it "has no omniauth configured" do
-        expect(omniauth_config["valid"]).to be_nil
+        expect(omniauth_config["valid"]).to eq({
+                                                 "client_id" => nil,
+                                                 "client_secret" => nil,
+                                                 "enabled" => false,
+                                                 "icon_path" => "media/images/valid-icon.png",
+                                                 "scope" => "autenticacio_usuari",
+                                                 "site" => "https://identitats.aoc.cat"
+                                               })
       end
     end
   end

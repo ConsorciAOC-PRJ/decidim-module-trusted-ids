@@ -16,6 +16,7 @@ module Decidim
     end
 
     # The name of the omniauth provider, must be registered in Decidim.
+    # Leave it empty to disable omniauth authentication.
     config_accessor :omniauth_provider do
       ENV.fetch("OMNIAUTH_PROVIDER", "valid")
     end
@@ -26,7 +27,7 @@ module Decidim
         enabled: TrustedIds.omniauth_env("CLIENT_ID").present?,
         client_id: TrustedIds.omniauth_env("CLIENT_ID"),
         client_secret: TrustedIds.omniauth_env("CLIENT_SECRET"),
-        site: TrustedIds.omniauth_env("SITE"),
+        site: TrustedIds.omniauth_env("SITE", "https://identitats.aoc.cat"),
         icon_path: TrustedIds.omniauth_env("ICON", "media/images/#{TrustedIds.omniauth_provider.downcase}-icon.png"),
         scope: TrustedIds.omniauth_env("SCOPE", "autenticacio_usuari")
       }

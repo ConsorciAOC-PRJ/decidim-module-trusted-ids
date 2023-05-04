@@ -53,7 +53,6 @@ This plugin comes prepared to be used solely with `ENV` variables, but you can a
 
 By default, you can use these variables to configure the module:
 
--- | -- | --
 Environment variable | Description | Default value
 --- | --- | ---
 `OMNIAUTH_PROVIDER` | The OAuth2 provider to use. Currently only `valid` is available. | `valid`
@@ -62,7 +61,6 @@ Environment variable | Description | Default value
 `VALID_SITE` | The OAuth2 site. | `nil`
 `VALID_ICON` | The icon used for the login button. | `media/images/valid-icon.png`
 `VALID_SCOPE` | The OAuth2 scope that returns the necessary fields for registration (some OAuth method might override this making it unnecessary). | `autenticacio_usuari`
--- | -- | --
 
 ### Via initializer
 

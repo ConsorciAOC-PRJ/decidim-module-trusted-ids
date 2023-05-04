@@ -1,0 +1,51 @@
+# frozen_string_literal: true
+
+require "spec_helper"
+require "decidim/trusted_ids/test/shared_contexts"
+
+module Decidim::TrustedIds
+  module Verifications
+    describe TrustedIdsHandler do
+      subject { described_class.from_params(attributes) }
+
+      include_context "with stubs example api"
+
+      let(:attributes) do
+        {
+          user: user,
+          uid: uid,
+          provider: provider
+        }
+      end
+      let(:user) { create :user }
+      let(:another_user) { create :user }
+      let(:provider) { "valid" }
+      let(:uid) { 1234 }
+
+      context "when everything is OK" do
+        it { is_expected.to be_valid }
+
+        it "stores metadata" do
+          expect(subject.metadata[:uid]).to eq(uid.to_s)
+          expect(subject.metadata[:provider]).to eq(provider)
+        end
+
+        it "has a unique id between organizations" do
+          expect(subject.unique_id).not_to eq(described_class.from_params(attributes.merge(user: another_user)).unique_id)
+        end
+      end
+
+      context "when uid is not present" do
+        let(:uid) { nil }
+
+        it { is_expected.not_to be_valid }
+      end
+
+      context "when provider is not trusted_ids" do
+        let(:provider) { "invalid" }
+
+        it { is_expected.not_to be_valid }
+      end
+    end
+  end
+end

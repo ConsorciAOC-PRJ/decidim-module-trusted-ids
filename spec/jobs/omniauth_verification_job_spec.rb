@@ -48,14 +48,15 @@ module Decidim::TrustedIds
             .with(
               event: "decidim.verifications.trusted_ids.ok",
               event_class: Decidim::TrustedIds::VerificationSuccessNotification,
-              recipient_ids: [user.id],
+              resource: nil,
+              affected_users: [user],
               extra: {
                 status: :ok,
                 errors: []
               }
             )
 
-          VerificationJob.new.perform(oauth_data)
+          subject.new.perform(oauth_data)
         end
       end
 
@@ -68,14 +69,15 @@ module Decidim::TrustedIds
             .with(
               event: "decidim.verifications.trusted_ids.invalid",
               event_class: Decidim::TrustedIds::VerificationInvalidNotification,
-              recipient_ids: [user.id],
+              resource: nil,
+              affected_users: [user],
               extra: {
                 status: :invalid,
                 errors: []
               }
             )
 
-          VerificationJob.new.perform(oauth_data)
+          subject.new.perform(oauth_data)
         end
       end
     end

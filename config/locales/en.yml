@@ -1,6 +1,24 @@
 ---
 en:
   decidim:
+    authorization_handlers:
+      trusted_ids_handler:
+        name: Trusted IDs
+    events:
+      trusted_ids:
+        verifications:
+          invalid:
+            email_intro: It has not been possible to grant you the "Trusted IDs" authorization.
+            email_outro: Please, contact the support at your platform to check what
+              has gone wrong.
+            email_subject: Authorization error
+            notification_title: Invalid authorization with the "Trusted IDs" method
+          ok:
+            email_intro: You have been granted the "Trusted IDs" authorization.
+            email_outro: You can now perform all actions that require the "Trusted IDs"
+              authorization.
+            email_subject: Authorization successful
+            notification_title: Successful authorization with the "Trusted IDs" method
     system:
       organizations:
         omniauth_settings:
@@ -16,14 +34,3 @@ en:
           invalid_method: Could not verify you. OAuth2 verification method is not
             supported.
           invalid_status: Could not verify you. OAuth2 verification was not ok.
-        invalid:
-          email_intro: It has not been possible to grant you the IdCat Mòbil authorization.
-          email_outro: Please, contact the support at your platform to check what
-            has gone wrong.
-          email_subject: You could not be authorized for IdCat Mòbil
-          notification_title: Invalid IdCat Mòbil authentication
-        ok:
-          email_intro: You have been granted IdCat Mòbil authorization.
-          email_outro: You can now perform all actions that require IdCat Mòbil authorization.
-          email_subject: You've been authorized for IdCat Mòbil
-          notification_title: Successful IdCat Mòbil authentication

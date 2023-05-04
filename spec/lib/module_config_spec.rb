@@ -68,7 +68,8 @@ module Decidim
                                "icon_path" => "icon_path/icon.png",
                                "scope" => "openid profile email"
                              },
-                             "send_verification_notifications" => false
+                             "send_verification_notifications" => false,
+                             "verification_expiration_time" => 90.days
                            })
     end
 
@@ -102,7 +103,8 @@ module Decidim
                                  "icon_path" => "media/images/valid-icon.png",
                                  "scope" => "autenticacio_usuari"
                                },
-                               "send_verification_notifications" => true
+                               "send_verification_notifications" => true,
+                               "verification_expiration_time" => 90.days
                              })
       end
 
@@ -132,7 +134,8 @@ module Decidim
                                  "icon_path" => "media/images/valid-icon.png",
                                  "scope" => "autenticacio_usuari"
                                },
-                               "send_verification_notifications" => true
+                               "send_verification_notifications" => true,
+                               "verification_expiration_time" => 90.days
                              })
       end
 

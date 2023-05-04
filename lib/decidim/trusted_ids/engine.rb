@@ -46,8 +46,9 @@ module Decidim
         end
 
         # Generic verification method for the integrate OAuth mechanism
-        Decidim::Verifications.register_workflow(:trusted_ids) do |workflow|
+        Decidim::Verifications.register_workflow(:trusted_ids_handler) do |workflow|
           workflow.form = "Decidim::TrustedIds::Verifications::TrustedIdsHandler"
+          workflow.expires_in = Decidim::TrustedIds.verification_expiration_time.to_i
         end
       end
 

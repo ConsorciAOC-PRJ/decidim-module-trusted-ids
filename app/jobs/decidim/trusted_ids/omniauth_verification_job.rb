@@ -34,30 +34,39 @@ module Decidim
       end
 
       def handler
-        @handler ||= Decidim::AuthorizationHandler.handler_for("trusted_ids", oauth_data: data)
+        @handler ||= Decidim::AuthorizationHandler.handler_for("trusted_ids_handler", user: user, uid: data[:uid], provider: data[:provider])
+      end
+
+      def authorization
+        @authorization ||= Decidim::Authorization.find_by(unique_id: handler.unique_id)
       end
 
       def authorize_user!
-        Decidim::Verifications::AuthorizeUser.call(handler) do
+        already_granted = authorization&.granted?
+
+        Decidim::Verifications::AuthorizeUser.call(handler, user.organization) do
           on(:ok) do
-            notify_user(handler.user, :ok, handler)
+            notify_user(user, :ok) unless already_granted
           end
 
           on(:invalid) do
-            notify_user(handler.user, :invalid, handler)
+            Rails.logger.error "OmniauthVerificationJob: User #{user.id} could not be authorized with #{handler.provider}. Errors: #{handler.errors.full_messages}"
+            notify_user(user, :invalid)
           end
         end
       end
 
-      def notify_user(user, status, handler)
-        notification_class = status == :ok ? Decidim::TrustedIds::VerificationSuccessNotification : Decidim::TrustedIds::VerificationInvalidNotification
+      def notify_user(user, status)
+        return unless Decidim::TrustedIds.send_verification_notifications
+
+        notification_class = status == :ok ? Decidim::TrustedIds::Verifications::SuccessNotification : Decidim::TrustedIds::Verifications::InvalidNotification
         Decidim::EventsManager.publish(
-          event: "decidim.verifications.trusted_ids.#{status}",
+          event: "decidim.events.trusted_ids.verifications.#{status}",
           event_class: notification_class,
-          # resource: result,
-          recipient_ids: [user.id],
+          resource: authorization,
+          affected_users: [user],
           extra: {
-            status: status,
+            status: status.to_s,
             errors: handler.errors.full_messages
           }
         )

@@ -83,22 +83,22 @@ module OmniAuth
       # redirect client.auth_code.authorize_url({:redirect_uri => callback_url}.merge(options.authorize_params))
       #
       # We're overriding solely to log.
-      def request_phase
-        log("In `request_phase`, with params: redirect_uri=>#{callback_url}, options=>#{options.authorize_params}")
-        log("`request_phase`, redirecting the user to AOC...")
-        super
-      end
+      # def request_phase
+      #   log("In `request_phase`, with params: redirect_uri=>#{callback_url}, options=>#{options.authorize_params}")
+      #   log("`request_phase`, redirecting the user to AOC...")
+      #   super
+      # end
 
-      # The +callback_phase+ is the second phase, after the user returns from the authentication provider site.
-      #
-      # The result of the authentication may have ended in error, or success.
-      # In case of success we still have to ask the authentication provider for the access_token.
-      # That's what we do in this callback.
-      def callback_phase
-        log("In `callback_phase` with request params: #{request.params}")
-        log("Both should be equal otherwise a 'CSRF detected' error is raised: params state[#{request.params["state"]}] =? [#{session["omniauth.state"]}] session state.")
-        super
-      end
+      # # The +callback_phase+ is the second phase, after the user returns from the authentication provider site.
+      # #
+      # # The result of the authentication may have ended in error, or success.
+      # # In case of success we still have to ask the authentication provider for the access_token.
+      # # That's what we do in this callback.
+      # def callback_phase
+      #   log("In `callback_phase` with request params: #{request.params}")
+      #   log("Both should be equal otherwise a 'CSRF detected' error is raised: params state[#{request.params["state"]}] =? [#{session["omniauth.state"]}] session state.")
+      #   super
+      # end
 
       def raw_info
         if @raw_info

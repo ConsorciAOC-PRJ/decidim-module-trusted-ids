@@ -43,6 +43,11 @@ en:
       verifications:
         form:
           cancel: Cancel authorization
+          description_html: In order to obtain this authorization, you need to verify
+            your identity with the %{provider} service. To do that, please click on the "%{link}" button.<br><br>
+            <b>Note that you will be logged out and logged in again!</b>
+          warning_html: Please make sure that the email you have in this application (<em>%{email}</em>) is the same as the one provided by the %{provider} service. Otherwise a new user will be created with the authorization.
+          error_provider_html: <b>%{provider} is not available.</b> It seems that the this login/authorization method has not been enabled. Please contact the support team to fix this.
     verifications:
       trusted_ids:
         errors:

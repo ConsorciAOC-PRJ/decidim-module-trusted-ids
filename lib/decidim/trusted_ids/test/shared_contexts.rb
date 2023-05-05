@@ -26,6 +26,12 @@ shared_context "with oauth configuration" do
     )
   end
   let(:unique_id) { Digest::SHA512.hexdigest("#{omniauth_hash.uid}-#{user.decidim_organization_id}-#{Rails.application.secrets.secret_key_base}") }
+  let(:metadata) do
+    {
+      "uid" => omniauth_hash.uid,
+      "provider" => omniauth_hash.provider
+    }
+  end
 
   before do
     OmniAuth.config.test_mode = true

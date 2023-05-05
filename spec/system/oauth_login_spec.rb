@@ -28,6 +28,7 @@ describe "OAuth login button", type: :system do
     expect(page).to have_css(".topbar__user__logged")
 
     expect(Decidim::Authorization.last.user).to eq(user)
+    expect(Decidim::Authorization.last.metadata).to eq(metadata)
     expect(last_email.subject).to include("Authorization successful")
     expect(last_email.to).to include(user.email)
   end
@@ -48,6 +49,7 @@ describe "OAuth login button", type: :system do
       expect(page).to have_css(".topbar__user__logged")
 
       expect(Decidim::Authorization.last.user).to eq(user)
+      expect(Decidim::Authorization.last.metadata).to eq(metadata)
       expect(Decidim::Authorization.last.unique_id).to eq(unique_id)
       expect(last_email).to be_nil
     end

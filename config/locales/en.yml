@@ -40,14 +40,22 @@ en:
           description: VÀLid is the digital identity service of the Government of
             Catalonia.
           name: VÀLid
+      sessions:
+        different_omniauth_emails: You are trying to sign in with a different email
+          than the one in your account. Please sign up with the same email or logout
+          and sing directly to create a new user.
       verifications:
         form:
-          cancel: Cancel authorization
+          cancel: Cancel verification
           description_html: In order to obtain this authorization, you need to verify
-            your identity with the %{provider} service. To do that, please click on the "%{link}" button.<br><br>
-            <b>Note that you will be logged out and logged in again!</b>
-          warning_html: Please make sure that the email you have in this application (<em>%{email}</em>) is the same as the one provided by the %{provider} service. Otherwise a new user will be created with the authorization.
-          error_provider_html: <b>%{provider} is not available.</b> It seems that the this login/authorization method has not been enabled. Please contact the support team to fix this.
+            your identity with the %{provider} service. To do that, please click on
+            the "%{link}" button.<br><br>
+          error_provider_html: "<b>%{provider} is not available.</b> It seems that
+            the this login/authorization method has not been enabled. Please contact
+            the support team to fix this."
+          warning_html: Please make sure that the email you have in this application
+            (<em>%{email}</em>) is the same as the one provided by the %{provider}
+            service. Otherwise the verification will fail.
     verifications:
       trusted_ids:
         errors:

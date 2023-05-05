@@ -1,21 +1,51 @@
 ---
 es:
   decidim:
-    components:
-      idcat_mobil:
-        name: IdCat Mòbil
+    authorization_handlers:
+      trusted_ids_handler:
+        explanation: This authorization method is granted to all users that use a Trusted ID login method.
+        name: Trusted IDs
+    events:
+      trusted_ids:
+        verifications:
+          invalid:
+            email_intro: It has not been possible to grant you the "Trusted IDs" authorization.
+            email_outro: Please, contact the support at your platform to check what has gone wrong.
+            email_subject: Authorization error
+            notification_title: Invalid authorization with the "Trusted IDs" method
+          ok:
+            email_intro: You have been granted the "Trusted IDs" authorization.
+            email_outro: You can now perform all actions that require the "Trusted IDs" authorization.
+            email_subject: Authorization successful
+            notification_title: Successful authorization with the "Trusted IDs" method
+    system:
+      organizations:
+        omniauth_settings:
+          valid:
+            client_id: Client ID
+            client_secret: Client secret
+            icon_path: Icon (always in the form of media/images/some-image.png)
+            scope: Scope
+            site: Site url
+    trusted_ids:
+      providers:
+        default:
+          description: This authorization method is granted to all users that use a Trusted ID login method.
+          name: Trusted IDs
+        valid:
+          description: VÀLid is the digital identity service of the Government of Catalonia.
+          name: VÀLid
+      sessions:
+        different_omniauth_emails: You are trying to sign in with a different email than the one in your account. Please sign up with the same email or logout and sing directly to create a new user.
+      verifications:
+        form:
+          cancel: Cancel verification
+          description_html: In order to obtain this authorization, you need to verify your identity with the %{provider} service. To do that, please click on the "%{link}" button.<br><br>
+          error_provider_html: "<b>%{provider} is not available.</b> It seems that the this login/authorization method has not been enabled. Please contact the support team to fix this."
+          warning_html: Please make sure that the email you have in this application (<em>%{email}</em>) is the same as the one provided by the %{provider} service. Otherwise the verification will fail.
     verifications:
-      idcat_mobil:
+      trusted_ids:
         errors:
-          invalid_method: No se pudo verificar. El método de verificación OAuth2 no fue 'idcat_mobil' como se esperaba.
-          invalid_status: No se pudo verificar. La verificación OAuth2 no ha sido correcta.
-        invalid:
-          email_intro: No ha sido posible otorgarle la autorización IdCat Mòbil.
-          email_outro: Por favor, póngase en contacto con el soporte en su plataforma para comprobar qué ha fallado.
-          email_subject: Usted no ha podido ser autorizado para IdCat Mòbil
-          notification_title: Autenticación IdCat Mòbil no válida
-        ok:
-          email_intro: Se le ha concedido la autorización IdCat Mòbil.
-          email_outro: Ahora puede realizar todas las acciones que requieren la autorización de IdCat Mòbil.
-          email_subject: Has sido autorizado con IdCat Mòbil
-          notification_title: La autenticación con IdCat Mòbil ha sido exitosa
+          invalid_method: Could not verify you. OAuth2 verification method is not supported.
+          invalid_status: Could not verify you. OAuth2 verification was not ok.
+          no_identity: Could not verify you. OAuth2 verification did not return an identify.

@@ -8,22 +8,26 @@ module Decidim::TrustedIds
       pending("Implementation pending, this Decidim module does not support user verification")
     end
 
+    subject { described_class }
+
     let!(:user) { create(:user) }
     let(:provider) { "valid" }
+    let(:oauth_provider) { provider }
     let!(:identity) { create(:identity, provider: provider, user: user) }
     let(:oauth_data) do
       {
         user_id: user.id,
         identity_id: identity.id,
-        provider: "trusted_ids",
+        provider: oauth_provider,
         uid: "trusted_ids/#{user.id}",
         email: user.email,
-        name: "trusted_ids",
+        name: "VALid User",
         nickname: nil,
         avatar_url: nil,
         raw_data: {}
       }
     end
+    let(:authorization) { Decidim::Authorization.last }
 
     class TestRectifyPublisher < Rectify::Command
       include Wisper::Publisher
@@ -41,17 +45,16 @@ module Decidim::TrustedIds
     context "when omniauth_registration event is notified" do
       context "when authorization is created with success" do
         it "notifies the user for the success" do
-          pending_to_be_finished
           stub_rectify_publisher("Decidim::Verifications::AuthorizeUser", :call, :ok)
           expect(Decidim::EventsManager)
             .to receive(:publish)
             .with(
-              event: "decidim.verifications.trusted_ids.ok",
-              event_class: Decidim::TrustedIds::VerificationSuccessNotification,
-              resource: nil,
+              event: "decidim.events.trusted_ids.verifications.ok",
+              event_class: Decidim::TrustedIds::Verifications::SuccessNotification,
+              resource: authorization,
               affected_users: [user],
               extra: {
-                status: :ok,
+                status: "ok",
                 errors: []
               }
             )
@@ -62,23 +65,40 @@ module Decidim::TrustedIds
 
       context "when authorization creation fails" do
         it "notifies the user for the failure" do
-          pending_to_be_finished
           stub_rectify_publisher("Decidim::Verifications::AuthorizeUser", :call, :invalid)
           expect(Decidim::EventsManager)
             .to receive(:publish)
             .with(
-              event: "decidim.verifications.trusted_ids.invalid",
-              event_class: Decidim::TrustedIds::VerificationInvalidNotification,
-              resource: nil,
+              event: "decidim.events.trusted_ids.verifications.invalid",
+              event_class: Decidim::TrustedIds::Verifications::InvalidNotification,
+              resource: authorization,
               affected_users: [user],
               extra: {
-                status: :invalid,
+                status: "invalid",
                 errors: []
               }
             )
 
           subject.new.perform(oauth_data)
         end
+      end
+    end
+
+    context "when provider is not the one" do
+      let(:oauth_provider) { "facebook" }
+
+      it "does nothing" do
+        expect(Decidim::EventsManager).not_to receive(:publish)
+        subject.new.perform(oauth_data)
+      end
+    end
+
+    context "when identity is missing" do
+      let!(:identity) { create :identity, user: user, provider: "facebook" }
+
+      it "does nothing" do
+        expect(Decidim::EventsManager).not_to receive(:publish)
+        subject.new.perform(oauth_data)
       end
     end
   end

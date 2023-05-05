@@ -58,13 +58,13 @@ describe "Trusted IDs manual verification", type: :system do
       visit decidim_verifications.new_authorization_path(handler: :trusted_ids_handler)
       perform_enqueued_jobs do
         click_link("Sign in with VÀLid")
-      end      
+      end
       expect(page).to have_content("You are trying to sign in with a different email than the one in your account")
       expect(Decidim::Authorization.last).to be_nil
-      expect(current_path).to eq decidim_verifications.new_authorization_path
+      expect(page).to have_current_path decidim_verifications.new_authorization_path, ignore_query: true
     end
   end
-  
+
   context "when the user cancels the process" do
     it "does not verify the user" do
       visit decidim_verifications.new_authorization_path(handler: :trusted_ids_handler)

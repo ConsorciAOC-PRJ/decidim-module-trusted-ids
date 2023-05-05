@@ -14,7 +14,7 @@ module Decidim
         end
 
         unless trusted_ids_identity?
-          Rails.logger.error "OmniauthVerificationJob: User #{user.id} does not have a trusted_ids (#{Decidim::TrustedId.omniauth_provider}) identity"
+          Rails.logger.error "OmniauthVerificationJob: User #{user.id} does not have a trusted_ids (#{Decidim::TrustedIds.omniauth_provider}) identity"
           return
         end
 

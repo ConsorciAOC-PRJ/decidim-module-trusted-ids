@@ -104,7 +104,7 @@ describe "OAuth login button", type: :system do
           expect(page).to have_content("Successfully")
           expect(page).to have_content(user.name)
           expect(page).to have_css(".topbar__user__logged")
-          expect(page).to have_content("Trusted IDs")
+          expect(page).to have_content("VÀLid")
           expect(page).not_to have_content("Granted at #{authorization.granted_at.to_s(:long)}")
           expect(page).to have_content("Granted at #{Decidim::Authorization.last.granted_at.to_s(:long)}")
 
@@ -128,7 +128,7 @@ describe "OAuth login button", type: :system do
           expect(page).to have_content("Successfully")
           expect(page).to have_content(user.name)
           expect(page).to have_css(".topbar__user__logged")
-          expect(page).to have_content("Trusted IDs")
+          expect(page).to have_content("VÀLid")
           expect(page).to have_content("Granted at #{Decidim::Authorization.last.granted_at.to_s(:long)}")
 
           expect(Decidim::Authorization.count).to eq(1)
@@ -151,7 +151,7 @@ describe "OAuth login button", type: :system do
           expect(page).to have_content("Successfully")
           expect(page).to have_content(user.name)
           expect(page).to have_css(".topbar__user__logged")
-          expect(page).to have_content("Trusted IDs")
+          expect(page).to have_content("VÀLid")
           expect(page).to have_content("Granted at #{Decidim::Authorization.last.granted_at.to_s(:long)}")
 
           expect(Decidim::Authorization.count).to eq(1)

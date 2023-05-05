@@ -35,6 +35,7 @@ The omniauth method **must** return the `uid` property with an unique identifier
 						description: "Foo Bar description"
 	```
 
+  Note that the name of the authorization method associated with the omniauth method will be dynamically calculated according to the `name` property. This is done in the file [zz_fallbacks.rb](config/locales/zz_fallbacks.rb).
 
 
 4. In your application, use the ENV `OMNIAUTH_PROVIDER=foo_bar` or create an initializer to specify the default omniauth provider:
@@ -43,7 +44,6 @@ The omniauth method **must** return the `uid` property with an unique identifier
 	  config.omniauth_provider = :foo_bar
 	end
 	```
-
 
 
 

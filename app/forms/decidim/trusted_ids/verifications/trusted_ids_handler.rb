@@ -43,6 +43,7 @@ module Decidim
         end
 
         def exising_trusted_ids_identity?
+          return if errors.any?
           return if user&.identities&.exists?(provider: TrustedIds.omniauth_provider)
 
           errors.add(:base, I18n.t("decidim.verifications.trusted_ids.errors.no_identity"))

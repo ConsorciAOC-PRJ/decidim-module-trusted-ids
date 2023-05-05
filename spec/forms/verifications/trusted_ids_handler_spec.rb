@@ -21,6 +21,7 @@ module Decidim::TrustedIds
       let(:another_user) { create :user }
       let(:provider) { "valid" }
       let(:uid) { 1234 }
+      let!(:identity) { create(:identity, provider: provider, user: user) }
 
       context "when everything is OK" do
         it { is_expected.to be_valid }
@@ -41,10 +42,31 @@ module Decidim::TrustedIds
         it { is_expected.not_to be_valid }
       end
 
+      shared_examples "an invalid auth" do
+        it { is_expected.not_to be_valid }
+
+        it "has one error" do
+          subject.valid?
+          expect(subject.errors.count).to eq(1)
+        end
+      end
+
       context "when provider is not trusted_ids" do
         let(:provider) { "invalid" }
 
-        it { is_expected.not_to be_valid }
+        it_behaves_like "an invalid auth"
+      end
+
+      context "when there's no identity" do
+        let!(:identity) { create :identity, provider: "facebook", user: user }
+
+        it_behaves_like "an invalid auth"
+
+        context "and provider is trusted_ids" do
+          let(:provider) { "trusted_ids" }
+
+          it_behaves_like "an invalid auth"
+        end
       end
     end
   end

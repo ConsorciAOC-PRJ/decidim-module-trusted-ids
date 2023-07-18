@@ -1,0 +1,3 @@
+<!-- insert_top ".collapsible" -->
+
+<%= render "decidim/trusted_ids/system/organizations/settings_form", f: f %>

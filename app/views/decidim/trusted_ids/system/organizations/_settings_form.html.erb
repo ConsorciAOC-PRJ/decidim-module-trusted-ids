@@ -1,0 +1,14 @@
+<% if Decidim::TrustedIds.census_authorization[:system_attributes] %>
+  <div class="fieldset">
+    <div class="field">
+      <h4><%= t("decidim.trusted_ids.system.settings", handler: t("decidim.authorization_handlers.trusted_ids_census_handler.name")) %></h4>
+      <%= f.fields_for :trusted_ids_census_config do %>
+        <% Decidim::TrustedIds.census_authorization[:system_attributes]&.each do |setting, _type| %>
+          <div class="field">
+            <%= f.text_field setting.to_sym, value: f.object.trusted_ids_census_settings&.dig("settings", setting.to_s) %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

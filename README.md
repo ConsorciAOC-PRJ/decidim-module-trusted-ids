@@ -51,6 +51,8 @@ And then execute:
 
 ```bash
 bundle install
+bin/rails decidim_kids:install:migrations
+bin/rails db:migrate
 ```
 
 ## Usage

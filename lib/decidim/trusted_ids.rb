@@ -3,6 +3,7 @@
 require "decidim/trusted_ids/verifications"
 require "decidim/trusted_ids/engine"
 
+OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 module Decidim
   module TrustedIds
     include ActiveSupport::Configurable
@@ -42,6 +43,34 @@ module Decidim
     # if false, no notifications will be send to users when automatic verifications are performed
     config_accessor :send_verification_notifications do
       ENV.has_key?("SEND_VERIFICATION_NOTIFICATIONS") ? TrustedIds.to_bool(ENV.fetch("SEND_VERIFICATION_NOTIFICATIONS")) : true
+    end
+
+    # Linked authorization method that will automatically verify users after getting a valid TrustedIds verification
+    # TODO: from ENV & documentate
+    config_accessor :census_authorization do
+      {
+        handler: :via_oberta_handler,
+        form: "Decidim::ViaOberta::Verifications::ViaObertaHandler",
+        # api_url: "https://serveis3-pre.iop.aoc.cat/siri-proxy/services/Sincron?wsdl"
+        api_url: "https://localhost:4430/siri-proxy/services/Sincron?wsdl",
+        # These setting will be added in the organization form at /system as tenant configurable parameters
+        system_attributes: [
+          [:nif, String],
+          [:ine, String],
+          [:municipal_code, String],
+          [:province_code, String]
+        ]
+      }
+    end
+
+    # TODO: maybe a form? to include validations
+    config_accessor :system_census_authorization_settings do
+      [
+        :nif,
+        :ine,
+        :municipal_code,
+        :province_code
+      ]
     end
   end
 end

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "omniauth/strategies"
+require "deface"
 
 module Decidim
   module TrustedIds
@@ -12,6 +13,16 @@ module Decidim
         # Add engine routes here
         # resources :trusted_ids
         # root to: "trusted_ids#index"
+      end
+
+      config.to_prepare do
+        # Non-controller overrides here
+        Decidim::Organization.include(Decidim::TrustedIds::OrganizationOverride)
+        # Decidim::StaticPage.include(Decidim::TrustedIds::StaticPageOverride)
+        Decidim::System::RegisterOrganizationForm.include(Decidim::TrustedIds::System::OrganizationFormOverride)
+        Decidim::System::UpdateOrganizationForm.include(Decidim::TrustedIds::System::OrganizationFormOverride)
+        Decidim::System::UpdateOrganization.include(Decidim::TrustedIds::System::UpdateOrganizationOverride)
+        Decidim::System::RegisterOrganization.include(Decidim::TrustedIds::System::RegisterOrganizationOverride)
       end
 
       initializer "decidim_trusted_ids.controller_addons", after: "decidim.action_controller" do
@@ -52,6 +63,11 @@ module Decidim
         # Generic verification method for the integrated OAuth mechanism
         Decidim::Verifications.register_workflow(:trusted_ids_handler) do |workflow|
           workflow.form = "Decidim::TrustedIds::Verifications::TrustedIdsHandler"
+          workflow.expires_in = Decidim::TrustedIds.verification_expiration_time.to_i
+        end
+        # Viaoberta verification: todo: generalize
+        Decidim::Verifications.register_workflow(:via_oberta_handler) do |workflow|
+          workflow.form = Decidim::TrustedIds.census_authorization[:form]
           workflow.expires_in = Decidim::TrustedIds.verification_expiration_time.to_i
         end
       end

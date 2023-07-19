@@ -65,10 +65,12 @@ module Decidim
           workflow.form = "Decidim::TrustedIds::Verifications::TrustedIdsHandler"
           workflow.expires_in = Decidim::TrustedIds.verification_expiration_time.to_i
         end
-        # Viaoberta verification: todo: generalize
-        Decidim::Verifications.register_workflow(:via_oberta_handler) do |workflow|
-          workflow.form = Decidim::TrustedIds.census_authorization[:form]
-          workflow.expires_in = Decidim::TrustedIds.verification_expiration_time.to_i
+        # Census verification
+        if Decidim::TrustedIds.census_authorization[:handler].present?
+          Decidim::Verifications.register_workflow(Decidim::TrustedIds.census_authorization[:handler].to_sym) do |workflow|
+            workflow.form = Decidim::TrustedIds.census_authorization[:form]
+            workflow.expires_in = Decidim::TrustedIds.verification_expiration_time.to_i
+          end
         end
       end
 

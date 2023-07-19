@@ -49,28 +49,22 @@ module Decidim
     # TODO: from ENV & documentate
     config_accessor :census_authorization do
       {
-        handler: :via_oberta_handler,
-        form: "Decidim::ViaOberta::Verifications::ViaObertaHandler",
-        # api_url: "https://serveis3-pre.iop.aoc.cat/siri-proxy/services/Sincron?wsdl"
-        api_url: "https://localhost:4430/siri-proxy/services/Sincron?wsdl",
+        handler: ENV.has_key?("CENSUS_AUTHORIZATION_HANDLER") ? ENV.fetch("CENSUS_AUTHORIZATION_HANDLER").to_sym : :via_oberta_handler,
+        form: ENV.fetch("CENSUS_AUTHORIZATION_FORM", "Decidim::ViaOberta::Verifications::ViaObertaHandler"),
+        api_url: ENV.fetch("CENSUS_AUTHORIZATION_API_URL"),
         # These setting will be added in the organization form at /system as tenant configurable parameters
-        system_attributes: [
-          [:nif, String],
-          [:ine, String],
-          [:municipal_code, String],
-          [:province_code, String]
-        ]
+        system_attributes: ENV.fetch("CENSUS_AUTHORIZATION_SYSTEM_ATTRIBUTES", "nif ine municipal_code province_code").split(" ")
       }
     end
 
-    # TODO: maybe a form? to include validations
-    config_accessor :system_census_authorization_settings do
-      [
-        :nif,
-        :ine,
-        :municipal_code,
-        :province_code
-      ]
+    def self.census_config_attributes
+      return [] if TrustedIds.census_authorization[:handler].blank?
+      return [] if TrustedIds.census_authorization[:system_attributes].blank?
+      return [] unless TrustedIds.census_authorization[:system_attributes].is_a?(Array)
+
+      TrustedIds.census_authorization[:system_attributes].map do |prop|
+        [prop.to_sym, String]
+      end
     end
   end
 end

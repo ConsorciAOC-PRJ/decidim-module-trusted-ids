@@ -13,6 +13,7 @@ module Decidim
             organization = original_create_organization
 
             Decidim::TrustedIds::OrganizationConfig.find_or_create_by(organization: organization) do |conf|
+              conf.handler = TrustedIds.census_authorization[:handler]
               conf.settings = form.trusted_ids_census_settings
             end
 

@@ -2,11 +2,12 @@
 en:
   activemodel:
     attributes:
-      organization:
-        nif: NIF
-        ine: Requester identifier (INE)
-        municipal_code: Municipal code
-        province_code: Province code
+      trusted_ids_census_config:
+        settings:
+          nif: NIF
+          ine: Requester identifier (INE)
+          municipal_code: Municipal code
+          province_code: Province code
   decidim:
     authorization_handlers:
       via_oberta_handler:

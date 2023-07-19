@@ -11,6 +11,7 @@ module Decidim
 
           def create_organization
             organization = original_create_organization
+            return organization if TrustedIds.census_config_attributes.blank?
 
             Decidim::TrustedIds::OrganizationConfig.find_or_create_by(organization: organization) do |conf|
               conf.handler = TrustedIds.census_authorization[:handler]

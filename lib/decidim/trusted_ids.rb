@@ -3,7 +3,6 @@
 require "decidim/trusted_ids/verifications"
 require "decidim/trusted_ids/engine"
 
-OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 module Decidim
   module TrustedIds
     include ActiveSupport::Configurable

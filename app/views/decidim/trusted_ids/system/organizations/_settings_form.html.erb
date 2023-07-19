@@ -5,7 +5,7 @@
       <%= f.fields_for :trusted_ids_census_config do |fields| %>
         <% Decidim::TrustedIds.census_config_attributes.each do |setting, _type| %>
           <div class="field">
-            <%= fields.text_field setting.to_sym, value: f.object.trusted_ids_census_settings&.dig("settings", setting.to_s), label: t("activemodel.attributes.trusted_ids_census_config.settings.#{setting}") %>
+            <%= fields.text_field setting.to_sym, value: f.object.trusted_ids_census_settings&.dig(setting.to_s), label: t("activemodel.attributes.trusted_ids_census_config.settings.#{setting}") %>
           </div>
         <% end %>
       <% end %>

@@ -4,25 +4,25 @@ en:
     attributes:
       trusted_ids_census_config:
         settings:
-          nif: NIF
           ine: Requester identifier (INE)
           municipal_code: Municipal code
+          nif: NIF
           province_code: Province code
   decidim:
     authorization_handlers:
-      via_oberta_handler:
-        explanation: This authorization method is granted to all users that are in the
-          Via Oberta census database.
-        name: Via Oberta
-        fields:
-          document_id: DNI/NIF
       trusted_ids_handler:
         explanation: This authorization method is granted to all users that use a
           Trusted ID login method.
-        name: Trusted IDs
         fields:
-          uid: ID
           provider: Provider
+          uid: ID
+        name: Trusted IDs
+      via_oberta_handler:
+        explanation: This authorization method is granted to all users that are in
+          the Via Oberta census database.
+        fields:
+          document_id: DNI/NIF
+        name: Via Oberta
     events:
       trusted_ids:
         verifications:
@@ -48,8 +48,6 @@ en:
             scope: Scope
             site: Site url
     trusted_ids:
-      system:
-        settings: "%{handler} settings"
       providers:
         default:
           description: This authorization method is granted to all users that use
@@ -63,6 +61,8 @@ en:
         different_omniauth_emails: You are trying to sign in with a different email
           than the one in your account. Please sign up with the same email or logout
           and sing directly to create a new user.
+      system:
+        settings: "%{handler} settings"
       verifications:
         form:
           cancel: Cancel verification

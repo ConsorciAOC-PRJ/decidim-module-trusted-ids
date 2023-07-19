@@ -52,7 +52,7 @@ shared_examples "creates organization without census authorization fields" do
     expect(page).to have_content("Citizen Corp")
 
     organization = Decidim::Organization.last
-    expect(organization.trusted_ids_census_config.settings).to eq({})
+    expect(organization.trusted_ids_census_config).to be_nil
   end
 end
 

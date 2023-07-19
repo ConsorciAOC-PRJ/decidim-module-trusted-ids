@@ -50,7 +50,7 @@ module Decidim
       {
         handler: ENV.has_key?("CENSUS_AUTHORIZATION_HANDLER") ? ENV.fetch("CENSUS_AUTHORIZATION_HANDLER").to_sym : :via_oberta_handler,
         form: ENV.fetch("CENSUS_AUTHORIZATION_FORM", "Decidim::ViaOberta::Verifications::ViaObertaHandler"),
-        api_url: ENV.fetch("CENSUS_AUTHORIZATION_API_URL"),
+        api_url: ENV.fetch("CENSUS_AUTHORIZATION_API_URL", "https://serveis.iop.aoc.cat/siri-proxy/services/Sincron?wsdl"),
         # These setting will be added in the organization form at /system as tenant configurable parameters
         system_attributes: ENV.fetch("CENSUS_AUTHORIZATION_SYSTEM_ATTRIBUTES", "nif ine municipal_code province_code").split(" ")
       }

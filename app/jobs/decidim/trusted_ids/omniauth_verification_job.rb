@@ -34,7 +34,7 @@ module Decidim
       end
 
       def handler
-        @handler ||= Decidim::AuthorizationHandler.handler_for("trusted_ids_handler", user: user, uid: data[:uid], provider: data[:provider])
+        @handler ||= Decidim::AuthorizationHandler.handler_for("trusted_ids_handler", user: user, uid: data[:uid], provider: data[:provider], raw_data: data[:raw_data])
       end
 
       def authorization
@@ -43,7 +43,6 @@ module Decidim
 
       def authorize_user!
         already_granted = authorization&.granted?
-
         Decidim::Verifications::AuthorizeUser.call(handler, user.organization) do
           on(:ok) do
             notify_user(user, :ok) unless already_granted

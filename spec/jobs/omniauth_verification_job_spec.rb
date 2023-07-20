@@ -24,7 +24,17 @@ module Decidim::TrustedIds
         name: "VALid User",
         nickname: nil,
         avatar_url: nil,
-        raw_data: {}
+        raw_data: raw_data
+      }
+    end
+    let(:raw_data) do
+      {
+        "extra" => {
+          "identifier_type" => "1",
+          "method" => "idcatmobil",
+          "assurance_level" => "low",
+          "status" => "ok"
+        }
       }
     end
     let(:authorization) { Decidim::Authorization.last }

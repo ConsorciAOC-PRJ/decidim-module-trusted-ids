@@ -4,11 +4,24 @@ module Decidim
   module ViaOberta
     module Api
       class Request
-        def initialize(url)
-          @url = url
+        def initialize(env:, api_url:)
+          @env = env
+          @api_url = api_url
         end
 
-        attr_accessor :url
+        def url
+          @url ||= begin
+            if @api_url.present?
+              @api_url
+            elsif @env == "production"
+              "https://serveis3.iop.aoc.cat/siri-proxy/services/Sincron?wsdl"
+            else
+              "https://serveis3-pre.iop.aoc.cat/siri-proxy/services/Sincron?wsdl"
+            end
+          end
+        end
+
+        attr_accessor :env, :api_url
         attr_reader :raw_body
 
         def response

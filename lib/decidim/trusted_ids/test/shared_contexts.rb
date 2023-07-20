@@ -22,6 +22,12 @@ shared_context "with oauth configuration" do
       info: {
         email: email,
         name: "VALid User"
+      },
+      extra: {
+        identifier_type: "1",
+        method: "idcatmobil",
+        assurance_level: "low",
+        status: "ok"
       }
     )
   end
@@ -29,7 +35,8 @@ shared_context "with oauth configuration" do
   let(:metadata) do
     {
       "uid" => omniauth_hash.uid,
-      "provider" => omniauth_hash.provider
+      "provider" => omniauth_hash.provider,
+      "raw_data" => omniauth_hash
     }
   end
 

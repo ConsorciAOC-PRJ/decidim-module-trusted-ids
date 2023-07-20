@@ -14,13 +14,24 @@ module Decidim::TrustedIds
         {
           user: user,
           uid: uid,
-          provider: provider
+          provider: provider,
+          data: raw_data
         }
       end
       let(:user) { create :user }
       let(:another_user) { create :user }
       let(:provider) { "valid" }
       let(:uid) { 1234 }
+      let(:raw_data) do
+        {
+          extra: {
+            identifier_type: "1",
+            method: "idcatmobil",
+            assurance_level: "low",
+            status: "ok"
+          }
+        }
+      end
       let!(:identity) { create(:identity, provider: provider, user: user) }
 
       context "when everything is OK" do
@@ -29,6 +40,7 @@ module Decidim::TrustedIds
         it "stores metadata" do
           expect(subject.metadata[:uid]).to eq(uid.to_s)
           expect(subject.metadata[:provider]).to eq(provider)
+          expect(subject.metadata[:data]).to eq(raw_data)
         end
 
         it "has a unique id between organizations" do

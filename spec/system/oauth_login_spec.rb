@@ -7,6 +7,7 @@ describe "OAuth login button", type: :system do
   include_context "with oauth configuration"
 
   let(:user) { Decidim::User.find_by(email: email) }
+  let!(:identity) { nil }
 
   before do
     switch_to_host(organization.host)
@@ -145,6 +146,29 @@ describe "OAuth login button", type: :system do
 
         expect(Decidim::Authorization.last).to be_nil
         expect(last_email).to be_nil
+      end
+    end
+
+    context "when identity exists" do
+      let!(:identity) { create(:identity, provider: "valid", uid: omniauth_hash.uid, user: user) }
+
+      it "verifies and notifies the user" do
+        expect(user.identities.count).to eq(1)
+        expect(Decidim::Authorization.last).to be_nil
+        perform_enqueued_jobs do
+          click_link "Sign in with Valid"
+        end
+
+        expect(page).to have_content("Successfully")
+        expect(page).to have_content(user.name)
+        expect(page).to have_css(".topbar__user__logged")
+        expect(page).to have_content("VÀLid")
+        expect(page).to have_content("Granted at #{Decidim::Authorization.last.granted_at.to_s(:long)}")
+
+        expect(Decidim::Authorization.last.user).to eq(user)
+        expect(Decidim::Authorization.last.metadata).to eq(metadata)
+        expect(last_email.subject).to include("Authorization successful")
+        expect(last_email.to).to include(user.email)
       end
     end
   end

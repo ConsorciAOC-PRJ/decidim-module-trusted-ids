@@ -11,8 +11,9 @@ module Decidim
         validate :existing_via_oberta_identity
 
         def existing_via_oberta_identity
-          req = ViaOberta::Api::Request.new(TrustedIds.census_authorization[:api_url])
-          byebug
+          ViaOberta::Api::Request.new(TrustedIds.census_authorization)
+          # byebug
+          errors.add(:base, I18n.t("decidim.verifications.trusted_ids.errors.invalid_census"))
         end
 
         # # no public attributes

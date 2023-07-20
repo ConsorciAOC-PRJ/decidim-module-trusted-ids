@@ -1,0 +1,12 @@
+{
+    "user_id": 230,
+    "identity_id": 5,
+    "provider": "valid",
+    "uid": "01234567K",
+    "email": "USER2@EXAMPLE.COM",
+    "name": "USER 2",
+    "nickname": "user_2",
+    "avatar_url": null,
+    "raw_data":
+    {}
+}

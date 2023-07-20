@@ -6,6 +6,7 @@ module Decidim
       class TrustedIdsHandler < AuthorizationHandler
         attribute :provider, String
         attribute :uid, String
+        attribute :raw_data
 
         validates :uid, presence: true
         validate :trusted_ids_provider?
@@ -14,7 +15,8 @@ module Decidim
         def metadata
           super.merge(
             uid: uid,
-            provider: provider
+            provider: provider,
+            raw_data: raw_data
           )
         end
 

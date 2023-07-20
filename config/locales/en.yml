@@ -81,5 +81,6 @@ en:
           invalid_method: Could not verify you. OAuth2 verification method is not
             supported.
           invalid_status: Could not verify you. OAuth2 verification was not ok.
+          invalid_census: Could not verify you. The data provided to the census gateway might not be valid.
           no_identity: Could not verify you. OAuth2 verification did not return an
             identify.

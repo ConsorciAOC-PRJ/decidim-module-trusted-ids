@@ -28,7 +28,7 @@ module Decidim
 
         # no public attributes
         def form_attributes
-          attributes.except(:id, :user, :provider, :uid).keys
+          attributes.except(:id, :user, :provider, :uid, :raw_data).keys
         end
 
         def to_partial_path

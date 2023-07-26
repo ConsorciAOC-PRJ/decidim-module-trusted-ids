@@ -39,7 +39,8 @@ module Decidim
         "#{provider.upcase}_SITE" => site,
         "#{provider.upcase}_ICON" => icon_path,
         "#{provider.upcase}_SCOPE" => "openid profile email",
-        "SEND_VERIFICATION_NOTIFICATIONS" => "false"
+        "SEND_VERIFICATION_NOTIFICATIONS" => "false",
+        "CENSUS_AUTHORIZATION_API_URL" => "https://api.example.org?wsdl"
       }
     end
     let(:provider) { "facebook" }
@@ -69,7 +70,14 @@ module Decidim
                                "scope" => "openid profile email"
                              },
                              "send_verification_notifications" => false,
-                             "verification_expiration_time" => 90.days
+                             "verification_expiration_time" => 90.days.to_i,
+                             "census_authorization" => {
+                               "api_url" => "https://api.example.org?wsdl",
+                               "env" => "preproduction",
+                               "form" => "Decidim::ViaOberta::Verifications::ViaObertaHandler",
+                               "handler" => "via_oberta_handler",
+                               "system_attributes" => %w(nif ine municipal_code province_code)
+                             }
                            })
     end
 
@@ -88,7 +96,8 @@ module Decidim
       let(:env) do
         {
           "VALID_CLIENT_ID" => "client_id",
-          "VALID_CLIENT_SECRET" => "client_secret"
+          "VALID_CLIENT_SECRET" => "client_secret",
+          "CENSUS_AUTHORIZATION_API_URL" => "https://api.example.org?wsdl"
         }
       end
 
@@ -104,7 +113,14 @@ module Decidim
                                  "scope" => "autenticacio_usuari"
                                },
                                "send_verification_notifications" => true,
-                               "verification_expiration_time" => 90.days
+                               "verification_expiration_time" => 90.days.to_i,
+                               "census_authorization" => {
+                                 "api_url" => "https://api.example.org?wsdl",
+                                 "env" => "preproduction",
+                                 "form" => "Decidim::ViaOberta::Verifications::ViaObertaHandler",
+                                 "handler" => "via_oberta_handler",
+                                 "system_attributes" => %w(nif ine municipal_code province_code)
+                               }
                              })
       end
 
@@ -135,7 +151,14 @@ module Decidim
                                  "scope" => "autenticacio_usuari"
                                },
                                "send_verification_notifications" => true,
-                               "verification_expiration_time" => 90.days
+                               "verification_expiration_time" => 90.days.to_i,
+                               "census_authorization" => {
+                                 "api_url" => nil,
+                                 "env" => "preproduction",
+                                 "form" => "Decidim::ViaOberta::Verifications::ViaObertaHandler",
+                                 "handler" => "via_oberta_handler",
+                                 "system_attributes" => %w(nif ine municipal_code province_code)
+                               }
                              })
       end
 

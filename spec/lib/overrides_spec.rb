@@ -9,8 +9,8 @@ checksums = [
   {
     package: "decidim-core",
     files: {
-      "/app/commands/decidim/create_omniauth_registration.rb" => "e0b67b906f0ad3db84226914f07a05e7",
-      "/app/models/decidim/organization.rb" => "e0b67b906f0ad3db84226914f07a05e7",
+      "/app/commands/decidim/create_omniauth_registration.rb" => "10fc028fa6a7bef9936e6f9edb9b167b",
+      "/app/models/decidim/organization.rb" => "4d1f1e1881dbde53e8252b0b9b321fa7",
       "/app/models/decidim/static_page.rb" => "db2e6de50e80b41fab8d13640710597a"
     }
   },
@@ -19,8 +19,8 @@ checksums = [
     files: {
       "/app/forms/decidim/system/register_organization_form.rb" => "10667bf365ae7df36ed5d4628d1d4972",
       "/app/forms/decidim/system/update_organization_form.rb" => "b28ece5dbf3e227bc5b510886af567e2",
-      "/app/commands/decidim/system/register_organization.rb" => "e1481a8528e4276804a7b9e531d5b25b",
-      "/app/commands/decidim/system/update_organization.rb" => "10a082eede58856a73baccc19923b5b4",
+      "/app/commands/decidim/system/register_organization.rb" => "cad4f8bc5798e73afcbf5552fa8fc29e",
+      "/app/commands/decidim/system/update_organization.rb" => "d7cefef49c093e4995eb5dab9c115b81",
       "/app/views/decidim/system/organizations/new.html.erb" => "ef9277c31e87f864e911a05d7ad0a333",
       "/app/views/decidim/system/organizations/edit.html.erb" => "a5fbf0df2106009878cbca6e36472cae"
     }

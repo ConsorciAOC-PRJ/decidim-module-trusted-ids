@@ -23,6 +23,11 @@ shared_context "with oauth configuration" do
         email: email,
         name: "VALid User"
       },
+      credentials: {
+        token: "1/xyQlNh52vZdAp3ABYV_e98lfLbXhSEKc093_EGdc",
+        expires_at: 123_456_789,
+        expires: true
+      },
       extra: {
         identifier_type: "1",
         method: "idcatmobil",
@@ -31,12 +36,21 @@ shared_context "with oauth configuration" do
       }
     )
   end
+  let(:extra) do
+    {
+      "expires_at" => 123_456_789,
+      "identifier_type" => "1",
+      "method" => "idcatmobil",
+      "assurance_level" => "low"
+    }
+  end
+
   let(:unique_id) { Digest::SHA512.hexdigest("#{omniauth_hash.uid}-#{user.decidim_organization_id}-#{Rails.application.secrets.secret_key_base}") }
   let(:metadata) do
     {
       "uid" => omniauth_hash.uid,
       "provider" => omniauth_hash.provider,
-      "raw_data" => omniauth_hash
+      "extra" => extra
     }
   end
 

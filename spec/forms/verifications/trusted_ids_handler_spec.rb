@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "spec_helper"
-require "decidim/trusted_ids/test/shared_contexts"
+require "shared/shared_contexts"
 
 module Decidim::TrustedIds
   module Verifications

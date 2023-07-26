@@ -3,7 +3,7 @@
 require "spec_helper"
 require "omniauth"
 require "omniauth/test"
-require "decidim/trusted_ids/test/shared_contexts"
+require "shared/shared_contexts"
 
 RSpec.configure do |config|
   config.extend OmniAuth::Test::StrategyMacros, type: :strategy

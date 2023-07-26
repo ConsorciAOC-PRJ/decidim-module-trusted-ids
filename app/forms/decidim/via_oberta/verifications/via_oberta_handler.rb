@@ -26,7 +26,7 @@ module Decidim
           return unless census_response.success?
 
           Digest::SHA256.hexdigest(
-            "#{document_id}-#{Rails.application.secrets.secret_key_base}"
+            "#{document_id}-#{user&.decidim_organization_id}-#{Rails.application.secrets.secret_key_base}"
           )
         end
 
@@ -35,7 +35,9 @@ module Decidim
         end
 
         def document_type
-          @document_type ||= DOCUMENT_TYPE[trusted_authorization&.metadata&.dig("raw_data", "extra", "identifier_type").to_i]
+          return unless trusted_authorization&.metadata&.dig("provider") == "valid"
+
+          DOCUMENT_TYPE[trusted_authorization&.metadata&.dig("extra", "identifier_type").to_i]
         end
 
         def document_type_string
@@ -48,8 +50,7 @@ module Decidim
 
         def existing_via_oberta_identity
           return unless tos_agreement
-
-          return if census_response.success?
+          return if census_response.found?
 
           errors.add(:base, I18n.t("decidim.verifications.trusted_ids.errors.invalid_census"))
           @response_error = census_response.error

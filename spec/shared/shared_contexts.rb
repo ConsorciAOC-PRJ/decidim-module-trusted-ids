@@ -69,7 +69,6 @@ shared_context "with oauth configuration" do
 end
 
 shared_context "with stubs example api" do
-  let(:url) { "https://api.example.org/" }
   let(:http_method) { :get }
   let(:http_status) { 200 }
   let(:data) do
@@ -80,13 +79,22 @@ shared_context "with stubs example api" do
       "count" => 0
     }
   end
-  let(:params) do
-    {}
-  end
 
   before do
-    # allow(Decidim::TrustedIds::Api).to receive(:url).and_return(url)
     stub_request(http_method, /api\.example\.org/)
       .to_return(status: http_status, body: data.to_json, headers: {})
+  end
+end
+
+shared_context "with stubs viaoberta api" do
+  let(:url) { "https://serveis3-pre.iop.aoc.cat/siri-proxy/services/Sincron?wsdl" }
+  let(:http_status) { 200 }
+  let(:http_method) { :post }
+  let(:response_file) { "via_oberta_found.xml" }
+  let(:data) { file_fixture(response_file).read }
+
+  before do
+    stub_request(http_method, url)
+      .to_return(status: http_status, body: data, headers: { "Content-Type" => "text/xml" })
   end
 end

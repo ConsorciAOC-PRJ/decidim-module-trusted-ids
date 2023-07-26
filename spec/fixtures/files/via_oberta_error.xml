@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Envelope>
+  <Header>
+    <Security mustUnderstand="0">
+      <BinarySecurityToken EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3" Id="XWSSGID-16862184839791220953714">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</BinarySecurityToken>
+      <Signature Id="XWSSGID-1686218483963-2042714473">
+        <SignedInfo>
+          <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+          <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+          <Reference URI="#XWSSGID-1690366915186526292315">
+            <Transforms>
+              <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+            </Transforms>
+            <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+            <DigestValue>tgMq7yMZVwIQxOdy4NNf/S2azug=</DigestValue>
+          </Reference>
+        </SignedInfo>
+        <SignatureValue>hnzQylZsrysRg7PIda6IcECFW2b5m1KtcmyDKK9Zpz+CBy/CFInJ5ptpwSJ5C/K6rOiyj3cKD7I3&#13;
+        	kcdMt6ecuZAKZbDlh4jfnvUMlmhdQZQxFXZ023LOWlSPBi2L8GaorqW3rwDLcs6QTeN1pttuPGVy&#13;
+86PXl7c9HYVi7Z0L1TWEqDR5YTaD+8CVjAlyL7s9JFDOe3t3qaOscWmlIlfGFP73l+hy0KMbcXGq&#13;
+Z7lSitblWWuVD7W0n0CBYYrWNzxeYwVHAw9w8/0hvSHonAEJEFuaz/gwlIlxPNA1Z152SqBHi0HL&#13;
+E9iLIZGqGDrO/kV8BIAilZTNZRgiXgBsPfzvWw==</SignatureValue>
+        <KeyInfo>
+          <SecurityTokenReference Id="XWSSGID-169036691518683585539">
+          	<Reference URI="#XWSSGID-16862184839791220953714" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3"/>
+</SecurityTokenReference>
+        </KeyInfo>
+      </Signature>
+      <Timestamp Id="XWSSGID-1686218483982-1629454690">
+        <Created>2023-07-26T10:21:55Z</Created>
+        <Expires>2023-07-26T10:26:55Z</Expires>
+      </Timestamp>
+    </Security>
+  </Header>
+  <Body Id="XWSSGID-1690366915186526292315">
+    <procesaResponse>
+      <Respuesta>
+        <Atributos>
+          <IdPeticion>4314820002-1690366849</IdPeticion>
+          <NumElementos>1</NumElementos>
+          <TimeStamp>2023-07-26T12:21:55.153+02:00</TimeStamp>
+          <Estado>
+            <CodigoEstado>0502</CodigoEstado>
+            <LiteralError>Error realitzant la operació.</LiteralError>
+            <TiempoEstimadoRespuesta>0</TiempoEstimadoRespuesta>
+          </Estado>
+          <CodigoCertificado>RESIDENT_MUNICIPI</CodigoCertificado>
+          <CodigoProducto>PADRO</CodigoProducto>
+          <Emisor>
+            <NifEmisor>P4315000B</NifEmisor>
+            <NombreEmisor>Ajuntament de Tarragona</NombreEmisor>
+          </Emisor>
+          <IdSolicitanteOriginal>MAP</IdSolicitanteOriginal>
+          <NomSolicitanteOriginal>MAP</NomSolicitanteOriginal>
+        </Atributos>
+        <Transmisiones>
+          <TransmisionDatos>
+            <DatosGenericos>
+              <Emisor>
+                <NifEmisor>P4315000B</NifEmisor>
+                <NombreEmisor>Ajuntament de Tarragona</NombreEmisor>
+              </Emisor>
+              <Solicitante>
+                <IdentificadorSolicitante>4314820002</IdentificadorSolicitante>
+                <NombreSolicitante>Ajuntament de Tarragona</NombreSolicitante>
+                <Finalidad>PROVES</Finalidad>
+                <Consentimiento>Si</Consentimiento>
+              </Solicitante>
+              <Transmision>
+                <CodigoCertificado>RESIDENT_MUNICIPI</CodigoCertificado>
+                <IdSolicitud>4314820002-1690366849</IdSolicitud>
+                <FechaGeneracion>2023-07-26</FechaGeneracion>
+              </Transmision>
+            </DatosGenericos>
+            <DatosEspecificos/>
+          </TransmisionDatos>
+        </Transmisiones>
+      </Respuesta>
+    </procesaResponse>
+  </Body>
+</Envelope>

@@ -36,7 +36,13 @@ module Decidim
           @error ||= success? ? result_code_string : slim_body.xpath("//LiteralError").text
         end
 
+        # if no problems during the request
         def success?
+          slim_body.xpath("//LiteralError").text == "OK"
+        end
+
+        # if the user is in the census
+        def found?
           result_code == RESULT_CODES.key("CONSTA")
         end
 

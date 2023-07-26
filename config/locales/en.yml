@@ -93,7 +93,7 @@ en:
           nie: NIE
           nif: NIF
           passport: Passport
-          residence_permit: Residence permit
+          others: Residence permit or others
         form:
           data: 'Data to be sent:'
           description_html: <p>This authorization checks if you are in the <b>%{organization_name}</b>
@@ -105,3 +105,14 @@ en:
             of this transaction might be kept by the service provider.</p>
           document_id: Document Number
           document_type: Document type
+          error: "Service error message:"
+          code: "Error code: %{code}"
+        tos:
+          agreement: I agree with the terms of service
+          title: Via Oberta's terms of service
+          content_html: "<p>By clicking on the \"I agree\" button, you agree to the
+            following terms of service:</p> <ol> <li>The information provided to the
+            Via Oberta service will be used for the sole purpose of verifying your
+            identity.</li> <li>Records of this transaction might be kept by the service
+            provider.</li> <li>The service provider will not share this information
+            with third parties.</li> </ol>"

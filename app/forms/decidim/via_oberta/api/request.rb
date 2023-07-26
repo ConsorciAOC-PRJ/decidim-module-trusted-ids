@@ -3,6 +3,13 @@
 module Decidim
   module ViaOberta
     module Api
+      DOCUMENT_TYPE = {
+        nif: 1,
+        passport: 2,
+        residence_card: 3,
+        nie: 4
+      }.freeze
+
       class Request
         def initialize(document_id:, document_type:, organization:)
           @document_id = document_id
@@ -13,13 +20,12 @@ module Decidim
         end
 
         attr_accessor :env, :api_url, :document_id, :document_type, :organization
-        attr_reader :raw_body
 
         def response
           return @response if defined?(@response)
 
           begin
-            response ||= Faraday.post(@url) do |request|
+            response ||= Faraday.post(url) do |request|
               request.headers["Content-Type"] = "text/xml;charset=UTF-8"
               request.headers["SOAPAction"] = "procesa"
               request.body = request_body
@@ -28,13 +34,12 @@ module Decidim
             Rails.logger.error "WEBSERVICE CONNECTION ERROR: #{e.message}"
             throw e
           end
-          @raw_body = response.body
-          @response ||= Nokogiri::XML(response.body).remove_namespaces!
+          @response ||= Response.new(response)
         end
 
         def url
           @url ||= if @api_url.present?
-                      @api_url
+                     @api_url
                    elsif @env == "production"
                      "https://serveis3.iop.aoc.cat/siri-proxy/services/Sincron?wsdl"
                    else
@@ -49,7 +54,7 @@ module Decidim
                          "PROVES"
                        end
         end
-        
+
         def organization_name
           @organization_name ||= organization.trusted_ids_census_config&.settings&.dig("organization_name") || organization.name
         end
@@ -70,11 +75,16 @@ module Decidim
           @municipal_code ||= organization.trusted_ids_census_config&.settings&.dig("municipal_code")
         end
 
-        def request_id
-          @request_id ||= "#{ine}-random"
+        def time_stamp
+          @time_stamp ||= Time.current.strftime("%Y-%m-%dT%H:%M:%S")
+        end
 
-        def slim_response
-          response.search("Body").children
+        def request_id
+          @request_id ||= "#{ine}-#{Time.current.to_i}"
+        end
+
+        def document_type_id
+          @document_type_id ||= DOCUMENT_TYPE[document_type] || 3
         end
 
         def request_body
@@ -91,7 +101,7 @@ module Decidim
                     <ns1:Atributos>
                       <ns1:IdPeticion>#{request_id}</ns1:IdPeticion>
                       <ns1:NumElementos>1</ns1:NumElementos>
-                      <ns1:TimeStamp>2023-07-17T20:10:36</ns1:TimeStamp>
+                      <ns1:TimeStamp>#{time_stamp}</ns1:TimeStamp>
                       <ns1:Estado/>
                       <ns1:CodigoCertificado>RESIDENT_MUNICIPI</ns1:CodigoCertificado>
                       <ns1:CodigoProducto>PADRO</ns1:CodigoProducto>
@@ -123,13 +133,13 @@ module Decidim
                           <ns1:Transmision>
                             <ns1:CodigoCertificado>RESIDENT_MUNICIPI</ns1:CodigoCertificado>
                             <ns1:IdSolicitud>#{request_id}</ns1:IdSolicitud>
-                            <ns1:FechaGeneracion>2023-07-17</ns1:FechaGeneracion>
+                            <ns1:FechaGeneracion>#{time_stamp[0..9]}</ns1:FechaGeneracion>
                           </ns1:Transmision>
                         </ns1:DatosGenericos>
                         <ns1:DatosEspecificos>
                           <ns2:peticionResidenteMunicipio xmlns:ns2="http://www.aocat.net/padro">
                             <ns2:numExpediente>#{request_id}</ns2:numExpediente>
-                            <ns2:tipoDocumentacion>#{document_type}</ns2:tipoDocumentacion>
+                            <ns2:tipoDocumentacion>#{document_type_id}</ns2:tipoDocumentacion>
                             <ns2:documentacion>#{document_id}</ns2:documentacion>
                             <ns2:codigoMunicipio>#{municipal_code}</ns2:codigoMunicipio> 
                             <ns2:codigoProvincia>#{province_code}</ns2:codigoProvincia>

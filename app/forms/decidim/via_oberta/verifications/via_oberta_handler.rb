@@ -4,52 +4,56 @@ module Decidim
   module ViaOberta
     module Verifications
       class ViaObertaHandler < AuthorizationHandler
+        # VALID:  1=NIF, 2=NIE, 3=Passaport, 4=Altres
+        # VIAOBERTA: 1=NIF, 2=passaport, 3=permís residència, 4=NIE
+        DOCUMENT_TYPE = {
+          1 => :nif,
+          2 => :nie,
+          3 => :passport,
+          4 => :others
+        }.freeze
+
         attribute :document_id, String
         attribute :document_type, Integer
-
-        validates :document_id, presence: true
+        attribute :tos_agreement, Boolean
+        validates :tos_agreement, allow_nil: false, acceptance: true
 
         validate :existing_via_oberta_identity
+
+        attr_reader :response_error, :response_code
+
+        def unique_id
+          return unless census_response.success?
+
+          Digest::SHA256.hexdigest(
+            "#{document_id}-#{Rails.application.secrets.secret_key_base}"
+          )
+        end
 
         def document_id
           trusted_authorization&.metadata&.dig("uid")
         end
 
-        # todo:
-        # VALID:  1=NIF, 2=NIE, 3=Passaport, 4=Altres
-        # VIAOBERTA: 1=NIF, 2=passaport, 3=permís residència, 4=NIE
         def document_type
-          if trusted_authorization&.metadata&.dig("provider") == "valid"
-            case trusted_authorization&.metadata&.dig("raw_data", "extra", "identifier_type").to_i
-            when 1
-              1
-            when 2
-              4
-            when 3
-              2
-            else
-              3
-            end
-          end
+          @document_type ||= DOCUMENT_TYPE[trusted_authorization&.metadata&.dig("raw_data", "extra", "identifier_type").to_i]
         end
 
         def document_type_string
-          case document_type
-          when 1
-            I18n.t("decidim.via_oberta.verifications.document_type.nif")
-          when 2
-            I18n.t("decidim.via_oberta.verifications.document_type.passport")
-          when 3
-            I18n.t("decidim.via_oberta.verifications.document_type.residence_permit")
-          when 4
-            I18n.t("decidim.via_oberta.verifications.document_type.nie")
-          end
+          I18n.t("decidim.via_oberta.verifications.document_type.#{document_type}", default: document_type.to_s)
+        end
+
+        def census_response
+          @census_response ||= ViaOberta::Api::Request.new(document_id: document_id, document_type: document_type, organization: user.organization).response
         end
 
         def existing_via_oberta_identity
-          req = ViaOberta::Api::Request.new(document_id: document_id, document_type: document_type, organization: current_organization)
-          byebug
+          return unless tos_agreement
+
+          return if census_response.success?
+
           errors.add(:base, I18n.t("decidim.verifications.trusted_ids.errors.invalid_census"))
+          @response_error = census_response.error
+          @response_code = census_response.code
         end
 
         # # no public attributes

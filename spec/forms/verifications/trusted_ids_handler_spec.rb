@@ -15,15 +15,26 @@ module Decidim::TrustedIds
           user: user,
           uid: uid,
           provider: provider,
-          data: raw_data
+          raw_data: raw_data
         }
       end
       let(:user) { create :user }
       let(:another_user) { create :user }
       let(:provider) { "valid" }
       let(:uid) { 1234 }
+      let(:extra) do
+        {
+          expires_at: 123_456_789,
+          identifier_type: "1",
+          method: "idcatmobil",
+          assurance_level: "low"
+        }
+      end
       let(:raw_data) do
         {
+          credentials: {
+            expires_at: 123_456_789
+          },
           extra: {
             identifier_type: "1",
             method: "idcatmobil",
@@ -40,7 +51,7 @@ module Decidim::TrustedIds
         it "stores metadata" do
           expect(subject.metadata[:uid]).to eq(uid.to_s)
           expect(subject.metadata[:provider]).to eq(provider)
-          expect(subject.metadata[:data]).to eq(raw_data)
+          expect(subject.metadata[:extra]).to eq(extra)
         end
 
         it "has a unique id between organizations" do

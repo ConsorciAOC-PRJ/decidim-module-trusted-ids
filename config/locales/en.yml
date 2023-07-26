@@ -15,8 +15,8 @@ en:
         explanation: This authorization method is granted to all users that use a
           Trusted ID login method.
         fields:
+          extra: Extra data
           provider: Provider
-          raw_data: Data
           uid: ID
         name: Trusted IDs
       via_oberta_handler:

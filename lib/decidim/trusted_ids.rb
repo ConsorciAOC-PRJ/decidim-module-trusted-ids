@@ -21,6 +21,18 @@ module Decidim
       ENV.fetch("OMNIAUTH_PROVIDER", "valid")
     end
 
+    # From the data obtained we extract metadata to be saved as part of the authorization
+    # This data can later be used by the census_authorization handler as to call the webservice
+    # A hash with keys and how to find it inside hash comming from the OAuth
+    config_accessor :authorization_metadata do
+      {
+        expires_at: [:credentials, :expires_at],
+        identifier_type: [:extra, :identifier_type],
+        method: [:extra, :method],
+        assurance_level: [:extra, :assurance_level]
+      }
+    end
+
     # setup a hash with :client_id, :client_secret and :site to enable omniauth authentication
     config_accessor :omniauth do
       {
@@ -53,7 +65,7 @@ module Decidim
         env: ENV.fetch("CENSUS_AUTHORIZATION_ENV", "preproduction"),
         api_url: ENV["CENSUS_AUTHORIZATION_API_URL"],
         # These setting will be added in the organization form at /system as tenant configurable parameters
-        system_attributes: ENV.fetch("CENSUS_AUTHORIZATION_SYSTEM_ATTRIBUTES", "nif ine municipal_code province_code").split(" ")
+        system_attributes: ENV.fetch("CENSUS_AUTHORIZATION_SYSTEM_ATTRIBUTES", "nif ine municipal_code province_code organization_name").split(" ")
       }
     end
 

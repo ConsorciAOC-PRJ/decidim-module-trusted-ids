@@ -71,12 +71,13 @@ module Decidim
                              },
                              "send_verification_notifications" => false,
                              "verification_expiration_time" => 90.days.to_i,
+                             "authorization_metadata" => { "assurance_level" => %w(extra assurance_level), "expires_at" => %w(credentials expires_at), "identifier_type" => %w(extra identifier_type), "method" => %w(extra method) },
                              "census_authorization" => {
                                "api_url" => "https://api.example.org?wsdl",
                                "env" => "preproduction",
                                "form" => "Decidim::ViaOberta::Verifications::ViaObertaHandler",
                                "handler" => "via_oberta_handler",
-                               "system_attributes" => %w(nif ine municipal_code province_code)
+                               "system_attributes" => %w(nif ine municipal_code province_code organization_name)
                              }
                            })
     end
@@ -114,12 +115,13 @@ module Decidim
                                },
                                "send_verification_notifications" => true,
                                "verification_expiration_time" => 90.days.to_i,
+                               "authorization_metadata" => { "assurance_level" => %w(extra assurance_level), "expires_at" => %w(credentials expires_at), "identifier_type" => %w(extra identifier_type), "method" => %w(extra method) },
                                "census_authorization" => {
                                  "api_url" => "https://api.example.org?wsdl",
                                  "env" => "preproduction",
                                  "form" => "Decidim::ViaOberta::Verifications::ViaObertaHandler",
                                  "handler" => "via_oberta_handler",
-                                 "system_attributes" => %w(nif ine municipal_code province_code)
+                                 "system_attributes" => %w(nif ine municipal_code province_code organization_name)
                                }
                              })
       end
@@ -152,12 +154,13 @@ module Decidim
                                },
                                "send_verification_notifications" => true,
                                "verification_expiration_time" => 90.days.to_i,
+                               "authorization_metadata" => { "assurance_level" => %w(extra assurance_level), "expires_at" => %w(credentials expires_at), "identifier_type" => %w(extra identifier_type), "method" => %w(extra method) },
                                "census_authorization" => {
                                  "api_url" => nil,
                                  "env" => "preproduction",
                                  "form" => "Decidim::ViaOberta::Verifications::ViaObertaHandler",
                                  "handler" => "via_oberta_handler",
-                                 "system_attributes" => %w(nif ine municipal_code province_code)
+                                 "system_attributes" => %w(nif ine municipal_code province_code organization_name)
                                }
                              })
       end

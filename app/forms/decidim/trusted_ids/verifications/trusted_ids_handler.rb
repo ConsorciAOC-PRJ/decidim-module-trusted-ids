@@ -16,7 +16,7 @@ module Decidim
           super.merge(
             uid: uid,
             provider: provider,
-            raw_data: raw_data
+            extra: extra_attributes
           )
         end
 
@@ -28,7 +28,7 @@ module Decidim
 
         # no public attributes
         def form_attributes
-          attributes.except(:id, :user, :provider, :uid, :raw_data).keys
+          attributes.except(:id, :user, :provider, :uid, :extra).keys
         end
 
         def to_partial_path
@@ -36,6 +36,15 @@ module Decidim
         end
 
         private
+
+        def extra_attributes
+          return {} unless TrustedIds.authorization_metadata.respond_to? :map
+
+          TrustedIds.authorization_metadata.map do |key, parts|
+            parts = [parts] unless parts.is_a? Array
+            [key, raw_data.dig(*parts)]
+          end.to_h
+        end
 
         def trusted_ids_provider?
           return if errors.any?

@@ -32,7 +32,7 @@ module Decidim
             end
           rescue Faraday::Error => e
             Rails.logger.error "WEBSERVICE CONNECTION ERROR: #{e.message}"
-            throw e
+            raise e
           end
           @response ||= Response.new(response)
         end
@@ -80,7 +80,7 @@ module Decidim
         end
 
         def request_id
-          @request_id ||= "#{ine}-#{Time.current.to_i}"
+          @request_id ||= SecureRandom.uuid
         end
 
         def document_type_id

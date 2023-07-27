@@ -2,7 +2,7 @@
 
 shared_context "with oauth configuration" do
   let(:organization) { create(:organization, omniauth_settings: omniauth_settings, available_authorizations: available_authorizations) }
-  let(:available_authorizations) { [:trusted_ids_handler] }
+  let(:available_authorizations) { [:trusted_ids_handler, :via_oberta_handler] }
   let(:enabled) { true }
   let(:omniauth_settings) do
     {

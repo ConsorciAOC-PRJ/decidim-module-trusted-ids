@@ -41,6 +41,8 @@ module Decidim
         end
 
         def document_type_string
+          return "" unless document_type
+
           I18n.t("decidim.via_oberta.verifications.document_type.#{document_type}", default: document_type.to_s)
         end
 

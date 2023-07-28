@@ -87,7 +87,7 @@ shared_context "with stubs example api" do
 end
 
 shared_context "with stubs viaoberta api" do
-  let(:url) { "https://serveis3-pre.iop.aoc.cat/siri-proxy/services/Sincron?wsdl" }
+  let(:url) { "https://serveis3.iop.aoc.cat/siri-proxy/services/Sincron?wsdl" }
   let(:http_status) { 200 }
   let(:http_method) { :post }
   let(:response_file) { "via_oberta_found.xml" }

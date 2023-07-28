@@ -24,7 +24,7 @@ module Decidim::ViaOberta
       end
       let(:system_attributes) { %w(nif ine municipal_code province_code organization_name) }
       let(:api_url) { nil }
-      let(:env) { "preproduction" }
+      let(:env) { "production" }
       let(:form) { "Decidim::ViaOberta::Verifications::ViaObertaHandler" }
       let(:handler) { "via_oberta_handler" }
       let(:province_code) { nil }
@@ -37,17 +37,17 @@ module Decidim::ViaOberta
         allow(Decidim::TrustedIds).to receive(:census_authorization).and_return(census_authorization)
       end
 
-      it "returns a preproduction URL" do
-        expect(subject.url).to eq("https://serveis3-pre.iop.aoc.cat/siri-proxy/services/Sincron?wsdl")
-        expect(subject.purpose).to eq("PROVES")
+      it "returns a production URL" do
+        expect(subject.url).to eq("https://serveis3.iop.aoc.cat/siri-proxy/services/Sincron?wsdl")
+        expect(subject.purpose).to eq("GESTTRIB")
       end
 
-      context "when production environment" do
-        let(:env) { "production" }
+      context "when preproduction environment" do
+        let(:env) { "preproduction" }
 
-        it "returns a production URL" do
-          expect(subject.url).to eq("https://serveis3.iop.aoc.cat/siri-proxy/services/Sincron?wsdl")
-          expect(subject.purpose).to eq("GESTTRIB")
+        it "returns a preproduction URL" do
+          expect(subject.url).to eq("https://serveis3-pre.iop.aoc.cat/siri-proxy/services/Sincron?wsdl")
+          expect(subject.purpose).to eq("PROVES")
         end
       end
 
@@ -56,7 +56,7 @@ module Decidim::ViaOberta
 
         it "returns the api_url" do
           expect(subject.url).to eq(api_url)
-          expect(subject.purpose).to eq("PROVES")
+          expect(subject.purpose).to eq("GESTTRIB")
         end
       end
 

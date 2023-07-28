@@ -9,6 +9,9 @@ en:
           nif: NIF
           organization_name: Organization public name
           province_code: Province code
+      via_oberta_handler:
+        document_type: 'Could not be obtained automatically. Please select one from
+          the list:'
   decidim:
     authorization_handlers:
       trusted_ids_handler:
@@ -82,9 +85,11 @@ en:
         errors:
           invalid_census: Could not verify you. The data provided to the census gateway
             might not be valid.
+          invalid_id: Could not verify you. Document ID is invalid or missing.
           invalid_method: Could not verify you. OAuth2 verification method is not
             supported.
           invalid_status: Could not verify you. OAuth2 verification was not ok.
+          invalid_type: Could not verify you. Document type is invalid or missing.
           no_identity: Could not verify you. OAuth2 verification did not return an
             identify.
     via_oberta:

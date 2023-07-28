@@ -29,11 +29,15 @@ module Decidim
         end
 
         def code
-          @code ||= slim_body.xpath("//CodigoEstado").text
+          @code ||= slim_body.xpath("//CodigoEstado").text.presence || slim_body.xpath("//faultcode").text.presence || response.status
         end
 
         def error
-          @error ||= success? ? result_code_string : slim_body.xpath("//LiteralError").text
+          @error ||= if success?
+                       result_code_string
+                     else
+                       slim_body.xpath("//LiteralError").text.presence || slim_body.xpath("//faultstring").text.presence || body.xpath("//title").text
+                     end
         end
 
         # if no problems during the request

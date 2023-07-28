@@ -13,7 +13,13 @@
   <dt><%= t ".document_id" %>:</dt>
   <dd><%= handler.document_id %></dd>
   <dt><%= t ".document_type" %>:</dt>
-  <dd><%= handler.document_type_string %></dd>
+  <dd>
+    <% if handler.document_type_from_metadata.present? %>
+      <%= handler.document_type_string %>
+    <% else %>
+      <%= form.select :document_type, handler.document_types, include_blank: true %>
+    <% end %>
+  </dd>
 </dl>
 
 <div class="card" id="card__tos">

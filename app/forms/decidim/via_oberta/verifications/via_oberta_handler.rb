@@ -30,14 +30,22 @@ module Decidim
           )
         end
 
+        # use from previous authorization metadata. We don't allow user input here to prevent spoofing
         def document_id
-          trusted_authorization&.metadata&.dig("uid")
+          @document_id ||= trusted_authorization&.metadata&.dig("uid")
         end
 
+        # use from previous authorization metadata or use the one from the form as a fallback
         def document_type
-          return unless trusted_authorization&.metadata&.dig("provider") == "valid"
+          @document_type ||= document_type_from_metadata || @document_type
+        end
 
-          DOCUMENT_TYPE[trusted_authorization&.metadata&.dig("extra", "identifier_type").to_i]
+        def document_type_from_metadata
+          @document_type_from_metadata ||= DOCUMENT_TYPE[trusted_authorization&.metadata&.dig("extra", "identifier_type").to_i]
+        end
+
+        def document_types
+          @document_types ||= DOCUMENT_TYPE.map { |k, v| [I18n.t("decidim.via_oberta.verifications.document_type.#{v}", default: v.to_s), k] }
         end
 
         def document_type_string
@@ -52,6 +60,10 @@ module Decidim
 
         def existing_via_oberta_identity
           return unless tos_agreement
+
+          return errors.add(:base, I18n.t("decidim.verifications.trusted_ids.errors.invalid_id")) if document_id.blank?
+          return errors.add(:base, I18n.t("decidim.verifications.trusted_ids.errors.invalid_type")) if document_type.blank?
+
           return if census_response.found?
 
           errors.add(:base, I18n.t("decidim.verifications.trusted_ids.errors.invalid_census"))

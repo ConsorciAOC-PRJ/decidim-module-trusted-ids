@@ -69,8 +69,160 @@ describe "Via Oberta manual verification", type: :system do
     end
   end
 
-  # when metada provider is not valid
-  # when metada has no document_id
-  # when metada has no document_type
-  # when response from viaoberta is not valid
+  context "when metada has no document_id" do
+    let(:uid) { "" }
+
+    it "does not verify the user" do
+      visit decidim_verifications.new_authorization_path(handler: :via_oberta_handler)
+      expect(Decidim::Authorization.last.name).to eq("trusted_ids_handler")
+      perform_enqueued_jobs do
+        check "I agree with the terms of service"
+        click_button("Send")
+      end
+
+      expect(page).to have_content("There was a problem creating the authorization.")
+      expect(page).to have_content(" Document ID is invalid or missing.")
+      expect(Decidim::Authorization.last.reload.name).to eq("trusted_ids_handler")
+    end
+  end
+
+  context "when metada has no document_type" do
+    let(:document_type) { nil }
+
+    it "verifies the user after selecting the type" do
+      visit decidim_verifications.new_authorization_path(handler: :via_oberta_handler)
+      expect(Decidim::Authorization.last.name).to eq("trusted_ids_handler")
+      expect(page).to have_content("Could not be obtained automatically. Please select one from the list:")
+      perform_enqueued_jobs do
+        check "I agree with the terms of service"
+        click_button("Send")
+      end
+
+      expect(page).to have_content("There was a problem creating the authorization.")
+      expect(page).to have_content("Document type is invalid or missing.")
+      expect(Decidim::Authorization.last.reload.name).to eq("trusted_ids_handler")
+
+      # select a wrong type
+      select "NIF", from: "authorization_handler_document_type"
+
+      perform_enqueued_jobs do
+        check "I agree with the terms of service"
+        click_button("Send")
+      end
+
+      expect(page).to have_content("You've been successfully authorized.")
+      expect(page).to have_content("Granted at #{Decidim::Authorization.last.granted_at.to_s(:long)}")
+      expect(Decidim::Authorization.last.reload.user).to eq(user)
+      expect(Decidim::Authorization.last.name).to eq("via_oberta_handler")
+    end
+  end
+
+  context "when response from viaoberta is not found" do
+    let(:response_file) { "via_oberta_not_found.xml" }
+
+    it "does not verify the user" do
+      visit decidim_verifications.new_authorization_path(handler: :via_oberta_handler)
+      expect(Decidim::Authorization.last.name).to eq("trusted_ids_handler")
+      perform_enqueued_jobs do
+        check "I agree with the terms of service"
+        click_button("Send")
+      end
+
+      expect(page).to have_content("There was a problem creating the authorization.")
+      expect(page).to have_content("Could not verify you. The data provided to the census gateway might not be valid.")
+      expect(page).to have_content("NO CONSTA")
+      expect(page).to have_content("0003")
+      expect(Decidim::Authorization.last.reload.name).to eq("trusted_ids_handler")
+    end
+
+    context "and metadata has no document_type" do
+      let(:document_type) { nil }
+
+      it "do not verify the user" do
+        visit decidim_verifications.new_authorization_path(handler: :via_oberta_handler)
+        expect(Decidim::Authorization.last.name).to eq("trusted_ids_handler")
+        expect(page).to have_content("Could not be obtained automatically. Please select one from the list:")
+        perform_enqueued_jobs do
+          check "I agree with the terms of service"
+          click_button("Send")
+        end
+
+        expect(page).to have_content("There was a problem creating the authorization.")
+        expect(page).to have_content("Document type is invalid or missing.")
+        expect(Decidim::Authorization.last.reload.name).to eq("trusted_ids_handler")
+
+        # select a wrong type
+        select "NIF", from: "authorization_handler_document_type"
+
+        perform_enqueued_jobs do
+          check "I agree with the terms of service"
+          click_button("Send")
+        end
+
+        expect(page).to have_content("There was a problem creating the authorization.")
+        expect(page).to have_content("Could not verify you. The data provided to the census gateway might not be valid.")
+        expect(page).to have_content("NO CONSTA")
+        expect(page).to have_content("0003")
+        expect(Decidim::Authorization.last.reload.name).to eq("trusted_ids_handler")
+      end
+    end
+  end
+
+  context "when response from viaoberta is not valid" do
+    let(:response_file) { "via_oberta_invalid.xml" }
+
+    it "does not verify the user" do
+      visit decidim_verifications.new_authorization_path(handler: :via_oberta_handler)
+      expect(Decidim::Authorization.last.name).to eq("trusted_ids_handler")
+      perform_enqueued_jobs do
+        check "I agree with the terms of service"
+        click_button("Send")
+      end
+
+      expect(page).to have_content("There was a problem creating the authorization.")
+      expect(page).to have_content("Could not verify you. The data provided to the census gateway might not be valid.")
+      expect(page).to have_content("Error en el procés d'autorització. No s'ha pogut recuperar cap certificat de la petició.")
+      expect(page).to have_content("1013")
+      expect(Decidim::Authorization.last.reload.name).to eq("trusted_ids_handler")
+    end
+  end
+
+  context "when response from viaoberta is repeated" do
+    let(:response_file) { "via_oberta_repeated.xml" }
+
+    it "does not verify the user" do
+      visit decidim_verifications.new_authorization_path(handler: :via_oberta_handler)
+      expect(Decidim::Authorization.last.name).to eq("trusted_ids_handler")
+      perform_enqueued_jobs do
+        check "I agree with the terms of service"
+        click_button("Send")
+      end
+
+      expect(page).to have_content("There was a problem creating the authorization.")
+      expect(page).to have_content("Could not verify you. The data provided to the census gateway might not be valid.")
+      expect(page).to have_content("Transmissió ja enregistrada: '4314820002-1689617438'.")
+      expect(page).to have_content("0502")
+      expect(Decidim::Authorization.last.reload.name).to eq("trusted_ids_handler")
+    end
+  end
+
+  context "when response from viaoberta has no permissions" do
+    let(:response_file) { "via_oberta_no_permission.xml" }
+    let(:http_status) { 403 }
+
+    it "does not verify the user" do
+      visit decidim_verifications.new_authorization_path(handler: :via_oberta_handler)
+      expect(Decidim::Authorization.last.name).to eq("trusted_ids_handler")
+      perform_enqueued_jobs do
+        check "I agree with the terms of service"
+        click_button("Send")
+      end
+
+      expect(page).to have_content("There was a problem creating the authorization.")
+      expect(page).to have_content("Could not verify you. The data provided to the census gateway might not be valid.")
+      expect(page).to have_content("403 Forbidden")
+      expect(page).to have_content("403", count: 2)
+      expect(Decidim::Authorization.last.reload.name).to eq("trusted_ids_handler")
+    end
+  end
 end

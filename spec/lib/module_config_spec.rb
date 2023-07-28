@@ -74,7 +74,7 @@ module Decidim
                              "authorization_metadata" => { "assurance_level" => %w(extra assurance_level), "expires_at" => %w(credentials expires_at), "identifier_type" => %w(extra identifier_type), "method" => %w(extra method) },
                              "census_authorization" => {
                                "api_url" => "https://api.example.org?wsdl",
-                               "env" => "preproduction",
+                               "env" => "production",
                                "form" => "Decidim::ViaOberta::Verifications::ViaObertaHandler",
                                "handler" => "via_oberta_handler",
                                "system_attributes" => %w(nif ine municipal_code province_code organization_name)
@@ -118,7 +118,7 @@ module Decidim
                                "authorization_metadata" => { "assurance_level" => %w(extra assurance_level), "expires_at" => %w(credentials expires_at), "identifier_type" => %w(extra identifier_type), "method" => %w(extra method) },
                                "census_authorization" => {
                                  "api_url" => "https://api.example.org?wsdl",
-                                 "env" => "preproduction",
+                                 "env" => "production",
                                  "form" => "Decidim::ViaOberta::Verifications::ViaObertaHandler",
                                  "handler" => "via_oberta_handler",
                                  "system_attributes" => %w(nif ine municipal_code province_code organization_name)
@@ -135,6 +135,72 @@ module Decidim
                                                  "icon_path" => "media/images/valid-icon.png",
                                                  "scope" => "autenticacio_usuari"
                                                })
+      end
+    end
+
+    context "when metadata attributes" do
+      let(:provider) { "valid" }
+      let(:env) do
+        {
+          "OMNIAUTH_PROVIDER" => provider,
+          "#{provider.upcase}_CLIENT_ID" => client_id,
+          "#{provider.upcase}_CLIENT_SECRET" => client_secret,
+          "VALID_METADATA_" => "",
+          "VALID_METADATA_FOO" => "inside",
+          "FACEBOOK_METADATA_BAR" => "inside baz"
+        }
+      end
+
+      it "has the correct configuration" do
+        expect(config).to eq({
+                               "omniauth_provider" => "valid",
+                               "omniauth" => {
+                                 "enabled" => true,
+                                 "client_id" => client_id,
+                                 "client_secret" => client_secret,
+                                 "site" => "https://identitats.aoc.cat",
+                                 "icon_path" => "media/images/valid-icon.png",
+                                 "scope" => "autenticacio_usuari"
+                               },
+                               "send_verification_notifications" => true,
+                               "verification_expiration_time" => 90.days.to_i,
+                               "authorization_metadata" => { "" => %w(), "foo" => %w(inside) },
+                               "census_authorization" => {
+                                 "api_url" => nil,
+                                 "env" => "production",
+                                 "form" => "Decidim::ViaOberta::Verifications::ViaObertaHandler",
+                                 "handler" => "via_oberta_handler",
+                                 "system_attributes" => %w(nif ine municipal_code province_code organization_name)
+                               }
+                             })
+      end
+
+      context "when another provider" do
+        let(:provider) { "facebook" }
+
+        it "has the correct configuration" do
+          expect(config).to eq({
+                                 "omniauth_provider" => "facebook",
+                                 "omniauth" => {
+                                   "enabled" => true,
+                                   "client_id" => client_id,
+                                   "client_secret" => client_secret,
+                                   "site" => "https://identitats.aoc.cat",
+                                   "icon_path" => "media/images/facebook-icon.png",
+                                   "scope" => "autenticacio_usuari"
+                                 },
+                                 "send_verification_notifications" => true,
+                                 "verification_expiration_time" => 90.days.to_i,
+                                 "authorization_metadata" => { "bar" => %w(inside baz) },
+                                 "census_authorization" => {
+                                   "api_url" => nil,
+                                   "env" => "production",
+                                   "form" => "Decidim::ViaOberta::Verifications::ViaObertaHandler",
+                                   "handler" => "via_oberta_handler",
+                                   "system_attributes" => %w(nif ine municipal_code province_code organization_name)
+                                 }
+                               })
+        end
       end
     end
 
@@ -157,7 +223,7 @@ module Decidim
                                "authorization_metadata" => { "assurance_level" => %w(extra assurance_level), "expires_at" => %w(credentials expires_at), "identifier_type" => %w(extra identifier_type), "method" => %w(extra method) },
                                "census_authorization" => {
                                  "api_url" => nil,
-                                 "env" => "preproduction",
+                                 "env" => "production",
                                  "form" => "Decidim::ViaOberta::Verifications::ViaObertaHandler",
                                  "handler" => "via_oberta_handler",
                                  "system_attributes" => %w(nif ine municipal_code province_code organization_name)

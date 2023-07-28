@@ -14,7 +14,7 @@ module Decidim::ViaOberta
         {
           user: user,
           document_id: "anything",
-          document_type: "not-important",
+          document_type: params_document_type,
           tos_agreement: tos_agreement
         }
       end
@@ -22,6 +22,7 @@ module Decidim::ViaOberta
       let(:another_user) { create :user }
       let!(:trusted_ids_authorization) { create(:authorization, user: user, name: "trusted_ids_handler", metadata: metadata) }
       let(:valid_document_type) { 2 }
+      let(:params_document_type) { nil }
       let(:document_id) { "RE12345678" }
       let(:metadata) do
         {
@@ -111,6 +112,42 @@ module Decidim::ViaOberta
         it { is_expected.not_to be_valid }
 
         it_behaves_like "no error codes"
+      end
+
+      context "when document_type is not present" do
+        let(:valid_document_type) { nil }
+
+        it { is_expected.not_to be_valid }
+
+        it_behaves_like "no error codes"
+
+        context "and defined in params" do
+          let(:params_document_type) { 2 }
+
+          it { is_expected.to be_valid }
+
+          it "has metadata" do
+            expect(subject.document_id).to eq(uid)
+            expect(subject.document_type).to eq(:nie)
+            expect(subject.document_type_string).to eq("NIE")
+          end
+        end
+      end
+
+      context "when document_id is not present" do
+        let(:document_id) { nil }
+
+        it { is_expected.not_to be_valid }
+
+        it_behaves_like "no error codes"
+
+        context "and defined in params" do
+          let(:params_document_id) { "RE12345678" }
+
+          it { is_expected.not_to be_valid }
+
+          it_behaves_like "no error codes"
+        end
       end
 
       context "when user not in census" do

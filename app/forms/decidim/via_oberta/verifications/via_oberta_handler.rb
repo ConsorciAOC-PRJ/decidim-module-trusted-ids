@@ -31,13 +31,15 @@ module Decidim
         end
 
         # use from previous authorization metadata. We don't allow user input here to prevent spoofing
+        # not memoized because @document_id would be defined if sent via form
         def document_id
-          @document_id ||= trusted_authorization&.metadata&.dig("uid")
+          trusted_authorization&.metadata&.dig("uid")
         end
 
         # use from previous authorization metadata or use the one from the form as a fallback
+        # not memoized because @document_id would be defined if sent via form
         def document_type
-          @document_type ||= document_type_from_metadata || @document_type
+          document_type_from_metadata || DOCUMENT_TYPE[@document_type]
         end
 
         def document_type_from_metadata

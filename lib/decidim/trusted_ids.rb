@@ -15,6 +15,15 @@ module Decidim
       ActiveRecord::Type::Boolean.new.deserialize(val.to_s.downcase)
     end
 
+    def self.omniauth_metadata_attributes
+      valid_keys = ENV.keys.filter { |key| key.starts_with?("#{TrustedIds.omniauth_provider.upcase}_METADATA_") }
+      return nil if valid_keys.blank?
+
+      valid_keys.map do |key|
+        [key.gsub("#{TrustedIds.omniauth_provider.upcase}_METADATA_", "").downcase.to_sym, ENV[key].split(" ").map(&:to_sym)]
+      end.to_h
+    end
+
     # The name of the omniauth provider, must be registered in Decidim.
     # Leave it empty to disable omniauth authentication.
     config_accessor :omniauth_provider do
@@ -76,15 +85,6 @@ module Decidim
       TrustedIds.census_authorization[:system_attributes].map do |prop|
         [prop.to_sym, String]
       end
-    end
-
-    def self.omniauth_metadata_attributes
-      valid_keys = ENV.keys.filter { |key| key.starts_with?("#{TrustedIds.omniauth_provider.upcase}_METADATA_") }
-      return nil if valid_keys.blank?
-
-      valid_keys.map do |key|
-        [key.gsub("#{TrustedIds.omniauth_provider.upcase}_METADATA_", "").downcase.to_sym, ENV[key].split(" ").map(&:to_sym)]
-      end.to_h
     end
   end
 end

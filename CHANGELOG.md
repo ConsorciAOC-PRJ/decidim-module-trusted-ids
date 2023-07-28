@@ -1,8 +1,9 @@
 # Changelog
 Following Semantic Versioning 2.
 
-## next version:
+## Version 0.4.0 (MINOR)
 - Rename module to TrustedIds
+- Incorporate new double workflow: trusted_ids_handler and the second verificator using metadata from the first
 
 ## Version 0.3.0 (MINOR)
 - Update omniauth-idcat_mobil: Send the client_id and the client_secret during the AuthToken retrieval.

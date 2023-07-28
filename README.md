@@ -20,17 +20,25 @@ Later on, this metadata will be used to connect to an additional, configurable, 
 
 Finally, GDPR regulations are very present in this workflow, so user consent is a must. This plugins adds some additional steps to the registration process to give the user more control over the data that is being used, and to give the user the ability to revoke consent at any time.
 
-Workflow:
+### Workflow:
 
 ![Workflow](docs/workflow.png)
 
-### Registration methods:
-
 As is shown in the previous workflow, this module implements two stages for user registration:
 
-- A OAuth 2.0 authentication (login & register) method that is configurable. At the moment the only supported provider is `valid` (is an identity validator from the [AOC](https://www.aoc.cat/) consortium. However, it is possible to add other providers in the future, PR are welcome, see the [CONTRIBUTING](CONTRIBUTING.md) file for more information.
+##### First stage:
 
-- A verification system.... todo
+- **A OAuth 2.0 authentication (login & register) method that is configurable**. At the moment the default provider is `valid` (is a built-in identity validator from the [AOC](https://www.aoc.cat/) consortium. However, it is possible to add other (external) providers, not necessarily available in this plugin. PRs are welcome to add OAuth registration/login in this plugin itself if they come from official sources. See the [CONTRIBUTING](CONTRIBUTING.md) file for more information.
+
+- **Automatic creation of the first authorization with OAuth metadata**. This authorization will be used to verify the user's identity in the second stage. It saves some data from the OAuth provider, such as the unique identifier, the provider name, and the expiration date of the authorization or other. The saved data is configurable in this plugin. This data should be the one necessary to authenticate the users, without their intervention to an external census API provider in the second stage.
+
+##### Second stage:
+
+- A second authorization ("Census authorization") can be issued to verify the user's identity. This authorization will be used to connect to an external API to retrieve more information about the user (mainly if belongs to a particular census). This authorization is optional and configurable in this plugin. It can be disabled if not needed.
+
+- The default census authorization uses [Via Oberta](https://www.aoc.cat/serveis-aoc/via-oberta/) but others can be used instead (either internal or external). If you want to incorporate a new provider see the [CONTRIBUTING](CONTRIBUTING.md) file for more information.
+
+- Once the user has obtained the census authorization, you can use it to ensure that the user belongs to a particular census. This increases the security and avoids spoofing attacks (if the second authorization methods does not uses user inputs).
 
 
 ## Installation
@@ -63,7 +71,7 @@ By default, you can use these variables to configure the module:
 
 Environment variable | Description | Default value
 --- | --- | ---
-`OMNIAUTH_PROVIDER` | The OAuth2 provider to use. Currently only `valid` is available. | `valid`
+`OMNIAUTH_PROVIDER` | The OAuth2 provider to use. Currently only `valid` is built-in in this plugin. Note that this word will be used as a prefix (in uppercase) for all the omniauth values defined after this. If you use a different provider, say `foo`, nexts ENV vars will start with `FOO_` instead of `VALID_` | `valid`
 `VALID_CLIENT_ID` | The OAuth2 client ID. Note that the prefix `VALID` is because `OMNIAUTH_PROVIDER` is set to "valid". Other values will require to name this variable accordingly (for instance `FOO_CLIENT_ID`). **IF this variable is empty, no OAuth login will be used**. | `nil`
 `VALID_CLIENT_SECRET` | The OAuth2 client secret. | `nil`
 `VALID_SITE` | The OAuth2 site. | `nil`
@@ -71,6 +79,11 @@ Environment variable | Description | Default value
 `VALID_SCOPE` | The OAuth2 scope that returns the necessary fields for registration (some OAuth method might override this making it unnecessary). | `autenticacio_usuari`
 `VERIFICATION_EXPIRATION_TIME` | In seconds, how long the authorizations will be valid. Use zero or empty to prevent expiration. | 7776000 (90 days)
 `SEND_VERIFICATION_NOTIFICATIONS` | Whether to send notifications to users when they are verified or the verification process fails. | `true`
+`CENSUS_AUTHORIZATION_HANDLER` | The authorization handler to use for the census authorization. Currently only `via_oberta_handler` is built-in in this plugin. | `via_oberta_handler`
+`CENSUS_AUTHORIZATION_FORM` | The authorization form to use for the census authorization. This is an standard [authorization form](https://docs.decidim.org/en/develop/customize/authorizations) and it should be responsible for the actions of connecting to a census API and handle any user interaction that might require. Currently only `ViaObertaHandler` is built-in in this plugin. | `Decidim::ViaOberta::Verifications::ViaObertaHandler`
+`CENSUS_AUTHORIZATION_ENV` | The environment variable that will be used to store the census authorization. In the case of Via Oberta, calls to the proper URL api. | `production`
+`CENSUS_AUTHORIZATION_API_URL` | The URL of the census API. By default it is empty, if defined, overrides the pre-defined URL obtained from the previous ENV var (if the census authorization is created this way). | `nil`
+`CENSUS_AUTHORIZATION_SYSTEM_ATTRIBUTES` | This var defines which attributes need to be configured at the [/system](https://docs.decidim.org/en/v0.26/admin/system.html) multi-tenant super admin page. These might be secret properties that can be used by the census authorization but might vary from tenant to tenant. See the [screenshots section](#screenshots). | `nif ine municipal_code province_code organization_name`
 
 ### Via initializer
 
@@ -95,6 +108,17 @@ end
 ```
 
 For the complete list of available options, see the [trusted_ids](lib/decidim/trusted_ids.rb) file.
+
+### Screenshots
+
+- If system attributes are defined, it will available in the system configuration page:
+  ![System configuration](docs/system.png)
+
+- If the census authorization is created, it will be available in the census authorization page.
+  This is how the Via Oberta Handler looks like:
+	![Census authorization](docs/viaoberta.png)
+
+
 
 ## Contributing
 

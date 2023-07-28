@@ -62,7 +62,7 @@ module Decidim
       {
         handler: ENV.has_key?("CENSUS_AUTHORIZATION_HANDLER") ? ENV.fetch("CENSUS_AUTHORIZATION_HANDLER").to_sym : :via_oberta_handler,
         form: ENV.fetch("CENSUS_AUTHORIZATION_FORM", "Decidim::ViaOberta::Verifications::ViaObertaHandler"),
-        env: ENV.fetch("CENSUS_AUTHORIZATION_ENV", "preproduction"),
+        env: ENV.fetch("CENSUS_AUTHORIZATION_ENV", "production"),
         api_url: ENV["CENSUS_AUTHORIZATION_API_URL"],
         # These setting will be added in the organization form at /system as tenant configurable parameters
         system_attributes: ENV.fetch("CENSUS_AUTHORIZATION_SYSTEM_ATTRIBUTES", "nif ine municipal_code province_code organization_name").split(" ")

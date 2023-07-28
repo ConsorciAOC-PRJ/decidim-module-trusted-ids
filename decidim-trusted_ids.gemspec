@@ -14,9 +14,9 @@ Gem::Specification.new do |s|
 
   s.name = "decidim-trusted_ids"
   s.summary = "A decidim trusted_ids module"
-  s.description = "User registration, login and verification though VALid's IdCat mòbil and more"
+  s.description = "A double verificator workflow for user registration, login and verification though VALid's IdCat mòbil, ViaOberta and others"
 
-  s.files = Dir["{app,config,lib}/**/*", "LICENSE-AGPLv3.txt", "Rakefile", "README.md"]
+  s.files = Dir["{app,config,lib,db}/**/*", "LICENSE-AGPLv3.txt", "Rakefile", "package.json", "package-lock.json", "README.md"]
 
   s.add_dependency "decidim", Decidim::TrustedIds::COMPAT_DECIDIM_VERSION
   s.add_dependency "decidim-core", Decidim::TrustedIds::COMPAT_DECIDIM_VERSION

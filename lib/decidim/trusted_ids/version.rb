@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Decidim
-  # This holds the decidim-action_delegator version.
+  # This holds the decidim-trusted_ids version.
   module TrustedIds
     VERSION = "0.4.0"
     DECIDIM_VERSION = "0.26.7"

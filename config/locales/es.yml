@@ -1,10 +1,30 @@
 ---
 es:
+  activemodel:
+    attributes:
+      trusted_ids_census_config:
+        settings:
+          ine: Requester identifier (INE)
+          municipal_code: Municipal code
+          nif: NIF
+          organization_name: Organization public name
+          province_code: Province code
+      via_oberta_handler:
+        document_type: 'Could not be obtained automatically. Please select one from the list:'
   decidim:
     authorization_handlers:
       trusted_ids_handler:
         explanation: This authorization method is granted to all users that use a Trusted ID login method.
+        fields:
+          extra: Extra data
+          provider: Provider
+          uid: ID
         name: Trusted IDs
+      via_oberta_handler:
+        explanation: This authorization method is granted to all users that are in the Via Oberta census database.
+        fields:
+          document_id: DNI/NIF
+        name: Via Oberta
     events:
       trusted_ids:
         verifications:
@@ -37,6 +57,8 @@ es:
           name: VÀLid
       sessions:
         different_omniauth_emails: You are trying to sign in with a different email than the one in your account. Please sign up with the same email or logout and sing directly to create a new user.
+      system:
+        settings: "%{handler} settings"
       verifications:
         form:
           cancel: Cancel verification
@@ -46,6 +68,27 @@ es:
     verifications:
       trusted_ids:
         errors:
+          invalid_census: Could not verify you. The data provided to the census gateway might not be valid.
+          invalid_id: Could not verify you. Document ID is invalid or missing.
           invalid_method: Could not verify you. OAuth2 verification method is not supported.
           invalid_status: Could not verify you. OAuth2 verification was not ok.
+          invalid_type: Could not verify you. Document type is invalid or missing.
           no_identity: Could not verify you. OAuth2 verification did not return an identify.
+    via_oberta:
+      verifications:
+        document_type:
+          nie: NIE
+          nif: NIF
+          others: Residence permit or others
+          passport: Passport
+        form:
+          code: 'Error code: %{code}'
+          data: 'Data to be sent:'
+          description_html: <p>This authorization checks if you are in the <b>%{organization_name}</b> census database.</p> <p>To perform this check, the following information will be sent to the <a href="https://www.aoc.cat/serveis-aoc/via-oberta/" target="_blank">Via Oberta</a> service, offered by the <a href="https://www.aoc.cat" target="_blank">Adminstració Oberta de Catalunya</a></p> <p>This information will be used for the sole purpose of verifying your identity but records of this transaction might be kept by the service provider.</p>
+          document_id: Document Number
+          document_type: Document type
+          error: 'Service error message:'
+        tos:
+          agreement: I agree with the terms of service
+          content_html: <p>By clicking on the "I agree" button, you agree to the following terms of service:</p> <ol> <li>The information provided to the Via Oberta service will be used for the sole purpose of verifying your identity.</li> <li>Records of this transaction might be kept by the service provider.</li> <li>The service provider will not share this information with third parties.</li> </ol>
+          title: Via Oberta's terms of service

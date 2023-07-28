@@ -18,8 +18,6 @@ module Decidim
               conf.settings = form.trusted_ids_census_settings
             end
 
-            # Decidim::TrustedIds::System::CreateMinorsDefaultPages.call(organization) if form.enable_minors_participation
-
             organization
           end
         end

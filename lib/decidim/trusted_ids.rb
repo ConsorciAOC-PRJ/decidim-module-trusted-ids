@@ -25,7 +25,7 @@ module Decidim
     # This data can later be used by the census_authorization handler as to call the webservice
     # A hash with keys and how to find it inside hash comming from the OAuth
     config_accessor :authorization_metadata do
-      {
+      TrustedIds.omniauth_metadata_attributes || {
         expires_at: [:credentials, :expires_at],
         identifier_type: [:extra, :identifier_type],
         method: [:extra, :method],
@@ -57,7 +57,6 @@ module Decidim
     end
 
     # Linked authorization method that will automatically verify users after getting a valid TrustedIds verification
-    # TODO: from ENV & documentate
     config_accessor :census_authorization do
       {
         handler: ENV.has_key?("CENSUS_AUTHORIZATION_HANDLER") ? ENV.fetch("CENSUS_AUTHORIZATION_HANDLER").to_sym : :via_oberta_handler,
@@ -77,6 +76,15 @@ module Decidim
       TrustedIds.census_authorization[:system_attributes].map do |prop|
         [prop.to_sym, String]
       end
+    end
+
+    def self.omniauth_metadata_attributes
+      valid_keys = ENV.keys.filter { |key| key.starts_with?("#{TrustedIds.omniauth_provider.upcase}_METADATA_") }
+      return nil if valid_keys.blank?
+
+      valid_keys.map do |key|
+        [key.gsub("#{TrustedIds.omniauth_provider.upcase}_METADATA_", "").downcase.to_sym, ENV[key].split(" ").map(&:to_sym)]
+      end.to_h
     end
   end
 end

@@ -77,13 +77,63 @@ Environment variable | Description | Default value
 `VALID_SITE` | The OAuth2 site. | `nil`
 `VALID_ICON` | The icon used for the login button. | `media/images/valid-icon.png`
 `VALID_SCOPE` | The OAuth2 scope that returns the necessary fields for registration (some OAuth method might override this making it unnecessary). | `autenticacio_usuari`
-`VERIFICATION_EXPIRATION_TIME` | In seconds, how long the authorizations will be valid. Use zero or empty to prevent expiration. | 7776000 (90 days)
+`VERIFICATION_EXPIRATION_TIME` | In seconds, how long the authorizations will be valid. Use zero or empty to prevent expiration. | `7776000` (90 days)
 `SEND_VERIFICATION_NOTIFICATIONS` | Whether to send notifications to users when they are verified or the verification process fails. | `true`
 `CENSUS_AUTHORIZATION_HANDLER` | The authorization handler to use for the census authorization. Currently only `via_oberta_handler` is built-in in this plugin. | `via_oberta_handler`
 `CENSUS_AUTHORIZATION_FORM` | The authorization form to use for the census authorization. This is an standard [authorization form](https://docs.decidim.org/en/develop/customize/authorizations) and it should be responsible for the actions of connecting to a census API and handle any user interaction that might require. Currently only `ViaObertaHandler` is built-in in this plugin. | `Decidim::ViaOberta::Verifications::ViaObertaHandler`
 `CENSUS_AUTHORIZATION_ENV` | The environment variable that will be used to store the census authorization. In the case of Via Oberta, calls to the proper URL api. | `production`
 `CENSUS_AUTHORIZATION_API_URL` | The URL of the census API. By default it is empty, if defined, overrides the pre-defined URL obtained from the previous ENV var (if the census authorization is created this way). | `nil`
-`CENSUS_AUTHORIZATION_SYSTEM_ATTRIBUTES` | This var defines which attributes need to be configured at the [/system](https://docs.decidim.org/en/v0.26/admin/system.html) multi-tenant super admin page. These might be secret properties that can be used by the census authorization but might vary from tenant to tenant. See the [screenshots section](#screenshots). | `nif ine municipal_code province_code organization_name`
+`CENSUS_AUTHORIZATION_SYSTEM_ATTRIBUTES` | This var defines which attributes need to be configured at the [/system](https://docs.decidim.org/en/v0.26/admin/system.html) multi-tenant super admin page. These might be secret properties that can be used by the census authorization but might vary from tenant to tenant. Each value must be a word, separated by spaces. See the [screenshots section](#screenshots). | `nif` `ine` `municipal_code` `province_code` `organization_name`
+
+In` `addition, metadata obtained from the OAuth provider that need to be stored in the `trusted_ids_handler` authorization can be configured through next variables.
+
+Note that these ENVs variables work the same way as the previous `VALID_*` vars. 
+If the provider is `foo`, it should start with `FOO_METADATA_*`.
+
+Any ENV var starting as `VALID_METADATA_SUFFIX` will make the plugin to save a metadata attribute called `suffix` as part of the authorization metadata encrypted hash.
+
+As the the returned JSON from a successful OAuth login/registration might follow a different structure, you can configure the names of the fields that will be used to extract the metadata. This is done by using each word inside the value of the ENV var (separated by spaces) as a level in the JSON structure. For instance, if you have a return OAuth JSON data like this:
+
+```json
+{
+	"uid": "12345678Z",
+	"provider": "valid",
+	"credentials": {
+		"expires_at": "2020-12-31T23:59:59Z"
+	},
+	"info": {
+		"identifier_type": "NIF",
+		"method": "idcat_mobil"
+	},
+	"assurance_level": "high"
+}
+```
+
+You can configure the ENV vars like this:
+
+Environment variable | Value
+--- | ---
+`VALID_METADATA_EXPIRES_AT` | `credentials expires_at`
+`VALID_METADATA_IDENTIFIER_TYPE` | `info identifier_type`
+`VALID_METADATA_METHOD` | `info method`
+`VALID_METADATA_ASSURANCE_LEVEL` | `info assurance_level`
+
+And this will store in the `trusted_ids_handler` authorization metadata the following values:
+
+```json
+{
+	"uid": "12345678Z",
+	"provider": "valid",
+	"extra" {
+		"expires_at": "2020-12-31T23:59:59Z",
+		"identifier_type": "NIF",
+		"method": "idcat_mobil",
+		"assurance_level": "high"
+	}
+}
+```
+
+Note that the `uid` and `provider` fields are always stored, and the `extra` field is used to store any other metadata.
 
 ### Via initializer
 

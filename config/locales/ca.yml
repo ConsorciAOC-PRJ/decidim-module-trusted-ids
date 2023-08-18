@@ -58,37 +58,37 @@ ca:
       sessions:
         different_omniauth_emails: Esteu provant d'iniciar la sessió amb un correu electrònic diferent al del vostre compte. Registra't amb el mateix correu electrònic o tanca la sessió i accedeix per crear un usuari nou.
       system:
-        settings: "%{handler} settings"
+        settings: "%{handler} configuració"
       verifications:
         form:
-          cancel: Cancel verification
-          description_html: In order to obtain this authorization, you need to verify your identity with the %{provider} service. To do that, please click on the "%{link}" button.<br><br>
-          error_provider_html: "<b>%{provider} is not available.</b> It seems that the this login/authorization method has not been enabled. Please contact the support team to fix this."
-          warning_html: Please make sure that the email you have in this application (<em>%{email}</em>) is the same as the one provided by the %{provider} service. Otherwise the verification will fail.
+          cancel: Cancel·la la verificació
+          description_html: Per obtenir aquesta autorització, heu de verificar la vostra identitat amb el servei %{provider}. Per fer-ho, feu clic al botó "%{link}".<br><br>
+          error_provider_html: "<b>%{provider} no està disponible.</b> Sembla que aquest mètode d'inici de sessió/autorització no s'ha activat. Poseu-vos en contacte amb el suport de la plataforma per solucionar-ho."
+          warning_html: Assegureu-vos que el correu electrònic que teniu en aquesta aplicació (<em>%{email}</em>) sigui el mateix que el que us proporciona el servei %{provider}. En cas contrari, la verificació fallarà.
     verifications:
       trusted_ids:
         errors:
-          invalid_census: Could not verify you. The data provided to the census gateway might not be valid.
-          invalid_id: Could not verify you. Document ID is invalid or missing.
+          invalid_census: No s'ha pogut verificar. És possible que les dades proporcionades a la passarel·la del cens no siguin vàlides.
+          invalid_id: No s'ha pogut verificar. L'identificador del document no és vàlid o no es troba en el cens.
           invalid_method: No us heu pogut verificar. El mètode de verificació OAuth2 no està suportat.
           invalid_status: No us heu pogut verificar. La verificació OAuth2 ha estat incorrecta.
-          invalid_type: Could not verify you. Document type is invalid or missing.
-          no_identity: Could not verify you. OAuth2 verification did not return an identify.
+          invalid_type: No s'ha pogut verificar. El tipus de document no és vàlid o no està en el cens.
+          no_identity: No s'ha pogut verificar. La verificació OAuth2 no ha retornat cap identificació.
     via_oberta:
       verifications:
         document_type:
           nie: NIE
           nif: NIF
-          others: Residence permit or others
-          passport: Passport
+          others: Permís de residència o altres
+          passport: Passaport
         form:
-          code: 'Error code: %{code}'
-          data: 'Data to be sent:'
-          description_html: <p>This authorization checks if you are in the <b>%{organization_name}</b> census database.</p> <p>To perform this check, the following information will be sent to the <a href="https://www.aoc.cat/serveis-aoc/via-oberta/" target="_blank">Via Oberta</a> service, offered by the <a href="https://www.aoc.cat" target="_blank">Adminstració Oberta de Catalunya</a></p> <p>This information will be used for the sole purpose of verifying your identity but records of this transaction might be kept by the service provider.</p>
-          document_id: Document Number
-          document_type: Document type
-          error: 'Service error message:'
+          code: 'Codi d''error: %{code}'
+          data: 'Data per ser enviat:'
+          description_html: <p>Aquesta autorització comprova si sou a la base de dades del cens <b>%{organization_name}</b>.</p> <p>Per dur a terme aquesta comprovació, s'enviarà la informació següent al <a href=" https://www.aoc.cat/serveis-aoc/via-oberta/" target="_blank">Servei Via Oberta</a>, ofert pel <a href="https://www.aoc.cat " target="_blank">Administració Oberta de Catalunya</a></p> <p>Aquesta informació s'utilitzarà amb l'únic propòsit de verificar la vostra identitat, però els registres d'aquesta transacció poden ser conservats pel proveïdor de serveis.</p>
+          document_id: Número de document
+          document_type: Tipus de document
+          error: 'Missatge d''error del servei:'
         tos:
-          agreement: I agree with the terms of service
-          content_html: <p>By clicking on the "I agree" button, you agree to the following terms of service:</p> <ol> <li>The information provided to the Via Oberta service will be used for the sole purpose of verifying your identity.</li> <li>Records of this transaction might be kept by the service provider.</li> <li>The service provider will not share this information with third parties.</li> </ol>
-          title: Via Oberta's terms of service
+          agreement: Accepto els termes d'ús i condicions del servei
+          content_html: <p>En fer clic al botó "Accepto", accepteu les condicions del servei següents:</p> <ol> <li>La informació proporcionada al servei Via Oberta s'utilitzarà amb l'únic propòsit de verificar el vostre identitat.</li> <li>El proveïdor de serveis podria conservar els registres d'aquesta transacció.</li> <li>El proveïdor de serveis no compartirà aquesta informació amb tercers.</li> </ol>
+          title: Termes d'ús i servei Via Oberta

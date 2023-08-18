@@ -4,26 +4,35 @@ source "https://rubygems.org"
 
 ruby RUBY_VERSION
 
-# Declare your gem's dependencies in decidim-type.gemspec.
-# Bundler will treat runtime dependencies like base dependencies, and
-# development dependencies will be added by default to the :development group.
-gemspec
+# Inside the development app, the relative require has to be one level up, as
+# the Gemfile is copied to the development_app folder (almost) as is.
+base_path = ""
+base_path = "../" if File.basename(__dir__) == "development_app"
+require_relative "#{base_path}lib/decidim/trusted_ids/version"
+
+DECIDIM_VERSION = Decidim::TrustedIds::DECIDIM_VERSION
+
+gem "decidim", DECIDIM_VERSION
+gem "decidim-trusted_ids", path: "."
+
+gem "bootsnap", "~> 1.7"
 
 group :development, :test do
-  gem "bootsnap"
-  gem "byebug"
-  gem "decidim", "~> 0.25.2"
-  gem "decidim-dev", "~> 0.25.2"
-  gem "faker", "~> 2.19"
-  gem "rubocop"
-  gem "rubocop-rspec"
-  gem "social-share-button"
+  gem "byebug", "~> 11.0", platform: :mri
+
+  gem "decidim-dev", DECIDIM_VERSION
 end
 
 group :development do
-  gem "letter_opener_web", "~> 1.3"
+  gem "faker", "~> 2.14"
+  gem "letter_opener_web", "~> 2.0"
   gem "listen", "~> 3.1"
-  gem "spring", "~> 2.0"
-  gem "spring-watcher-listen", "~> 2.0"
-  gem "web-console", "~> 3.5"
+  gem "rubocop-faker"
+  gem "spring"
+  gem "spring-watcher-listen"
+  gem "web-console"
+end
+
+group :test do
+  gem "codecov", require: false
 end

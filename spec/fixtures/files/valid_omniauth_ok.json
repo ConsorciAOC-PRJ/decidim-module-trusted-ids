@@ -1,0 +1,40 @@
+{
+    "user_id": 2,
+    "identity_id": 3,
+    "provider": "valid",
+    "uid": "12345678Z",
+    "email": "user@example.org",
+    "name": "JOHN",
+    "nickname": "user_1",
+    "avatar_url": null,
+    "raw_data":
+    {
+        "provider": "valid",
+        "uid": "12345678Z",
+        "info":
+        {
+            "email": "user@example.org",
+            "name": "JOHN",
+            "nickname": "user_1",
+            "prefix": "0034",
+            "phone": "999999999",
+            "surname1": "SURNAME",
+            "surname2": "SECOND SURNAME",
+            "surnames": "SURNAME SECOND SURNAME",
+            "country_code": "ES"
+        },
+        "credentials":
+        {
+            "token": "1/-ubSMH6_dObMhrh0Hh3zJcyY8ynlgcULIG1PxhqG",
+            "expires_at": 1689804757,
+            "expires": true
+        },
+        "extra":
+        {
+            "identifier_type": "1",
+            "method": "idcatmobil",
+            "assurance_level": "low",
+            "status": "ok"
+        }
+    }
+}

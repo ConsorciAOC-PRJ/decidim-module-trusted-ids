@@ -13,4 +13,4 @@ Decidim::Webpacker.register_path("#{base_path}/app/packs")
 # Register the admin panel's stylesheet include statement:
 
 # Register JS entrypoints
-Decidim::Webpacker.register_entrypoints(decidim_idcat_mobil: "#{base_path}/app/packs/entrypoints/decidim-idcat_mobil.js")
+Decidim::Webpacker.register_entrypoints(decidim_trusted_ids: "#{base_path}/app/packs/entrypoints/decidim_trusted_ids.js")

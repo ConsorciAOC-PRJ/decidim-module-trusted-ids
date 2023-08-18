@@ -3,8 +3,10 @@
 base_locale: en
 locales: [en]
 
-ignore_unused:
-  - "decidim.components.idcat_mobil.name"
+data:
+  external:
+    - "<%= %x[bundle info decidim-core --path].chomp %>/config/locales/%{locale}.yml"
+    - "<%= %x[bundle info decidim-verifications --path].chomp %>/config/locales/%{locale}.yml"
 
 ignore_missing:
-  - decidim.participatory_processes.scopes.global
+  - decidim.authorization_handlers.trusted_ids_census_handler.*

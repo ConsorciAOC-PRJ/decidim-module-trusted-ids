@@ -1,0 +1,52 @@
+<div class="row column">
+  <% if handler.response_error %>
+    <div class="callout alert">
+      <h5><%= t ".error" %></h5>
+      <p><%= handler.response_error %><br><%= t ".code", code: handler.response_code %></p>
+    </div>
+  <% end %>
+  <%= t ".description_html", organization_name: current_organization.trusted_ids_census_config&.settings&.dig("organization_name") || current_organization.name %>
+</div>
+<h4><%= t ".data" %></h4>
+
+<dl>
+  <dt><%= t ".document_id" %>:</dt>
+  <dd><%= handler.document_id %></dd>
+  <dt><%= t ".document_type" %>:</dt>
+  <dd>
+    <% if handler.document_type_from_metadata.present? %>
+      <%= handler.document_type_string %>
+    <% else %>
+      <%= form.select :document_type, handler.document_types, include_blank: true %>
+    <% end %>
+  </dd>
+</dl>
+
+<div class="card" id="card__tos">
+  <div class="card__content">
+    <fieldset>
+      <legend><%= t "title", scope: "decidim.via_oberta.verifications.tos" %></legend>
+      <p class="tos-text"><%= t "content_html", scope: "decidim.via_oberta.verifications.tos" %></p>
+    </fieldset>
+
+    <div class="field">
+      <% label = t "agreement", scope: "decidim.via_oberta.verifications.tos" %>
+      <%= form.check_box :tos_agreement, label: label %>
+    </div>
+  </div>
+</div>
+
+<%= form.hidden_field :handler_name %>
+
+<style>
+  legend {
+    font-weight: 600;
+  }
+  dl {
+    margin: 1rem;
+  }
+  dl dd {
+    margin-left: 1rem;
+    margin-bottom: .5rem;
+  }
+</style>

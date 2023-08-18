@@ -17,3 +17,7 @@ spec/decidim_dummy_app
 development_app
 
 .byebug_history
+.rbenv-vars
+node_modules
+README.html
+CONTRIBUTING.html

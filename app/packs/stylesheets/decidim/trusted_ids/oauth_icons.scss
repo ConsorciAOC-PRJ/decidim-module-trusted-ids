@@ -1,0 +1,20 @@
+/* Decidim has a bug when using external_icon method that automatically adds a display:none inline css */
+.social-register,
+.button--social {
+  .button--social__icon {
+    img.icon.external-icon {
+      display: inline-block !important;
+    }
+  }
+
+  &.button--valid {
+    .button--social__icon {
+      padding: 12px 5px 5px 8px;
+
+      img.icon.external-icon {
+        width: 2.8em;
+        height: auto;
+      }
+    }
+  }
+}

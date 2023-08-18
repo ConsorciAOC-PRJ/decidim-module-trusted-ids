@@ -56,7 +56,7 @@ es:
           description: VÀLid is the digital identity service of the Government of Catalonia.
           name: VÀLid
       sessions:
-        different_omniauth_emails: You are trying to sign in with a different email than the one in your account. Please sign up with the same email or logout and sing directly to create a new user.
+        different_omniauth_emails: You are trying to sign in with a different email than the one in your account. Please sign in with the same email or logout and sign up directly to create a new user.
       system:
         settings: "%{handler} settings"
       verifications:
@@ -66,6 +66,11 @@ es:
           error_provider_html: "<b>%{provider} is not available.</b> It seems that the this login/authorization method has not been enabled. Please contact the support team to fix this."
           warning_html: Please make sure that the email you have in this application (<em>%{email}</em>) is the same as the one provided by the %{provider} service. Otherwise the verification will fail.
     verifications:
+      authorizations:
+        first_login:
+          actions:
+            trusted_ids_generic: Verify with %{provider}
+            via_oberta_handler: Verify with Via Oberta
       trusted_ids:
         errors:
           invalid_census: Could not verify you. The data provided to the census gateway might not be valid.

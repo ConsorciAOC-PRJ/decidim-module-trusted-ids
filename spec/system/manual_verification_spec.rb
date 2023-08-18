@@ -80,4 +80,19 @@ describe "Trusted IDs manual verification", type: :system do
       expect(last_email).to be_nil
     end
   end
+
+  context "when using the first login page" do
+    before do
+      visit decidim_verifications.first_login_authorizations_path
+    end
+
+    it "has the VALid handler" do
+      expect(page).to have_content("Verify with VÀLid")
+      click_link "Verify with VÀLid"
+      expect(page).to have_content("Verify with VÀLid")
+      expect(page).to have_button("Cancel verification")
+      expect(page).to have_link("Sign in with VÀLid")
+      expect(page).to have_content(user.email)
+    end
+  end
 end

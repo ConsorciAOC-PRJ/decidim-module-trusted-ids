@@ -225,4 +225,19 @@ describe "Via Oberta manual verification", type: :system do
       expect(Decidim::Authorization.last.reload.name).to eq("trusted_ids_handler")
     end
   end
+
+  context "when using the first login page" do
+    before do
+      visit decidim_verifications.first_login_authorizations_path
+    end
+
+    it "has the Via Oberta handler" do
+      expect(page).to have_content("Verify with Via Oberta")
+      click_link "Via Oberta"
+      expect(page).to have_content("Verify with Via Oberta")
+      expect(page).to have_content("NIE")
+      expect(page).not_to have_content("NIF")
+      expect(page).not_to have_content("Passport")
+    end
+  end
 end

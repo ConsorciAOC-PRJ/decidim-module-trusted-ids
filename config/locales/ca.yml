@@ -56,7 +56,7 @@ ca:
           description: VÀLid és el servei d'identitat digital de la Generalitat de Catalunya.
           name: VÀLid
       sessions:
-        different_omniauth_emails: You are trying to sign in with a different email than the one in your account. Please sign in with the same email or logout and sign up directly to create a new user.
+        different_omniauth_emails: Esteu provant d'iniciar la sessió amb un correu electrònic diferent del vostre compte. Accedeix amb el mateix correu electrònic o tanca la sessió i registra't amb el botó directe per crear un usuari nou.
       system:
         settings: "%{handler} configuració"
       verifications:
@@ -69,8 +69,8 @@ ca:
       authorizations:
         first_login:
           actions:
-            trusted_ids_generic: Verify with %{provider}
-            via_oberta_handler: Verify with Via Oberta
+            trusted_ids_generic: Verifica't amb %{provider}
+            via_oberta_handler: Verifica't amb Via Oberta
       trusted_ids:
         errors:
           invalid_census: No s'ha pogut verificar. És possible que les dades proporcionades a la passarel·la del cens no siguin vàlides.

@@ -82,6 +82,8 @@ en:
             service. Otherwise the verification will fail.
     verifications:
       authorizations:
+        errors:
+          already_verified: You have already verified your identity with this method.
         first_login:
           actions:
             trusted_ids_generic: Verify with %{provider}

@@ -8,6 +8,7 @@ describe "Trusted IDs manual verification", type: :system do
 
   let(:user) { create(:user, :confirmed, email: user_email, organization: organization) }
   let(:user_email) { email }
+  let!(:authorization) { nil }
 
   before do
     switch_to_host(organization.host)
@@ -93,6 +94,15 @@ describe "Trusted IDs manual verification", type: :system do
       expect(page).to have_button("Cancel verification")
       expect(page).to have_link("Sign in with VÀLid")
       expect(page).to have_content(user.email)
+    end
+  end
+
+  context "when verification is already granted" do
+    let!(:authorization) { create(:authorization, :granted, user: user, name: "trusted_ids_handler") }
+
+    it "redirects back with an error message" do
+      visit decidim_verifications.new_authorization_path(handler: :trusted_ids_handler)
+      expect(page).to have_content("You have already verified your identity with this method")
     end
   end
 end

@@ -32,6 +32,7 @@ module Decidim
           Decidim::Devise::SessionsController.include(Decidim::TrustedIds::NeedsTrustedIdsSnippets)
           Decidim::Devise::OmniauthRegistrationsController.include(Decidim::TrustedIds::CheckOmniauthEmailOnLogin)
           Decidim::Verifications::AuthorizationsController.include(Decidim::TrustedIds::NeedsTrustedIdsSnippets)
+          Decidim::Verifications::AuthorizationsController.include(Decidim::TrustedIds::CheckExistingAuthorizations)
         end
       end
 

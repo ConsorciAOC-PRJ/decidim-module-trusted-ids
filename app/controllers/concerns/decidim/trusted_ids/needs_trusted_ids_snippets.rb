@@ -15,7 +15,6 @@ module Decidim
         @snippets ||= Decidim::Snippets.new
 
         unless @snippets.any?(:trusted_ids_global)
-          # @snippets.add(:trusted_ids_global, ActionController::Base.helpers.javascript_pack_tag("decidim_trusted_ids"))
           @snippets.add(:trusted_ids_global, ActionController::Base.helpers.stylesheet_pack_tag("decidim_trusted_ids"))
           @snippets.add(:head, @snippets.for(:trusted_ids_global))
         end

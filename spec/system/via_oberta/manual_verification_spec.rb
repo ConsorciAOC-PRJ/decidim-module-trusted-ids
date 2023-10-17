@@ -8,7 +8,7 @@ describe "Via Oberta manual verification", type: :system do
   include_context "with stubs viaoberta api"
 
   let(:organization) { create(:organization, available_authorizations: available_authorizations) }
-  let(:available_authorizations) { [:trusted_ids_handler, :via_oberta_handler] }
+  let(:available_authorizations) { [:trusted_ids_handler, :via_oberta_handler, :dummy_authorization] }
   let(:user) { create(:user, :confirmed, organization: organization) }
   let!(:authorization) { create(:authorization, name: "trusted_ids_handler", granted_at: 2.days.ago, user: user, metadata: metadata) }
   let(:metadata) do
@@ -114,6 +114,40 @@ describe "Via Oberta manual verification", type: :system do
       expect(page).to have_content("Granted at #{Decidim::Authorization.last.granted_at.to_s(:long)}")
       expect(Decidim::Authorization.last.reload.user).to eq(user)
       expect(Decidim::Authorization.last.name).to eq("via_oberta_handler")
+    end
+  end
+
+  context "when parent authorization is not present" do
+    shared_examples "census authorization not allowed" do
+      it "redirects the user with an error" do
+        visit decidim_verifications.new_authorization_path(handler: :via_oberta_handler)
+        expect(Decidim::Authorization.last&.name).not_to be("via_oberta_handler")
+        expect(page).to have_content("This authorization method requires to previously have the VÀLid authorization granted.")
+      end
+    end
+
+    let!(:authorization) { nil }
+
+    it_behaves_like "census authorization not allowed"
+
+    context "when the user has another authorization" do
+      let!(:authorization) { create(:authorization, :granted, name: :dummy_authorization_handler, user: user, metadata: metadata) }
+
+      it_behaves_like "census authorization not allowed"
+    end
+
+    context "when visiting and unrelated authorization" do
+      it "allows to verify the user" do
+        visit decidim_verifications.new_authorization_path(handler: :dummy_authorization_handler)
+        fill_in "Document number", with: "123456789X"
+        page.execute_script("$('#authorization_handler_birthday').focus()")
+        page.find(".datepicker-dropdown .day:not(.new)", text: "12").click
+
+        click_button "Send"
+        expect(page).to have_content("You've been successfully authorized")
+
+        expect(Decidim::Authorization.last.name).to eq("dummy_authorization_handler")
+      end
     end
   end
 

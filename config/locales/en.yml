@@ -84,6 +84,8 @@ en:
       authorizations:
         errors:
           already_verified: You have already verified your identity with this method.
+          pending_authorization: This authorization method requires to previously
+            have the %{handler_name} authorization granted.
         first_login:
           actions:
             trusted_ids_generic: Verify with %{provider}

@@ -20,7 +20,7 @@ module Decidim::TrustedIds::Verifications
     describe "email_intro" do
       it "is generated correctly" do
         expect(subject.email_intro)
-          .to eq("It has not been possible to grant you the \"Trusted IDs\" authorization.")
+          .to eq("It has not been possible to grant you the \"VÀLid\" authorization.")
       end
     end
 
@@ -34,7 +34,7 @@ module Decidim::TrustedIds::Verifications
     describe "notification_title" do
       it "is generated correctly" do
         expect(subject.notification_title)
-          .to include("Invalid authorization with the \"Trusted IDs\" method")
+          .to include("Invalid authorization with the \"VÀLid\" method")
       end
     end
   end

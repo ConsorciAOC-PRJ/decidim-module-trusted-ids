@@ -20,21 +20,21 @@ module Decidim::TrustedIds::Verifications
     describe "email_intro" do
       it "is generated correctly" do
         expect(subject.email_intro)
-          .to eq("You have been granted the \"Trusted IDs\" authorization.")
+          .to eq("You have been granted the \"VÀLid\" authorization.")
       end
     end
 
     describe "email_outro" do
       it "is generated correctly" do
         expect(subject.email_outro)
-          .to eq("You can now perform all actions that require the \"Trusted IDs\" authorization.")
+          .to eq("You can now perform all actions that require the \"VÀLid\" authorization.")
       end
     end
 
     describe "notification_title" do
       it "is generated correctly" do
         expect(subject.notification_title)
-          .to include("Successful authorization with the \"Trusted IDs\" method")
+          .to include("Successful authorization with the \"VÀLid\" method")
       end
     end
   end

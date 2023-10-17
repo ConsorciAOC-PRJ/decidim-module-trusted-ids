@@ -32,16 +32,19 @@ en:
       trusted_ids:
         verifications:
           invalid:
-            email_intro: It has not been possible to grant you the "%{handler_name}" authorization.
+            email_intro: It has not been possible to grant you the "%{handler_name}"
+              authorization.
             email_outro: Please, contact the support at your platform to check what
               has gone wrong.
             email_subject: Authorization error
             notification_title: Invalid authorization with the "%{handler_name}" method
           ok:
             email_intro: You have been granted the "%{handler_name}" authorization.
-            email_outro: You can now perform all actions that require the "%{handler_name}" authorization.
+            email_outro: You can now perform all actions that require the "%{handler_name}"
+              authorization.
             email_subject: Authorization successful
-            notification_title: Successful authorization with the "%{handler_name}" method
+            notification_title: Successful authorization with the "%{handler_name}"
+              method
     system:
       organizations:
         omniauth_settings:

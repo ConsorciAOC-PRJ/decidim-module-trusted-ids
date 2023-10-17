@@ -26,7 +26,7 @@ module Decidim::TrustedIds::Verifications
       let(:handler_name) { :via_oberta_handler }
 
       it_behaves_like "common copies", "via_oberta_handler", "Via Oberta"
-      it_behaves_like "success copies", "Via Oberta"
+      it_behaves_like "invalid copies", "Via Oberta"
     end
   end
 end

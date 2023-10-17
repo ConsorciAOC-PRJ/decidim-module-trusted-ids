@@ -126,6 +126,9 @@ describe "OAuth login button", type: :system do
         expect(Decidim::Authorization.last).to be_granted
         expect(last_email.subject).to include("Authorization successful")
         expect(last_email.to).to include(user.email)
+        expect(last_email.html_part.body.decoded).to include('You have been granted the "VÀLid" authorization.')
+        expect(last_email.html_part.body.decoded).not_to include(">trusted_ids_handler<")
+        expect(last_email.html_part.body.decoded).to include('You can now perform all actions that require the "VÀLid" authorization.')
       end
     end
 

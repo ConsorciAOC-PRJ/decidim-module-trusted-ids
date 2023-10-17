@@ -1,10 +1,12 @@
 # frozen-string_literal: true
 
 require "spec_helper"
+require "shared/event_examples"
 
 module Decidim::TrustedIds::Verifications
   describe InvalidNotification do
-    let(:resource) { create(:user) }
+    let(:handler_name) { :trusted_ids_handler }
+    let(:resource) { create(:authorization, name: handler_name) }
 
     let(:event_name) { "decidim.events.trusted_ids.verifications.invalid" }
 
@@ -17,25 +19,14 @@ module Decidim::TrustedIds::Verifications
       end
     end
 
-    describe "email_intro" do
-      it "is generated correctly" do
-        expect(subject.email_intro)
-          .to eq("It has not been possible to grant you the \"VÀLid\" authorization.")
-      end
-    end
+    it_behaves_like "common copies", "trusted_ids_handler", "VÀLid"
+    it_behaves_like "invalid copies", "VÀLid"
 
-    describe "email_outro" do
-      it "is generated correctly" do
-        expect(subject.email_outro)
-          .to eq("Please, contact the support at your platform to check what has gone wrong.")
-      end
-    end
+    context "when another handler" do
+      let(:handler_name) { :via_oberta_handler }
 
-    describe "notification_title" do
-      it "is generated correctly" do
-        expect(subject.notification_title)
-          .to include("Invalid authorization with the \"VÀLid\" method")
-      end
+      it_behaves_like "common copies", "via_oberta_handler", "Via Oberta"
+      it_behaves_like "success copies", "Via Oberta"
     end
   end
 end

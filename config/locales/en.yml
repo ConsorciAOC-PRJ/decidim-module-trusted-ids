@@ -125,10 +125,11 @@ en:
           error: 'Service error message:'
         tos:
           agreement: I agree with the terms of service
-          content_html: <p>By clicking on the "I agree" button, you agree to the following
-            terms of service:</p> <ol> <li>The information provided to the Via Oberta
-            service will be used for the sole purpose of verifying your identity.</li>
-            <li>Records of this transaction might be kept by the service provider.</li>
-            <li>The service provider will not share this information with third parties.</li>
+          content_html: |
+            <p>By clicking on the "I agree" button, you agree to the following terms of service:</p>
+            <ol>
+              <li>In order to verify that you are registered as a person in the municipality, an automated query must be made using ViaOberta in the local data of the municipal register of inhabitants.</li>
+              <li>You can consult the specific data treatment/protection policy in the <a href="#">following link</a>.</li>
+              <li>Do you give your consent?</li>
             </ol>
           title: Via Oberta's terms of service

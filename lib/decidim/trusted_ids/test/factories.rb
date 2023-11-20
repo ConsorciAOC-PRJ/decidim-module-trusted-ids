@@ -15,5 +15,7 @@ FactoryBot.define do
         province_code: "08"
       }
     end
+    expiration_days { 30 }
+    tos { Decidim::Faker::Localized.wrapped("<p>", "</p>") { generate_localized_title } }
   end
 end

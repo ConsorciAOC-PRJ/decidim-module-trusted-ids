@@ -19,25 +19,30 @@ module Decidim::System
           host: "decide.gotham.gov",
           users_registration_mode: "existing",
           file_upload_settings: Decidim::OrganizationSettings.default(:upload),
-          trusted_ids_census_config: trusted_ids_census_config,
+          trusted_ids_census_settings: trusted_ids_census_settings,
+          trusted_ids_census_expiration_days: trusted_ids_census_expiration_days,
+          trusted_ids_census_tos: trusted_ids_census_tos,
           census_expiration_apply_all_tenants: expiration_all_tenants,
           census_tos_apply_all_tenants: tos_all_tenants
         }
       end
       let(:expiration_all_tenants) { false }
       let(:tos_all_tenants) { false }
-      let(:trusted_ids_census_config) do
+      let(:trusted_ids_census_settings) do
         {
           "nif" => "001",
           "nie" => "002",
           "municipal_code" => "003",
-          "province_code" => "004",
-          "expiration_days" => expiration_days,
-          "tos" => tos_text
+          "province_code" => "004"
         }
       end
-      let(:expiration_days) { "30" }
-      let(:tos_text) { "Some text for TOS" }
+      let(:trusted_ids_census_expiration_days) { 30 }
+      let(:trusted_ids_census_tos) do
+        {
+          "en" => "Some text for TOS",
+          "ca" => "Un text de termes i condicions"
+        }
+      end
       let(:census_config) do
         {
           handler: census_handler,
@@ -64,7 +69,9 @@ module Decidim::System
 
         it "has the correct trusted_ids_census_config" do
           command.call
-          expect(trusted_ids_organization_config.reload.settings).to eq(trusted_ids_census_config)
+          expect(trusted_ids_organization_config.reload.settings).to eq(trusted_ids_census_settings)
+          expect(trusted_ids_organization_config.expiration_days).to eq(trusted_ids_census_expiration_days)
+          expect(trusted_ids_organization_config.tos).to eq(trusted_ids_census_tos)
         end
       end
     end

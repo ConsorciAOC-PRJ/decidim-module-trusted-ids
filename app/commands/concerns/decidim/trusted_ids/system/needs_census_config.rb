@@ -13,13 +13,12 @@ module Decidim
             conf.settings = form.trusted_ids_census_settings
             conf.tos = form.trusted_ids_census_tos
             conf.expiration_days = form.trusted_ids_census_expiration_days
-            byebug
             conf.save!
 
             propagate = []
-            propagate << "expiration_days" if form.census_expiration_apply_all_tenants
-            propagate << "tos" if form.census_tos_apply_all_tenants
-            PropagateCensusSettingsJob.perform_later(conf.id, propagate) if propagate.any?
+            propagate << :expiration_days if form.census_expiration_apply_all_tenants
+            propagate << :tos if form.census_tos_apply_all_tenants
+            PropagateCensusConfigJob.perform_later(conf.id, propagate) if propagate.any?
           end
         end
       end

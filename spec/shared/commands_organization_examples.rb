@@ -89,7 +89,7 @@ shared_examples "saves attributes to census config" do
     end
 
     context "when propagates" do
-      let(:tos_all_tenants) { true}
+      let(:tos_all_tenants) { true }
 
       it "updates all organizations" do
         perform_enqueued_jobs { command.call }

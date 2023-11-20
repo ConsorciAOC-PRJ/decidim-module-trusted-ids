@@ -9,14 +9,15 @@ en:
         census_tos_apply_all_tenants: 'Apply to all tenants (this will set the same
           "Terms of service" for all organizations in this platform). Warning: empty
           values are also propagated'
+        tos_if_empty_html: 'If empty, the default terms of service will be extracted from the I18n key <code>decidim.via_oberta.verifications.tos.content_html</code>. Currently:'
         settings:
-          expiration_days: Expires in (days). Default is %{days} days.
+          expiration_days: Expires in (days). If empty, defaults to %{days} days.
           ine: Requester identifier (INE)
           municipal_code: Municipal code
           nif: NIF
           organization_name: Organization public name
           province_code: Province code
-          tos: Terms of service for consulting the census (simple html is allowed)
+          tos: Terms of service for consulting the census
       via_oberta_handler:
         document_type: 'Could not be obtained automatically. Please select one from
           the list:'

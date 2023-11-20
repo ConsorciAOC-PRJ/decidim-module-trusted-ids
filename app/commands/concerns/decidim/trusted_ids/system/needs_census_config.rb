@@ -11,6 +11,9 @@ module Decidim
             conf = Decidim::TrustedIds::OrganizationConfig.find_or_create_by(organization: organization)
             conf.handler = TrustedIds.census_authorization[:handler]
             conf.settings = form.trusted_ids_census_settings
+            conf.tos = form.trusted_ids_census_tos
+            conf.expiration_days = form.trusted_ids_census_expiration_days
+            byebug
             conf.save!
 
             propagate = []

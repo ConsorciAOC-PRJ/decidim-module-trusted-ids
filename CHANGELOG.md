@@ -1,6 +1,9 @@
 # Changelog
 Following Semantic Versioning 2.
 
+## Version 0.5.0 (MINOR)
+- Add /system configurable parameters
+
 ## Version 0.4.0 (MINOR)
 - Rename module to TrustedIds
 - Incorporate new double workflow: trusted_ids_handler and the second verificator using metadata from the first

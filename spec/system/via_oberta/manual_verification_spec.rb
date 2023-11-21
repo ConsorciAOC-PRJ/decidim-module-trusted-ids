@@ -8,6 +8,7 @@ describe "Via Oberta manual verification", type: :system do
   include_context "with stubs viaoberta api"
 
   let(:organization) { create(:organization, available_authorizations: available_authorizations) }
+  let!(:current_config) { nil }
   let(:available_authorizations) { [:trusted_ids_handler, :via_oberta_handler, :dummy_authorization] }
   let(:user) { create(:user, :confirmed, organization: organization) }
   let!(:authorization) { create(:authorization, name: "trusted_ids_handler", granted_at: 2.days.ago, user: user, metadata: metadata) }
@@ -40,6 +41,7 @@ describe "Via Oberta manual verification", type: :system do
     expect(page).to have_content("NIE")
     expect(page).not_to have_content("NIF")
     expect(page).not_to have_content("Passport")
+    expect(page).to have_content('By clicking on the "I agree" button, you agree to the following terms of service')
   end
 
   it "verifies and the user" do
@@ -54,6 +56,34 @@ describe "Via Oberta manual verification", type: :system do
     expect(page).to have_content("Granted at #{Decidim::Authorization.last.granted_at.to_s(:long)}")
     expect(Decidim::Authorization.last.reload.user).to eq(user)
     expect(Decidim::Authorization.last.name).to eq("via_oberta_handler")
+  end
+
+  context "when terms and conditions are customized" do
+    let(:current_config) { create :trusted_ids_organization_config, organization: organization, tos: custom_terms }
+    let(:custom_terms) do
+      {
+        en: "<p>Custom terms</p>"
+      }
+    end
+
+    it "has custom terms" do
+      click_link "Via Oberta"
+      expect(page).not_to have_content('By clicking on the "I agree" button, you agree to the following terms of service')
+      expect(page).to have_content("Custom terms")
+    end
+
+    context "and terms are empty" do
+      let(:custom_terms) do
+        {
+          en: ""
+        }
+      end
+
+      it "has default terms" do
+        click_link "Via Oberta"
+        expect(page).to have_content('By clicking on the "I agree" button, you agree to the following terms of service')
+      end
+    end
   end
 
   context "when terms and conditions are not accepted" do

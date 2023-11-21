@@ -26,7 +26,7 @@
   <div class="card__content">
     <fieldset>
       <legend><%= t "title", scope: "decidim.via_oberta.verifications.tos" %></legend>
-      <p class="tos-text"><%= t "content_html", scope: "decidim.via_oberta.verifications.tos" %></p>
+      <p class="tos-text"><%= current_organization.trusted_ids_census_config&.translated_tos&.html_safe %></p>
     </fieldset>
 
     <div class="field">

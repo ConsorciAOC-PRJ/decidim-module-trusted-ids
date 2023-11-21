@@ -58,7 +58,7 @@ shared_examples "saves attributes to census config" do
         perform_enqueued_jobs { command.call }
 
         expect(organization.trusted_ids_census_config.expiration_days).to eq(nil)
-        expect(another_organization.trusted_ids_census_config.expiration_days).to eq("")
+        expect(another_organization.trusted_ids_census_config.expiration_days).to eq(nil)
       end
     end
   end

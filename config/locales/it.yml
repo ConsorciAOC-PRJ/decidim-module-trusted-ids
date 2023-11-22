@@ -1,0 +1,113 @@
+---
+it:
+  activemodel:
+    attributes:
+      trusted_ids_census_config:
+        census_expiration_apply_all_tenants: 'Apply to all tenants (this will set the same expiration days for all organizations in this platform). Warning: empty values are also propagated'
+        census_tos_apply_all_tenants: 'Apply to all tenants (this will set the same "Terms of service" for all organizations in this platform). Warning: empty values are also propagated'
+        settings:
+          expiration_days: Expires in (days). If empty, defaults to %{days} days.
+          ine: Requester identifier (INE)
+          municipal_code: Municipal code
+          nif: NIF
+          organization_name: Organization public name
+          province_code: Province code
+          tos: Terms of service for consulting the census
+        tos_if_empty_html: 'If empty, the default terms of service will be extracted from the I18n key <code>decidim.via_oberta.verifications.tos.content_html</code>. Currently:'
+      via_oberta_handler:
+        document_type: 'Could not be obtained automatically. Please select one from the list:'
+  decidim:
+    authorization_handlers:
+      trusted_ids_handler:
+        explanation: This authorization method is granted to all users that use a Trusted ID login method.
+        fields:
+          extra: Extra data
+          provider: Provider
+          uid: ID
+        name: Trusted IDs
+      via_oberta_handler:
+        explanation: This authorization method is granted to all users that are in the Via Oberta census database.
+        fields:
+          document_id: DNI/NIF
+        name: Via Oberta
+    events:
+      trusted_ids:
+        verifications:
+          invalid:
+            email_intro: It has not been possible to grant you the "%{handler_name}" authorization.
+            email_outro: Please, contact the support at your platform to check what has gone wrong.
+            email_subject: Authorization error
+            notification_title: Invalid authorization with the "%{handler_name}" method
+          ok:
+            email_intro: You have been granted the "%{handler_name}" authorization.
+            email_outro: You can now perform all actions that require the "%{handler_name}" authorization.
+            email_subject: Authorization successful
+            notification_title: Successful authorization with the "%{handler_name}" method
+    system:
+      organizations:
+        omniauth_settings:
+          valid:
+            client_id: Client ID
+            client_secret: Client secret
+            icon_path: Icon (always in the form of media/images/some-image.png)
+            scope: Scope
+            site: Site url
+    trusted_ids:
+      providers:
+        default:
+          description: This authorization method is granted to all users that use a Trusted ID login method.
+          name: Trusted IDs
+        valid:
+          description: VÀLid is the digital identity service of the Government of Catalonia.
+          name: VÀLid
+      sessions:
+        different_omniauth_emails: You are trying to sign in with a different email than the one in your account. Please sign in with the same email or logout and sign up directly to create a new user.
+      system:
+        settings: "%{handler} settings"
+      verifications:
+        form:
+          cancel: Cancel verification
+          description_html: In order to obtain this authorization, you need to verify your identity with the %{provider} service. To do that, please click on the "%{link}" button.<br><br>
+          error_provider_html: "<b>%{provider} is not available.</b> It seems that the this login/authorization method has not been enabled. Please contact the support team to fix this."
+          warning_html: Please make sure that the email you have in this application (<em>%{email}</em>) is the same as the one provided by the %{provider} service. Otherwise the verification will fail.
+    verifications:
+      authorizations:
+        errors:
+          already_verified: You have already verified your identity with this method.
+          pending_authorization: This authorization method requires to previously have the %{handler_name} authorization granted.
+        first_login:
+          actions:
+            trusted_ids_generic: Verify with %{provider}
+            via_oberta_handler: Verify with Via Oberta
+      trusted_ids:
+        errors:
+          invalid_census: Could not verify you. The data provided to the census gateway might not be valid.
+          invalid_id: Could not verify you. Document ID is invalid or missing.
+          invalid_method: Could not verify you. OAuth2 verification method is not supported.
+          invalid_status: Could not verify you. OAuth2 verification was not ok.
+          invalid_type: Could not verify you. Document type is invalid or missing.
+          no_identity: Could not verify you. OAuth2 verification did not return an identify.
+    via_oberta:
+      verifications:
+        document_type:
+          nie: NIE
+          nif: NIF
+          others: Residence permit or others
+          passport: Passport
+        form:
+          code: 'Error code: %{code}'
+          data: 'Data to be sent:'
+          description_html: <p>This authorization checks if you are in the <b>%{organization_name}</b> census database.</p> <p>To perform this check, the following information will be sent to the <a href="https://www.aoc.cat/serveis-aoc/via-oberta/" target="_blank">Via Oberta</a> service, offered by the <a href="https://www.aoc.cat" target="_blank">Adminstració Oberta de Catalunya</a></p> <p>This information will be used for the sole purpose of verifying your identity but records of this transaction might be kept by the service provider.</p>
+          document_id: Document Number
+          document_type: Document type
+          error: 'Service error message:'
+        tos:
+          agreement: I agree with the terms of service
+          content_html: |
+            <p>By clicking on the "I agree" button, you agree to the following terms of service:</p>
+            <ol>
+              <li>In order to verify that you are registered as a person in the municipality, an automated query must be made using ViaOberta in the local data of the municipal register of inhabitants.</li>
+              <li>You can consult the specific data treatment/protection policy in the <a href="https://www.aoc.cat/proteccio-dades/">following link</a>.</li>
+              <li>Do you give your consent?</li>
+            </ol>
+          title: Via Oberta's terms of service

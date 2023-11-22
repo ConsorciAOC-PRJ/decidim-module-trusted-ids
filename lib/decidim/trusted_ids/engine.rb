@@ -18,6 +18,7 @@ module Decidim
       config.to_prepare do
         # Non-controller overrides here
         Decidim::Organization.include(Decidim::TrustedIds::OrganizationOverride)
+        Decidim::Authorization.include(Decidim::TrustedIds::AuthorizationOverride)
         Decidim::CreateOmniauthRegistration.include(Decidim::TrustedIds::CreateOmniauthRegistrationOverride)
         Decidim::System::RegisterOrganizationForm.include(Decidim::TrustedIds::System::OrganizationFormOverride)
         Decidim::System::UpdateOrganizationForm.include(Decidim::TrustedIds::System::OrganizationFormOverride)

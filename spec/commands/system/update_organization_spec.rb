@@ -71,7 +71,13 @@ module Decidim::System
           command.call
           expect(trusted_ids_organization_config.reload.settings).to eq(trusted_ids_census_settings)
           expect(trusted_ids_organization_config.expiration_days).to eq(trusted_ids_census_expiration_days)
-          expect(trusted_ids_organization_config.tos).to eq(trusted_ids_census_tos)
+        end
+
+        it "handles machine translations" do
+          command.call
+          expect(trusted_ids_organization_config.reload.tos["en"]).to eq(trusted_ids_census_tos["en"])
+          expect(trusted_ids_organization_config.tos["ca"]).to eq(trusted_ids_census_tos["ca"])
+          expect(trusted_ids_organization_config.tos["machine_translations"]).to have_key("es")
         end
       end
     end

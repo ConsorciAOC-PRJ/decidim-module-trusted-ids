@@ -8,9 +8,11 @@ describe "Via Oberta manual verification", type: :system do
   include_context "with stubs viaoberta api"
 
   let(:organization) { create(:organization, available_authorizations: available_authorizations) }
+  let!(:current_config) { nil }
   let(:available_authorizations) { [:trusted_ids_handler, :via_oberta_handler, :dummy_authorization] }
   let(:user) { create(:user, :confirmed, organization: organization) }
   let!(:authorization) { create(:authorization, name: "trusted_ids_handler", granted_at: 2.days.ago, user: user, metadata: metadata) }
+  let!(:existing_authorization) { nil }
   let(:metadata) do
     {
       "uid" => uid,
@@ -40,6 +42,7 @@ describe "Via Oberta manual verification", type: :system do
     expect(page).to have_content("NIE")
     expect(page).not_to have_content("NIF")
     expect(page).not_to have_content("Passport")
+    expect(page).to have_content('By clicking on the "I agree" button, you agree to the following terms of service')
   end
 
   it "verifies and the user" do
@@ -54,6 +57,34 @@ describe "Via Oberta manual verification", type: :system do
     expect(page).to have_content("Granted at #{Decidim::Authorization.last.granted_at.to_s(:long)}")
     expect(Decidim::Authorization.last.reload.user).to eq(user)
     expect(Decidim::Authorization.last.name).to eq("via_oberta_handler")
+  end
+
+  context "when terms and conditions are customized" do
+    let(:current_config) { create :trusted_ids_organization_config, organization: organization, tos: custom_terms }
+    let(:custom_terms) do
+      {
+        en: "<p>Custom terms</p>"
+      }
+    end
+
+    it "has custom terms" do
+      click_link "Via Oberta"
+      expect(page).not_to have_content('By clicking on the "I agree" button, you agree to the following terms of service')
+      expect(page).to have_content("Custom terms")
+    end
+
+    context "and terms are empty" do
+      let(:custom_terms) do
+        {
+          en: ""
+        }
+      end
+
+      it "has default terms" do
+        click_link "Via Oberta"
+        expect(page).to have_content('By clicking on the "I agree" button, you agree to the following terms of service')
+      end
+    end
   end
 
   context "when terms and conditions are not accepted" do
@@ -272,6 +303,79 @@ describe "Via Oberta manual verification", type: :system do
       expect(page).to have_content("NIE")
       expect(page).not_to have_content("NIF")
       expect(page).not_to have_content("Passport")
+    end
+  end
+
+  context "when authoriazation already exists" do
+    let!(:existing_authorization) { create(:authorization, name: "via_oberta_handler", user: user, granted_at: granted_at) }
+    let(:granted_at) { 2.seconds.ago }
+
+    it "can't be renewed yet" do
+      within ".authorizations-list" do
+        expect(page).to have_no_link("Via Oberta")
+        expect(page).to have_content(I18n.l(authorization.granted_at, format: :long))
+      end
+    end
+
+    context "when the authorization can be renewed" do
+      let(:granted_at) { 2.months.ago }
+
+      it "can be renewed" do
+        within ".authorizations-list" do
+          expect(page).to have_link("Via Oberta")
+          click_link "Via Oberta"
+        end
+
+        within "#renew-modal" do
+          click_link "Continue"
+        end
+
+        perform_enqueued_jobs do
+          check "I agree with the terms of service"
+          click_button("Send")
+        end
+
+        expect(page).to have_content("You've been successfully authorized.")
+      end
+    end
+
+    context "when the authorization has expired" do
+      let(:granted_at) { 4.months.ago }
+
+      it "can be renewed" do
+        expect(existing_authorization.expired?).to be true
+        expect(existing_authorization.expires_at).to eq(existing_authorization.granted_at + 90.days)
+        within ".authorizations-list" do
+          expect(page).to have_link("Via Oberta")
+          expect(page).to have_content("Expired at #{I18n.l(existing_authorization.expires_at, format: :long)}")
+          click_link "Via Oberta"
+        end
+
+        within "#renew-modal" do
+          click_link "Continue"
+        end
+
+        perform_enqueued_jobs do
+          check "I agree with the terms of service"
+          click_button("Send")
+        end
+
+        expect(page).to have_content("You've been successfully authorized.")
+      end
+
+      context "when expiration time is customized" do
+        let(:current_config) { create :trusted_ids_organization_config, organization: organization, expiration_days: 350 }
+
+        it "hasn't expired yet" do
+          expect(existing_authorization.expired?).to be false
+          expect(existing_authorization.expires_at).to eq(existing_authorization.granted_at + 350.days)
+
+          within ".authorizations-list" do
+            expect(page).to have_link("Via Oberta")
+            expect(page).to have_content("Expires at #{I18n.l(existing_authorization.expires_at, format: :long)}")
+          end
+        end
+      end
     end
   end
 end

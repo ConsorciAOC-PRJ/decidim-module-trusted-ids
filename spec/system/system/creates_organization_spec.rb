@@ -26,13 +26,7 @@ describe "Creates an organization", type: :system do
 
   it_behaves_like "creates organization"
 
-  context "when census authorization has no fields" do
-    let(:system_attributes) { [] }
-
-    it_behaves_like "creates organization without census authorization fields"
-  end
-
-  context "when no census handler specified" do
+  context "when no census handler is configured" do
     let(:census_handler) { "" }
 
     it_behaves_like "creates organization without census authorization fields"

@@ -3,12 +3,17 @@ ca:
   activemodel:
     attributes:
       trusted_ids_census_config:
+        census_expiration_apply_all_tenants: 'Apply to all tenants (this will set the same expiration days for all organizations in this platform). Warning: empty values are also propagated'
+        census_tos_apply_all_tenants: 'Apply to all tenants (this will set the same "Terms of service" for all organizations in this platform). Warning: empty values are also propagated'
         settings:
+          expiration_days: Expires in (days). If empty, defaults to %{days} days.
           ine: Identificador del sol·licitant (INE)
           municipal_code: Codi municipal
           nif: NIF
           organization_name: Nom públic de l'organització
           province_code: Codi província
+          tos: Terms of service for consulting the census
+        tos_if_empty_html: 'If empty, the default terms of service will be extracted from the I18n key <code>decidim.via_oberta.verifications.tos.content_html</code>. Currently:'
       via_oberta_handler:
         document_type: 'No s''ha pogut obtenir automàticament. Seleccioneu-ne un de la llista:'
   decidim:

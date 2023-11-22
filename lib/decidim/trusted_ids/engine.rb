@@ -9,12 +9,6 @@ module Decidim
     class Engine < ::Rails::Engine
       isolate_namespace Decidim::TrustedIds
 
-      routes do
-        # Add engine routes here
-        # resources :trusted_ids
-        # root to: "trusted_ids#index"
-      end
-
       config.to_prepare do
         # Non-controller overrides here
         Decidim::Organization.include(Decidim::TrustedIds::OrganizationOverride)

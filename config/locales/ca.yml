@@ -103,5 +103,11 @@ ca:
           error: 'Missatge d''error del servei:'
         tos:
           agreement: Accepto els termes d'ús i condicions del servei
-          content_html: <p>En fer clic al botó "Accepto", accepteu les condicions del servei següents:</p> <ol> <li>La informació proporcionada al servei Via Oberta s'utilitzarà amb l'únic propòsit de verificar el vostre identitat.</li> <li>El proveïdor de serveis podria conservar els registres d'aquesta transacció.</li> <li>El proveïdor de serveis no compartirà aquesta informació amb tercers.</li> </ol>
+          content_html: |
+            <p>By clicking on the "I agree" button, you agree to the following terms of service:</p>
+            <ol>
+              <li>In order to verify that you are registered as a person in the municipality, an automated query must be made using ViaOberta in the local data of the municipal register of inhabitants.</li>
+              <li>You can consult the specific data treatment/protection policy in the <a href="https://www.aoc.cat/proteccio-dades/">following link</a>.</li>
+              <li>Do you give your consent?</li>
+            </ol>
           title: Termes d'ús i servei Via Oberta

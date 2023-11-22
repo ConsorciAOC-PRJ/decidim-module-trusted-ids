@@ -3,17 +3,17 @@ ca:
   activemodel:
     attributes:
       trusted_ids_census_config:
-        census_expiration_apply_all_tenants: 'Apply to all tenants (this will set the same expiration days for all organizations in this platform). Warning: empty values are also propagated'
-        census_tos_apply_all_tenants: 'Apply to all tenants (this will set the same "Terms of service" for all organizations in this platform). Warning: empty values are also propagated'
+        census_expiration_apply_all_tenants: 'Aplica a tots els "tenants" (això estableix els mateixos dies de caducitat per a totes les organitzacions d''aquesta plataforma). Avís: els valors buits també es propaguen'
+        census_tos_apply_all_tenants: 'Aplica a tots els "tenants" (això estableix els mateixos "Termes d''ús i condicions" per a totes les organitzacions d''aquesta plataforma). Avís: els valors buits també es propaguen'
         settings:
-          expiration_days: Expires in (days). If empty, defaults to %{days} days.
+          expiration_days: Expira en (dies). Si és buit, el dies per defecte són %{days}.
           ine: Identificador del sol·licitant (INE)
           municipal_code: Codi municipal
           nif: NIF
           organization_name: Nom públic de l'organització
           province_code: Codi província
-          tos: Terms of service for consulting the census
-        tos_if_empty_html: 'If empty, the default terms of service will be extracted from the I18n key <code>decidim.via_oberta.verifications.tos.content_html</code>. Currently:'
+          tos: Termes d'ús i servei per consultar el cens
+        tos_if_empty_html: 'Si està buit, les condicions del servei predeterminades s''extreuran de la clau I18n <code>decidim.via_oberta.verifications.tos.content_html</code>. Actualment:'
       via_oberta_handler:
         document_type: 'No s''ha pogut obtenir automàticament. Seleccioneu-ne un de la llista:'
   decidim:
@@ -34,15 +34,15 @@ ca:
       trusted_ids:
         verifications:
           invalid:
-            email_intro: It has not been possible to grant you the "%{handler_name}" authorization.
+            email_intro: No ha estat possible concedir-vos l'autorització "%{handler_name}".
             email_outro: Si us plau, poseu-vos en contacte amb el suport de la plataforma per comprovar l'error que s'ha produït.
             email_subject: Error d'autorització
-            notification_title: Invalid authorization with the "%{handler_name}" method
+            notification_title: Autorització no vàlida amb el mètode "%{handler_name}"
           ok:
-            email_intro: You have been granted the "%{handler_name}" authorization.
-            email_outro: You can now perform all actions that require the "%{handler_name}" authorization.
+            email_intro: Se't ha concedit l'autorització "%{handler_name}".
+            email_outro: Ara podeu realitzar totes les accions que requereixin l'autorització "%{handler_name}".
             email_subject: S'ha autoritzat correctament
-            notification_title: Successful authorization with the "%{handler_name}" method
+            notification_title: Autorització correcta amb el mètode "%{handler_name}"
     system:
       organizations:
         omniauth_settings:
@@ -73,8 +73,8 @@ ca:
     verifications:
       authorizations:
         errors:
-          already_verified: You have already verified your identity with this method.
-          pending_authorization: This authorization method requires to previously have the %{handler_name} authorization granted.
+          already_verified: Ja heu verificat la vostra identitat amb aquest mètode.
+          pending_authorization: Aquest mètode d'autorització requereix tenir prèviament l'autorització %{handler_name}.
         first_login:
           actions:
             trusted_ids_generic: Verifica't amb %{provider}
@@ -104,10 +104,9 @@ ca:
         tos:
           agreement: Accepto els termes d'ús i condicions del servei
           content_html: |
-            <p>By clicking on the "I agree" button, you agree to the following terms of service:</p>
+            <p>Per a poder verificar que consta com a persona empadronada al municipi, s'ha de fer una consulta automatitzada mitjançant ViaOberta a les dades locals del padró municipal d'habitants. </p>
             <ol>
-              <li>In order to verify that you are registered as a person in the municipality, an automated query must be made using ViaOberta in the local data of the municipal register of inhabitants.</li>
-              <li>You can consult the specific data treatment/protection policy in the <a href="https://www.aoc.cat/proteccio-dades/">following link</a>.</li>
-              <li>Do you give your consent?</li>
+            <li>Pots consultar la política concreta de tractament/protecció de dades en el  <a href="https://www.aoc.cat/proteccio-dades/">següent enllaç</a> </li>
+            <li>Presta el seu consentiment?</li>
             </ol>
           title: Termes d'ús i servei Via Oberta

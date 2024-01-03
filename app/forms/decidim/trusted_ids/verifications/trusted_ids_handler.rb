@@ -40,10 +40,10 @@ module Decidim
         def extra_attributes
           return {} unless TrustedIds.authorization_metadata.respond_to? :map
 
-          TrustedIds.authorization_metadata.map do |key, parts|
+          TrustedIds.authorization_metadata.to_h do |key, parts|
             parts = [parts] unless parts.is_a? Array
             [key, raw_data.dig(*parts)]
-          end.to_h
+          end
         end
 
         def trusted_ids_provider?

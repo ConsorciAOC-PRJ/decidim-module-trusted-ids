@@ -10,7 +10,7 @@ shared_examples "saves attributes to census config" do
   end
 
   it "creates trusted_ids_census_config" do
-    expect { command.call }.to(change { Decidim::TrustedIds::OrganizationConfig.count }.by(1))
+    expect { command.call }.to(change(Decidim::TrustedIds::OrganizationConfig, :count).by(1))
   end
 
   it "has the correct trusted_ids_census_config" do
@@ -31,7 +31,7 @@ shared_examples "saves attributes to census config" do
     it "saves expiration days in all tenants" do
       expect do
         perform_enqueued_jobs { command.call }
-      end.to(change { Decidim::TrustedIds::OrganizationConfig.count }.by(2))
+      end.to(change(Decidim::TrustedIds::OrganizationConfig, :count).by(2))
 
       expect(organization.trusted_ids_census_config.expiration_days).to eq(30)
       expect(organization.trusted_ids_census_config.tos).to eq(trusted_ids_census_tos)
@@ -47,7 +47,7 @@ shared_examples "saves attributes to census config" do
     it "updates only the subject organization" do
       perform_enqueued_jobs { command.call }
 
-      expect(organization.trusted_ids_census_config.expiration_days).to eq(nil)
+      expect(organization.trusted_ids_census_config.expiration_days).to be_nil
       expect(another_organization.trusted_ids_census_config.expiration_days).to eq(30)
     end
 
@@ -57,8 +57,8 @@ shared_examples "saves attributes to census config" do
       it "updates all organizations" do
         perform_enqueued_jobs { command.call }
 
-        expect(organization.trusted_ids_census_config.expiration_days).to eq(nil)
-        expect(another_organization.trusted_ids_census_config.expiration_days).to eq(nil)
+        expect(organization.trusted_ids_census_config.expiration_days).to be_nil
+        expect(another_organization.trusted_ids_census_config.expiration_days).to be_nil
       end
     end
   end
@@ -73,7 +73,7 @@ shared_examples "saves attributes to census config" do
     it "saves tos in all tenants" do
       expect do
         perform_enqueued_jobs { command.call }
-      end.to(change { Decidim::TrustedIds::OrganizationConfig.count }.by(2))
+      end.to(change(Decidim::TrustedIds::OrganizationConfig, :count).by(2))
 
       expect(organization.trusted_ids_census_config.tos).to eq(trusted_ids_census_tos)
       expect(another_organization.trusted_ids_census_config.tos).to eq(trusted_ids_census_tos)

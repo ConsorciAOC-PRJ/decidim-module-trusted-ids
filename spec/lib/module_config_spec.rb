@@ -14,18 +14,18 @@ module Decidim
 
     it "has static methods" do
       expect(TrustedIds.omniauth_env("SOMETHING")).to eq("test")
-      expect(TrustedIds.to_bool("True")).to eq(true)
-      expect(TrustedIds.to_bool("False")).to eq(false)
-      expect(TrustedIds.to_bool("true")).to eq(true)
-      expect(TrustedIds.to_bool("false")).to eq(false)
-      expect(TrustedIds.to_bool("TRUE")).to eq(true)
-      expect(TrustedIds.to_bool("FALSE")).to eq(false)
-      expect(TrustedIds.to_bool("t")).to eq(true)
-      expect(TrustedIds.to_bool("f")).to eq(false)
-      expect(TrustedIds.to_bool("T")).to eq(true)
-      expect(TrustedIds.to_bool("F")).to eq(false)
-      expect(TrustedIds.to_bool("1")).to eq(true)
-      expect(TrustedIds.to_bool("0")).to eq(false)
+      expect(TrustedIds.to_bool("True")).to be(true)
+      expect(TrustedIds.to_bool("False")).to be(false)
+      expect(TrustedIds.to_bool("true")).to be(true)
+      expect(TrustedIds.to_bool("false")).to be(false)
+      expect(TrustedIds.to_bool("TRUE")).to be(true)
+      expect(TrustedIds.to_bool("FALSE")).to be(false)
+      expect(TrustedIds.to_bool("t")).to be(true)
+      expect(TrustedIds.to_bool("f")).to be(false)
+      expect(TrustedIds.to_bool("T")).to be(true)
+      expect(TrustedIds.to_bool("F")).to be(false)
+      expect(TrustedIds.to_bool("1")).to be(true)
+      expect(TrustedIds.to_bool("0")).to be(false)
     end
   end
 

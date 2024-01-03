@@ -39,7 +39,7 @@ module Decidim::TrustedIds
     end
     let(:authorization) { Decidim::Authorization.last }
 
-    class TestRectifyPublisher < Rectify::Command
+    class TestRectifyPublisher < Decidim::Command
       include Wisper::Publisher
       def initialize(*args); end
     end

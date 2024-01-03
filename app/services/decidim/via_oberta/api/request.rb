@@ -141,7 +141,7 @@ module Decidim
                             <ns2:numExpediente>#{request_id}</ns2:numExpediente>
                             <ns2:tipoDocumentacion>#{document_type_id}</ns2:tipoDocumentacion>
                             <ns2:documentacion>#{document_id}</ns2:documentacion>
-                            <ns2:codigoMunicipio>#{municipal_code}</ns2:codigoMunicipio> 
+                            <ns2:codigoMunicipio>#{municipal_code}</ns2:codigoMunicipio>#{" "}
                             <ns2:codigoProvincia>#{province_code}</ns2:codigoProvincia>
                             <ns2:idescat>0</ns2:idescat>
                           </ns2:peticionResidenteMunicipio>

@@ -225,7 +225,7 @@ describe "Via Oberta manual verification", type: :system do
         end
 
         expect(page).to have_content("There was a problem creating the authorization.")
-        expect(page).to have_content("Could not verify you. The data provided to the census gateway might not be valid.")
+        expect(page).to have_content("Could not verify you. Document type is invalid or missing.")
         expect(page).to have_content("NO CONSTA")
         expect(page).to have_content("0003")
         expect(Decidim::Authorization.last.reload.name).to eq("trusted_ids_handler")

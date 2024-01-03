@@ -23,4 +23,5 @@ Gem::Specification.new do |s|
   s.add_dependency "decidim-verifications", Decidim::TrustedIds::COMPAT_DECIDIM_VERSION
   s.add_dependency "deface", ">= 1.5"
   s.add_development_dependency "decidim-dev", Decidim::TrustedIds::COMPAT_DECIDIM_VERSION
+  s.metadata["rubygems_mfa_required"] = "true"
 end

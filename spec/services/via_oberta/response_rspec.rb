@@ -37,7 +37,7 @@ module Decidim::ViaOberta
             expect(subject).not_to be_found
             expect(subject).not_to be_success
             expect(subject.result_code).to eq("")
-            expect(Response::RESULT_CODES[subject.result_code]).to eq(nil)
+            expect(Response::RESULT_CODES[subject.result_code]).to be_nil
           end
         end
 

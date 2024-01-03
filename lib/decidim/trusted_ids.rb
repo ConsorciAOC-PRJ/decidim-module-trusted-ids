@@ -19,9 +19,9 @@ module Decidim
       valid_keys = ENV.keys.filter { |key| key.starts_with?("#{TrustedIds.omniauth_provider.upcase}_METADATA_") }
       return nil if valid_keys.blank?
 
-      valid_keys.map do |key|
-        [key.gsub("#{TrustedIds.omniauth_provider.upcase}_METADATA_", "").downcase.to_sym, ENV[key].split(" ").map(&:to_sym)]
-      end.to_h
+      valid_keys.to_h do |key|
+        [key.gsub("#{TrustedIds.omniauth_provider.upcase}_METADATA_", "").downcase.to_sym, ENV[key].split.map(&:to_sym)]
+      end
     end
 
     # The name of the omniauth provider, must be registered in Decidim.
@@ -71,9 +71,9 @@ module Decidim
         handler: ENV.has_key?("CENSUS_AUTHORIZATION_HANDLER") ? ENV.fetch("CENSUS_AUTHORIZATION_HANDLER").to_sym : :via_oberta_handler,
         form: ENV.fetch("CENSUS_AUTHORIZATION_FORM", "Decidim::ViaOberta::Verifications::ViaObertaHandler"),
         env: ENV.fetch("CENSUS_AUTHORIZATION_ENV", "production"),
-        api_url: ENV["CENSUS_AUTHORIZATION_API_URL"],
+        api_url: ENV.fetch("CENSUS_AUTHORIZATION_API_URL", nil),
         # These setting will be added in the organization form at /system as tenant configurable parameters
-        system_attributes: ENV.fetch("CENSUS_AUTHORIZATION_SYSTEM_ATTRIBUTES", "nif ine municipal_code province_code organization_name").split(" ")
+        system_attributes: ENV.fetch("CENSUS_AUTHORIZATION_SYSTEM_ATTRIBUTES", "nif ine municipal_code province_code organization_name").split
       }
     end
 

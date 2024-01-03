@@ -5,13 +5,14 @@ module Decidim
     module System
       module OrganizationFormOverride
         extend ActiveSupport::Concern
+        include Decidim::AttributeObject::TypeMap
 
         included do
           jsonb_attribute :trusted_ids_census_settings, TrustedIds.census_config_attributes
           attribute :trusted_ids_census_expiration_days, Integer
           translatable_attribute :trusted_ids_census_tos, String
-          attribute :census_expiration_apply_all_tenants, Virtus::Attribute::Boolean
-          attribute :census_tos_apply_all_tenants, Virtus::Attribute::Boolean
+          attribute :census_expiration_apply_all_tenants, Boolean
+          attribute :census_tos_apply_all_tenants, Boolean
 
           def map_model(model)
             self.secondary_hosts = model.secondary_hosts.join("\n")

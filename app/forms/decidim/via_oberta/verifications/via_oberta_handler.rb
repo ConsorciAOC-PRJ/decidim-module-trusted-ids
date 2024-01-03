@@ -39,7 +39,7 @@ module Decidim
         # use from previous authorization metadata or use the one from the form as a fallback
         # not memoized because @document_id would be defined if sent via form
         def document_type
-          document_type_from_metadata || DOCUMENT_TYPE[@document_type]
+          document_type_from_metadata || DOCUMENT_TYPE[attributes[:document_type]]
         end
 
         def document_type_from_metadata

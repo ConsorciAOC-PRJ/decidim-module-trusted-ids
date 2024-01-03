@@ -1,6 +1,8 @@
 # Changelog
 Following Semantic Versioning 2.
 
+## Version 0.6.0 (MINOR)
+
 ## Version 0.5.0 (MINOR)
 - Add /system configurable parameters
 

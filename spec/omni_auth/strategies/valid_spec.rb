@@ -16,11 +16,11 @@ describe OmniAuth::Strategies::Valid do
 
   # include_context "with stubs example api"
 
-  # rubocop:disable RSpec/VerifiedDoubles
+  # rubocop:disable RSpec/VerifiedDoubleReference
   let(:access_token) { instance_double("AccessToken", options: {}) }
   let(:parsed_response) { instance_double("ParsedResponse") }
   let(:response) { instance_double("Response", parsed: parsed_response) }
-  # rubocop:enable RSpec/VerifiedDoubles
+  # rubocop:enable RSpec/VerifiedDoubleReference
   let(:strategy) do
     described_class.new(
       app,

@@ -66,7 +66,8 @@ module Decidim
           affected_users: [user],
           extra: {
             status: status.to_s,
-            errors: handler.errors.full_messages
+            errors: handler.errors.full_messages,
+            force_email: true
           }
         )
       end

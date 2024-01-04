@@ -65,7 +65,8 @@ module Decidim::TrustedIds
               affected_users: [user],
               extra: {
                 status: "ok",
-                errors: []
+                errors: [],
+                force_email: true
               }
             )
 
@@ -85,7 +86,8 @@ module Decidim::TrustedIds
               affected_users: [user],
               extra: {
                 status: "invalid",
-                errors: []
+                errors: [],
+                force_email: true
               }
             )
 

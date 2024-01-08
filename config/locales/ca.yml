@@ -47,7 +47,7 @@ ca:
       organizations:
         omniauth_settings:
           valid:
-            client_id: Client ID
+            client_id: ID de client
             client_secret: Clau secreta del Client
             icon_path: Icona (sempre en format media/images/some-image.png)
             scope: Àmbit
@@ -56,19 +56,19 @@ ca:
       devise:
         sessions:
           new:
-            login: Start session
-            login_subtitle: Login into Decidim and start participating.
-            unverified_login: Other methods of unverified identification
-            verified_identity: Digital identity verified with %{provider}
+            login: Inicia la sessió
+            login_subtitle: Inicia sessió a Decidim i participa.
+            unverified_login: Altres mètodes d'identificació no verificada
+            verified_identity: Identificació digital verificada amb %{provider}
             verified_identity_html: |
-              <p>Access with systems recognized by official providers that certify your identity on the network, for more secure authentications.</p>
+              <p>Accedeix amb sistemes reconeguts per proveïdors oficials que acrediten la teva identitat a la xarxa, per autenticacions més segures.</p>
               <ul>
                 <li>idCat Mòbil</li>
                 <li>idCat Certificat</li>
                 <li>DNIe</li>
                 <li>Cl@ve PIN</li>
               </ul>
-            verified_login: Continue with verified ID
+            verified_login: Continuar amb identificació verificada
       providers:
         default:
           description: Aquesta autorització s'atorga a tots els usuaris que utilitzen un mètode d'inici de sessió amb identificador fefaent.

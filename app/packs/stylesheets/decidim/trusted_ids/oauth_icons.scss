@@ -18,3 +18,21 @@
     }
   }
 }
+
+.trusted-ids-login-box {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  padding: 2em !important;
+
+  h6 {
+    font-size: 1em;
+    font-weight: 600;
+    margin-top: 2em;
+  }
+
+  hr {
+    width: 80%;
+    margin: 2em auto;
+  }
+}

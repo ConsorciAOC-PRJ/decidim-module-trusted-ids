@@ -61,6 +61,7 @@ module Decidim
     it "has the correct configuration" do
       expect(config).to eq({
                              "omniauth_provider" => "facebook",
+                             "custom_login_screen" => true,
                              "omniauth" => {
                                "enabled" => true,
                                "client_id" => "client_id",
@@ -105,6 +106,7 @@ module Decidim
       it "has the correct configuration" do
         expect(config).to eq({
                                "omniauth_provider" => "valid",
+                               "custom_login_screen" => true,
                                "omniauth" => {
                                  "enabled" => true,
                                  "client_id" => "client_id",
@@ -147,13 +149,15 @@ module Decidim
           "#{provider.upcase}_CLIENT_SECRET" => client_secret,
           "VALID_METADATA_" => "",
           "VALID_METADATA_FOO" => "inside",
-          "FACEBOOK_METADATA_BAR" => "inside baz"
+          "FACEBOOK_METADATA_BAR" => "inside baz",
+          "CUSTOM_LOGIN_SCREEN" => "false"
         }
       end
 
       it "has the correct configuration" do
         expect(config).to eq({
                                "omniauth_provider" => "valid",
+                               "custom_login_screen" => false,
                                "omniauth" => {
                                  "enabled" => true,
                                  "client_id" => client_id,
@@ -181,6 +185,7 @@ module Decidim
         it "has the correct configuration" do
           expect(config).to eq({
                                  "omniauth_provider" => "facebook",
+                                 "custom_login_screen" => false,
                                  "omniauth" => {
                                    "enabled" => true,
                                    "client_id" => client_id,
@@ -210,6 +215,7 @@ module Decidim
       it "has the default configuration" do
         expect(config).to eq({
                                "omniauth_provider" => "valid",
+                               "custom_login_screen" => true,
                                "omniauth" => {
                                  "enabled" => false,
                                  "client_id" => nil,

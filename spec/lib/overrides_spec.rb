@@ -11,7 +11,10 @@ checksums = [
     files: {
       "/app/commands/decidim/create_omniauth_registration.rb" => "586139f98ded0645eb83e480ef5dd6bd",
       "/app/models/decidim/organization.rb" => "e3d474ed92c0b8bb8911e6947a569845",
-      "/app/models/decidim/static_page.rb" => "db2e6de50e80b41fab8d13640710597a"
+      "/app/models/decidim/static_page.rb" => "db2e6de50e80b41fab8d13640710597a",
+      # in case changes are done into these files, let's update decidim/trusted_ids/devise/*
+      "/app/views/decidim/devise/sessions/new.html.erb" => "9d090fc9e565ded80a9330d4e36e495c",
+      "/app/views/decidim/devise/shared/_omniauth_buttons.html.erb" => "a456549c8f521b012ec7436d9e7111f4"
     }
   },
   {

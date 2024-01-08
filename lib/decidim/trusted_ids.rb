@@ -30,6 +30,10 @@ module Decidim
       ENV.fetch("OMNIAUTH_PROVIDER", "valid")
     end
 
+    config_accessor :custom_login_screen do
+      ENV.has_key?("CUSTOM_LOGIN_SCREEN") ? TrustedIds.to_bool(ENV.fetch("CUSTOM_LOGIN_SCREEN", true)) : true
+    end
+
     # From the data obtained we extract metadata to be saved as part of the authorization
     # This data can later be used by the census_authorization handler as to call the webservice
     # A hash with keys and how to find it inside hash comming from the OAuth
@@ -85,6 +89,10 @@ module Decidim
       TrustedIds.census_authorization[:system_attributes].map do |prop|
         [prop.to_sym, String]
       end
+    end
+
+    def self.custom_login_screen?
+      Decidim::TrustedIds.omniauth_provider.present? && Decidim::TrustedIds.custom_login_screen.present?
     end
   end
 end

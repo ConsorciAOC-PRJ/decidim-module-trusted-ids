@@ -71,6 +71,7 @@ en:
           new:
             login: Start session
             login_subtitle: Login into Decidim and start participating.
+            unverified_login: Other methods of unverified identification
             verified_identity: Digital identity verified with %{provider}
             verified_identity_html: |
               <p>Access with systems recognized by official providers that certify your identity on the network, for more secure authentications.</p>
@@ -81,7 +82,6 @@ en:
                 <li>Cl@ve PIN</li>
               </ul>
             verified_login: Continue with verified ID
-            unverified_login: Other methods of unverified identification
       providers:
         default:
           description: This authorization method is granted to all users that use

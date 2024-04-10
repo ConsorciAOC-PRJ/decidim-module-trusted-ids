@@ -68,7 +68,7 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          slug: openpoke/decidim-module-anonymous_codes
+          slug: openpoke/decidim-module-trusted_ids
 
       - uses: actions/upload-artifact@v4
         if: always()

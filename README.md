@@ -80,7 +80,9 @@ By default, you can use these variables to configure the module:
 Environment variable | Description | Default value
 --- | --- | ---
 `OMNIAUTH_PROVIDER` | The OAuth2 provider to use. Currently only `valid` is built-in in this plugin. Note that this word will be used as a prefix (in uppercase) for all the omniauth values defined after this. If you use a different provider, say `foo`, nexts ENV vars will start with `FOO_` instead of `VALID_` | `valid`
-`CUSTOM_LOGIN_SCREEN` | Whether to use a custom login screen or the default Decidim login screen. | `true`
+`CUSTOM_LOGIN_SCREEN` | Whether to use a custom login screen or the default Decidim login screen. | `true` (only if omniauth is enabled)
+`OMNIAUTH_ENABLED_BY_DEFAULT` | Whether the OAuth2 login is enabled by default. If false must be enabled in system. | `true` (if `VALID_CLIENT_ID` is present)
+`OMNIAUTH_GLOBAL_ATTRIBUTES` | Attributes sent to the Omniauth provider that are not writeable in the `/system` admin. Separated by spaces. | `site icon_path scope`
 `VALID_CLIENT_ID` | The OAuth2 client ID. Note that the prefix `VALID` is because `OMNIAUTH_PROVIDER` is set to "valid". Other values will require to name this variable accordingly (for instance `FOO_CLIENT_ID`). **IF this variable is empty, no OAuth login will be used**. | `nil`
 `VALID_CLIENT_SECRET` | The OAuth2 client secret. | `nil`
 `VALID_SITE` | The OAuth2 site. | `nil`

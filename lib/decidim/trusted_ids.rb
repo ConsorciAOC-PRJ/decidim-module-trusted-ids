@@ -45,7 +45,7 @@ module Decidim
     # setup a hash with :client_id, :client_secret and :site to enable omniauth authentication
     config_accessor :omniauth do
       {
-        enabled: TrustedIds.omniauth_env("CLIENT_ID").present?,
+        enabled: TrustedIds.to_bool(ENV.fetch("OMNIAUTH_ENABLED_BY_DEFAULT", TrustedIds.omniauth_env("CLIENT_ID").present?)),
         client_id: TrustedIds.omniauth_env("CLIENT_ID"),
         client_secret: TrustedIds.omniauth_env("CLIENT_SECRET"),
         site: TrustedIds.omniauth_env("SITE", "https://identitats.aoc.cat"),
@@ -59,9 +59,9 @@ module Decidim
       ENV.fetch("OMNIAUTH_GLOBAL_ATTRIBUTES", "site icon_path scope").split.map(&:to_sym)
     end
 
-    # wheter to us a custom login screen or the default one
+    # wheter to use a custom login screen or the default one
     config_accessor :custom_login_screen do
-      ENV.has_key?("CUSTOM_LOGIN_SCREEN") ? TrustedIds.to_bool(ENV.fetch("CUSTOM_LOGIN_SCREEN", true)) : TrustedIds.omniauth&.fetch(:enabled)
+      TrustedIds.to_bool(ENV.fetch("CUSTOM_LOGIN_SCREEN", true))
     end
 
     # how long the verification will be valid, defaults to 90 days

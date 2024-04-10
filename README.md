@@ -58,10 +58,18 @@ gem 'decidim-trusted_ids', git: "https://github.com/ConsorciAOC-PRJ/decidim-modu
 And then execute:
 
 ```bash
-bundle install
-bin/rails decidim_trusted_ids:install:migrations
+bundle
+bin/rails decidim:upgrade
 bin/rails db:migrate
 ```
+
+> **EXPERTS ONLY**
+>
+> Under the hood, when running `bundle exec rails decidim:upgrade` the `decidim-trusted_ids` gem will run the following (that can also be run manually if you consider):
+> 
+> ```bash
+> bin/rails decidim_trusted_ids:install:migrations
+> ```
 
 ## Usage
 
@@ -169,7 +177,8 @@ For the complete list of available options, see the [trusted_ids](lib/decidim/tr
   This is how the Via Oberta Handler looks like:
   ![Census authorization](docs/viaoberta.png)
 
-
+- If the login screen is customized, it will look like this:
+  ![Login screen](docs/login.png)
 
 ## Contributing
 

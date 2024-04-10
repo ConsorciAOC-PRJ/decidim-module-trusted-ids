@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email = ["ivan@pokecode.net"]
   s.license = "AGPL-3.0"
   s.homepage = "https://github.com/ConsorciAOC-PRJ/decidim-module-trusted-ids"
-  s.required_ruby_version = ">= 2.7"
+  s.required_ruby_version = ">= 3.0.0"
 
   s.name = "decidim-trusted_ids"
   s.summary = "A decidim trusted_ids module"

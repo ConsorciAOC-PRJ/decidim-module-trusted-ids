@@ -30,10 +30,6 @@ module Decidim
       ENV.fetch("OMNIAUTH_PROVIDER", "valid")
     end
 
-    config_accessor :custom_login_screen do
-      ENV.has_key?("CUSTOM_LOGIN_SCREEN") ? TrustedIds.to_bool(ENV.fetch("CUSTOM_LOGIN_SCREEN", true)) : true
-    end
-
     # From the data obtained we extract metadata to be saved as part of the authorization
     # This data can later be used by the census_authorization handler as to call the webservice
     # A hash with keys and how to find it inside hash comming from the OAuth
@@ -56,6 +52,16 @@ module Decidim
         icon_path: TrustedIds.omniauth_env("ICON", "media/images/#{TrustedIds.omniauth_provider.downcase}-icon.png"),
         scope: TrustedIds.omniauth_env("SCOPE", "autenticacio_usuari")
       }
+    end
+
+    # which of the former attributes can not set a the /system configuration, there are all the same for all tenants
+    config_accessor :omniauth_global_attributes do
+      ENV.fetch("OMNIAUTH_GLOBAL_ATTRIBUTES", "site icon_path scope").split.map(&:to_sym)
+    end
+
+    # wheter to us a custom login screen or the default one
+    config_accessor :custom_login_screen do
+      ENV.has_key?("CUSTOM_LOGIN_SCREEN") ? TrustedIds.to_bool(ENV.fetch("CUSTOM_LOGIN_SCREEN", true)) : TrustedIds.omniauth&.fetch(:enabled)
     end
 
     # how long the verification will be valid, defaults to 90 days

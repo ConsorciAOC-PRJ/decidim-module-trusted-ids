@@ -53,6 +53,22 @@ ca:
             scope: Àmbit
             site: URL proveïdor
     trusted_ids:
+      devise:
+        sessions:
+          new:
+            login: Start session
+            login_subtitle: Login into Decidim and start participating.
+            unverified_login: Other methods of unverified identification
+            verified_identity: Digital identity verified with %{provider}
+            verified_identity_html: |
+              <p>Access with systems recognized by official providers that certify your identity on the network, for more secure authentications.</p>
+              <ul>
+                <li>idCat Mòbil</li>
+                <li>idCat Certificat</li>
+                <li>DNIe</li>
+                <li>Cl@ve PIN</li>
+              </ul>
+            verified_login: Continue with verified ID
       providers:
         default:
           description: Aquesta autorització s'atorga a tots els usuaris que utilitzen un mètode d'inici de sessió amb identificador fefaent.

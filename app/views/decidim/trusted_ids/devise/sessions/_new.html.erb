@@ -2,7 +2,7 @@
   provider = Decidim::TrustedIds.omniauth_provider&.to_sym
   provider_str = t("decidim.authorization_handlers.trusted_ids_handler.name")
   icon_path = current_organization.enabled_omniauth_providers[provider]&.dig(:icon_path)
-  override_login = Devise.mappings[:user].omniauthable? && current_organization.enabled_omniauth_providers&.include?(provider)
+  override_login = Decidim::TrustedIds.custom_login_screen? && Devise.mappings[:user].omniauthable? && current_organization.enabled_omniauth_providers&.include?(provider)
 %>
 
 <div class="row collapse">

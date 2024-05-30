@@ -117,27 +117,17 @@ describe "Via Oberta manual verification", type: :system do
     end
   end
 
-  context "when metada has no document_type" do
+  context "when metada has a wrong document_type" do
     let(:document_type) { nil }
 
     it "verifies the user after selecting the type" do
       visit decidim_verifications.new_authorization_path(handler: :via_oberta_handler)
       expect(Decidim::Authorization.last.name).to eq("trusted_ids_handler")
       expect(page).to have_content("Could not be obtained automatically. Please select one from the list:")
-      perform_enqueued_jobs do
-        check "I agree with the terms of service"
-        click_button("Send")
-      end
-
-      expect(page).to have_content("There was a problem creating the authorization.")
-      expect(page).to have_content("Document type is invalid or missing.")
-      expect(Decidim::Authorization.last.reload.name).to eq("trusted_ids_handler")
-
-      # select a wrong type
-      select "NIF", from: "authorization_handler_document_type"
 
       perform_enqueued_jobs do
         check "I agree with the terms of service"
+        select "NIF", from: "authorization_handler_document_type"
         click_button("Send")
       end
 
@@ -200,7 +190,7 @@ describe "Via Oberta manual verification", type: :system do
       expect(Decidim::Authorization.last.reload.name).to eq("trusted_ids_handler")
     end
 
-    context "and metadata has no document_type" do
+    context "and metadata has a wrong document_type" do
       let(:document_type) { nil }
 
       it "do not verify the user" do
@@ -209,11 +199,11 @@ describe "Via Oberta manual verification", type: :system do
         expect(page).to have_content("Could not be obtained automatically. Please select one from the list:")
         perform_enqueued_jobs do
           check "I agree with the terms of service"
+          select "Passport", from: "authorization_handler_document_type"
           click_button("Send")
         end
 
-        expect(page).to have_content("There was a problem creating the authorization.")
-        expect(page).to have_content("Document type is invalid or missing.")
+        expect(page).to have_content("Could not verify you")
         expect(Decidim::Authorization.last.reload.name).to eq("trusted_ids_handler")
 
         # select a wrong type

@@ -27,25 +27,26 @@ module Decidim
           Decidim::Devise::OmniauthRegistrationsController.include(Decidim::TrustedIds::CheckOmniauthEmailOnLogin)
           Decidim::Verifications::AuthorizationsController.include(Decidim::TrustedIds::NeedsTrustedIdsSnippets)
           Decidim::Verifications::AuthorizationsController.include(Decidim::TrustedIds::CheckExistingAuthorizations)
+          Decidim::Admin::ImpersonationsController.include(Decidim::TrustedIds::Admin::ImpersonationsControllerOverride)
         end
       end
 
       initializer "decidim_trusted_ids.omniauth" do
-        next unless Decidim::TrustedIds.omniauth && Decidim::TrustedIds.omniauth_provider.present?
-
         omniauth = Decidim::TrustedIds.omniauth
+        next unless omniauth && Decidim::TrustedIds.omniauth_provider.present?
+
         omniauth[:icon_path] = "media/images/#{Decidim::TrustedIds.omniauth_provider.downcase}-icon.png" if omniauth[:icon_path].blank?
         omniauth[:scope] = "autenticacio_usuari" if omniauth[:scope].blank?
-        # Decidim uses the secrets configuration to decide whether to show the omniauth provider, we add it here
 
-        Rails.application.secrets[:omniauth][Decidim::TrustedIds.omniauth_provider.to_sym] = omniauth.except(*Decidim::TrustedIds.omniauth_global_attributes)
+        global_attributes = Decidim::TrustedIds.omniauth_global_attributes
+        # Decidim uses the secrets configuration to decide whether to show the omniauth provider, we add it here
+        Rails.application.secrets[:omniauth][Decidim::TrustedIds.omniauth_provider.to_sym] = omniauth.except(*global_attributes)
 
         Rails.application.config.middleware.use OmniAuth::Builder do
           provider Decidim::TrustedIds.omniauth_provider,
                    setup: lambda { |env|
                      request = Rack::Request.new(env)
                      organization = Decidim::Organization.find_by(host: request.host)
-                     # provider_config = organization.enabled_omniauth_providers[Decidim::TrustedIds.omniauth_provider.to_sym]
                      provider_config = organization.omniauth_settings.filter_map do |key, value|
                        next unless key.start_with?("omniauth_settings_#{Decidim::TrustedIds.omniauth_provider}")
 

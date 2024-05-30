@@ -71,6 +71,22 @@ bin/rails db:migrate
 > bin/rails decidim_trusted_ids:install:migrations
 > ```
 
+## Using OAuth in Decidim
+
+This module adds a new authentication method to Decidim that allows users to log in and register using an OAuth2 provider. This provider must be configured in the `ENV` variables or through an initializer.
+
+One important thing to note is that, in order to use an OAuth authentication system, you need on the provider to register and authorize the return url of your Decidim instance. This is usually done by adding the URL of your Decidim instance to the list of authorized URLs in the OAuth provider's settings.
+
+By default this plugin uses the `valid` provider, which is a built-in identity validator from the [AOC](https://www.aoc.cat/) consortium. 
+
+This means that you need to enable the following return url in the OAuth provider:
+
+```text
+https://your-decidim-instance.com/users/auth/valid/callback
+```
+
+If you are using a different provider, you should replace `valid` with the name of your provider.
+
 ## Usage
 
 This plugin comes prepared to be used solely with `ENV` variables, but you can also configure it through an initializer.

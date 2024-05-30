@@ -16,6 +16,7 @@ module Decidim
         attribute :document_id, String
         attribute :document_type, Integer
         attribute :tos_agreement, Boolean
+        validates :document_id, :document_type, presence: true
         validates :tos_agreement, allow_nil: false, acceptance: true
 
         validate :existing_via_oberta_identity
@@ -23,6 +24,7 @@ module Decidim
         attr_reader :response_error, :response_code
 
         def unique_id
+          return unless organization
           return unless census_response.success?
 
           Digest::SHA256.hexdigest(
@@ -33,7 +35,7 @@ module Decidim
         # use from previous authorization metadata. We don't allow user input here to prevent spoofing
         # not memoized because @document_id would be defined if sent via form
         def document_id
-          trusted_authorization&.metadata&.dig("uid")
+          trusted_authorization&.metadata&.dig("uid") || impersonated_document_id
         end
 
         # use from previous authorization metadata or use the one from the form as a fallback
@@ -57,7 +59,7 @@ module Decidim
         end
 
         def census_response
-          @census_response ||= ViaOberta::Api::Request.new(document_id: document_id, document_type: document_type, organization: user.organization).response
+          @census_response ||= ViaOberta::Api::Request.new(document_id: document_id, document_type: document_type, organization: organization).response
         end
 
         def existing_via_oberta_identity
@@ -84,8 +86,16 @@ module Decidim
 
         private
 
+        def impersonated_document_id
+          attributes[:document_id] if user&.managed?
+        end
+
         def trusted_authorization
           @trusted_authorization ||= Decidim::Authorization.find_by(name: "trusted_ids_handler", user: user)
+        end
+
+        def organization
+          user&.organization
         end
       end
     end

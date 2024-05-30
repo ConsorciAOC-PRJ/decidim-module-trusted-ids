@@ -7,6 +7,12 @@ require "spec_helper"
 # file should be updated to match any change/bug fix introduced in the core
 checksums = [
   {
+    package: "decidim-admin",
+    files: {
+      "/app/controllers/decidim/admin/impersonations_controller.rb" => "d4167f10da0df150b813a79f841af4f5"
+    }
+  },
+  {
     package: "decidim-core",
     files: {
       "/app/commands/decidim/create_omniauth_registration.rb" => "586139f98ded0645eb83e480ef5dd6bd",

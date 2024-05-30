@@ -150,6 +150,13 @@ module Decidim::ViaOberta
         end
       end
 
+      context "when no user" do
+        let(:user) { nil }
+        let(:trusted_ids_authorization) { nil }
+
+        it { is_expected.not_to be_valid }
+      end
+
       context "when user not in census" do
         let(:response_file) { "via_oberta_not_found.xml" }
 
@@ -164,6 +171,33 @@ module Decidim::ViaOberta
         it { is_expected.not_to be_valid }
 
         it_behaves_like "other error codes"
+      end
+
+      context "when impersonating" do
+        let(:user) { create :user, managed: true }
+        let(:trusted_ids_authorization) { nil }
+        let(:attributes) do
+          {
+            user: user,
+            document_id: "some-id",
+            document_type: 3,
+            tos_agreement: true
+          }
+        end
+
+        it { is_expected.to be_valid }
+
+        it "has metadata" do
+          expect(subject.document_id).to eq("some-id")
+          expect(subject.document_type).to eq(:passport)
+          expect(subject.document_type_string).to eq("Passport")
+        end
+
+        context "and user is not managed" do
+          let(:user) { create :user, managed: false }
+
+          it { is_expected.not_to be_valid }
+        end
       end
     end
   end

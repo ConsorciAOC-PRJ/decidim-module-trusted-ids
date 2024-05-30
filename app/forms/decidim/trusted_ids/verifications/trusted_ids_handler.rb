@@ -4,8 +4,6 @@ module Decidim
   module TrustedIds
     module Verifications
       class TrustedIdsHandler < AuthorizationHandler
-        include Decidim::OmniauthHelper
-
         attribute :provider, String
         attribute :uid, String
         attribute :raw_data

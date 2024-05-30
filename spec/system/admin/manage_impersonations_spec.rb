@@ -7,8 +7,8 @@ describe "Manage impersonations", type: :system do
   let(:available_authorizations) { %w(dummy_authorization_handler trusted_ids_handler via_oberta_handler) }
   let(:document_number) { "123456789X" }
   let(:user) { create(:user, :admin, :confirmed, :admin_terms_accepted, organization: organization) }
-  # let(:impersonatable_user) { create(:user, managed: true, organization: user.organization) }
-  # let(:impersonatable_user_id) { impersonatable_user.id }
+
+  include_context "with stubs viaoberta api"
 
   before do
     switch_to_host(organization.host)
@@ -22,5 +22,17 @@ describe "Manage impersonations", type: :system do
       expect(page).to have_content("Via Oberta")
       expect(page).not_to have_content("VÀLid")
     end
+
+    fill_in "impersonate_user[reason]", with: "Because I can"
+    fill_in "impersonate_user[name]", with: "John Doe"
+    select "Via Oberta", from: "impersonate_user[authorization][handler_name]"
+    fill_in "impersonate_user[authorization][document_id]", with: document_number
+    select "NIF", from: "impersonate_user[authorization][document_type]"
+    check "impersonate_user[authorization][tos_agreement]"
+
+    click_button "Impersonate"
+
+    expect(page).to have_content("You are managing the participant John Doe")
+    expect(Decidim::Authorization.last.name).to eq("via_oberta_handler")
   end
 end

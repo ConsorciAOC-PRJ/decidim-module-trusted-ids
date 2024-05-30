@@ -4,7 +4,6 @@ require "spec_helper"
 require "shared/shared_contexts"
 
 describe "Via Oberta manual verification", type: :system do
-  # include_context "with oauth configuration"
   include_context "with stubs viaoberta api"
 
   let(:organization) { create(:organization, available_authorizations: available_authorizations) }

@@ -47,7 +47,7 @@ ca:
       organizations:
         omniauth_settings:
           valid:
-            client_id: ID de client
+            client_id: Client ID
             client_secret: Clau secreta del Client
             icon_path: Icona (sempre en format media/images/some-image.png)
             scope: Àmbit
@@ -113,7 +113,7 @@ ca:
         form:
           code: 'Codi d''error: %{code}'
           data: 'Data per ser enviat:'
-          description_html: <p>Aquesta autorització comprova si sou a la base de dades del cens <b>%{organization_name}</b>.</p> <p>Per dur a terme aquesta comprovació, s'enviarà la informació següent al <a href=" https://www.aoc.cat/serveis-aoc/via-oberta/" target="_blank">Servei Via Oberta</a>, ofert pel <a href="https://www.aoc.cat " target="_blank">Administració Oberta de Catalunya</a></p> <p>Aquesta informació s'utilitzarà amb l'únic propòsit de verificar la vostra identitat, però els registres d'aquesta transacció poden ser conservats pel proveïdor de serveis.</p>
+          description_html: <p>Aquesta autorització comprova si sou a la base de dades del cens <b>%{organization_name}</b>.</p> <p>Per dur a terme aquesta comprovació, s'enviarà la informació següent al <a href=" https://www.aoc.cat/serveis-aoc/via-oberta/" target="_blank">Servei Via Oberta</a>, ofert per l' <a href="https://www.aoc.cat " target="_blank">Administració Oberta de Catalunya</a></p> <p>Aquesta informació s'utilitzarà amb l'únic propòsit de verificar la vostra identitat, però els registres d'aquesta transacció poden ser conservats pel proveïdor de serveis.</p>
           document_id: Número de document
           document_type: Tipus de document
           error: 'Missatge d''error del servei:'

@@ -8,10 +8,10 @@ module Decidim
         include NeedsCensusConfig
 
         included do
-          alias_method :original_save_organization, :save_organization
+          alias_method :trusted_ids_original_save_organization, :save_organization
 
           def save_organization
-            original_save_organization
+            trusted_ids_original_save_organization
             save_census_config!(organization)
           end
         end

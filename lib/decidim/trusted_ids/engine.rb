@@ -79,6 +79,8 @@ module Decidim
             workflow.expires_in = Decidim::TrustedIds.verification_expiration_time.to_i
           end
         end
+
+        Decidim.icons.register(name: "valid-fill", icon: "valid-fill", category: "social icon", description: "", engine: :core)
       end
 
       initializer "decidim_trusted_ids.webpacker.assets_path" do

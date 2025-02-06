@@ -1,6 +1,9 @@
 # Changelog
 Following Semantic Versioning 2.
 
+## Version 0.7.0 (MINOR)
+- Adds compatibility with Decidim 0.28
+
 ## Version 0.6.0 (MINOR)
 - Adds compatibility with Decidim 0.27
 ## Version 0.5.0 (MINOR)

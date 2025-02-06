@@ -1,3 +1,3 @@
-<!-- insert_top ".collapsible" -->
+<!-- insert_top "#advanced-settings-panel" -->
 
 <%= render "decidim/trusted_ids/system/organizations/settings_form", f: f %>

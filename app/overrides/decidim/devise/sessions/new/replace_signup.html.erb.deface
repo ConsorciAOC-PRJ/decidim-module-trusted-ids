@@ -1,3 +1,0 @@
-<!-- replace_contents ".wrapper" -->
-
-<%= render "decidim/trusted_ids/devise/sessions/new" %>

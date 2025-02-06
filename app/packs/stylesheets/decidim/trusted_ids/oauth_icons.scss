@@ -1,6 +1,16 @@
 /* Decidim has a bug when using external_icon method that automatically adds a display:none inline css */
+
 .social-register,
-.button--social {
+.button--social,
+.button--unverified-login {
+  display: flex;
+  padding: 0 1.5rem 0 0;
+  min-width: 250px;
+  color: #fff;
+  height: 50px;
+  text-decoration-line: none;
+  font-weight: normal;
+
   .button--social__icon {
     img.icon.external-icon {
       display: inline-block !important;
@@ -9,7 +19,8 @@
 
   &.button--valid {
     .button--social__icon {
-      padding: 12px 5px 5px 8px;
+      border-right: 1px solid rgba(0, 0, 0, 0.075);
+      padding: 0 8px;
 
       img.icon.external-icon {
         width: 2.8em;
@@ -19,11 +30,23 @@
   }
 }
 
+.button--social {
+  background-color: var(--primary);
+  justify-content: start;
+  align-items: center;
+}
+
+.button--unverified-login {
+  border-color: var(--secondary);
+  background-color: var(--secondary);
+}
+
 .trusted-ids-login-box {
   background: #fff;
   border: 1px solid #ccc;
   border-radius: 15px;
   padding: 2em !important;
+  margin-top: 2em;
 
   h6 {
     font-size: 1em;
@@ -35,4 +58,13 @@
     width: 80%;
     margin: 2em auto;
   }
+
+  ul {
+    margin-left: 1.25rem;
+    list-style-type: disc !important;
+  }
+}
+
+.hide {
+  display: none;
 }

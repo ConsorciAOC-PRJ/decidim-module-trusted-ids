@@ -6,7 +6,7 @@
 
   <h5><%= t("decidim.authorization_handlers.trusted_ids_handler.explanation") %></h5>
 
-  <p><%= t(".description_html", provider: provider_str, link: t("devise.shared.links.sign_in_with_provider", provider: provider_str)) %></p>
+  <p><%= t(".description_html", provider: provider_str, link: t("devise.shared.links.log_in_with_provider", provider: provider_str)) %></p>
   <div class="callout secondary"><%= t(".warning_html", email: current_user.email, provider: provider_str) %></div>
 
   <div class="social-register">
@@ -15,7 +15,7 @@
         <%= oauth_icon provider %>
       </span>
       <span class="button--social__text">
-        <%= t("devise.shared.links.sign_in_with_provider", provider: provider_str) %>
+        <%= t("devise.shared.links.log_in_with_provider", provider: provider_str) %>
       </span>
     <% end %>
   </div>

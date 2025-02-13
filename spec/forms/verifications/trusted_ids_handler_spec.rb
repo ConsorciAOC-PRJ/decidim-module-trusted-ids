@@ -18,8 +18,8 @@ module Decidim::TrustedIds
           raw_data: raw_data
         }
       end
-      let(:user) { create :user }
-      let(:another_user) { create :user }
+      let(:user) { create(:user) }
+      let(:another_user) { create(:user) }
       let(:provider) { "valid" }
       let(:uid) { 1234 }
       let(:extra) do
@@ -81,7 +81,7 @@ module Decidim::TrustedIds
       end
 
       context "when there's no identity" do
-        let!(:identity) { create :identity, provider: "facebook", user: user }
+        let!(:identity) { create(:identity, provider: "facebook", user: user) }
 
         it_behaves_like "an invalid auth"
 

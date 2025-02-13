@@ -3,7 +3,7 @@
 require "spec_helper"
 require "shared/shared_contexts"
 
-describe "Via Oberta manual verification", type: :system do
+describe "Via Oberta manual verification" do
   include_context "with stubs viaoberta api"
 
   let(:organization) { create(:organization, available_authorizations: available_authorizations) }
@@ -36,11 +36,11 @@ describe "Via Oberta manual verification", type: :system do
   it "has the Via Oberta handler" do
     expect(page).to have_content("Via Oberta")
     expect(page).to have_content("This authorization method is granted to all users that are in the Via Oberta census database.")
-    click_link "Via Oberta"
+    click_on "Via Oberta"
     expect(page).to have_content("Verify with Via Oberta")
     expect(page).to have_content("NIE")
-    expect(page).not_to have_content("NIF")
-    expect(page).not_to have_content("Passport")
+    expect(page).to have_no_content("NIF")
+    expect(page).to have_no_content("Passport")
     expect(page).to have_content('By clicking on the "I agree" button, you agree to the following terms of service')
   end
 
@@ -49,7 +49,7 @@ describe "Via Oberta manual verification", type: :system do
     expect(Decidim::Authorization.last.name).to eq("trusted_ids_handler")
     perform_enqueued_jobs do
       check "I agree with the terms of service"
-      click_button("Send")
+      click_on("Send")
     end
 
     expect(page).to have_content("You've been successfully authorized.")
@@ -59,7 +59,7 @@ describe "Via Oberta manual verification", type: :system do
   end
 
   context "when terms and conditions are customized" do
-    let(:current_config) { create :trusted_ids_organization_config, organization: organization, tos: custom_terms }
+    let(:current_config) { create(:trusted_ids_organization_config, organization: organization, tos: custom_terms) }
     let(:custom_terms) do
       {
         en: "<p>Custom terms</p>"
@@ -67,8 +67,8 @@ describe "Via Oberta manual verification", type: :system do
     end
 
     it "has custom terms" do
-      click_link "Via Oberta"
-      expect(page).not_to have_content('By clicking on the "I agree" button, you agree to the following terms of service')
+      click_on "Via Oberta"
+      expect(page).to have_no_content('By clicking on the "I agree" button, you agree to the following terms of service')
       expect(page).to have_content("Custom terms")
     end
 
@@ -80,7 +80,7 @@ describe "Via Oberta manual verification", type: :system do
       end
 
       it "has default terms" do
-        click_link "Via Oberta"
+        click_on "Via Oberta"
         expect(page).to have_content('By clicking on the "I agree" button, you agree to the following terms of service')
       end
     end
@@ -91,7 +91,7 @@ describe "Via Oberta manual verification", type: :system do
       visit decidim_verifications.new_authorization_path(handler: :via_oberta_handler)
       expect(Decidim::Authorization.last.name).to eq("trusted_ids_handler")
       perform_enqueued_jobs do
-        click_button("Send")
+        click_on("Send")
       end
 
       expect(page).to have_content("must be accepted")
@@ -107,7 +107,7 @@ describe "Via Oberta manual verification", type: :system do
       expect(Decidim::Authorization.last.name).to eq("trusted_ids_handler")
       perform_enqueued_jobs do
         check "I agree with the terms of service"
-        click_button("Send")
+        click_on("Send")
       end
 
       expect(page).to have_content("There was a problem creating the authorization.")
@@ -127,7 +127,7 @@ describe "Via Oberta manual verification", type: :system do
       perform_enqueued_jobs do
         check "I agree with the terms of service"
         select "NIF", from: "authorization_handler_document_type"
-        click_button("Send")
+        click_on("Send")
       end
 
       expect(page).to have_content("You've been successfully authorized.")
@@ -163,7 +163,7 @@ describe "Via Oberta manual verification", type: :system do
         page.execute_script("$('#authorization_handler_birthday').focus()")
         page.find(".datepicker-dropdown .day:not(.new)", text: "12").click
 
-        click_button "Send"
+        click_on "Send"
         expect(page).to have_content("You've been successfully authorized")
 
         expect(Decidim::Authorization.last.name).to eq("dummy_authorization_handler")
@@ -179,7 +179,7 @@ describe "Via Oberta manual verification", type: :system do
       expect(Decidim::Authorization.last.name).to eq("trusted_ids_handler")
       perform_enqueued_jobs do
         check "I agree with the terms of service"
-        click_button("Send")
+        click_on("Send")
       end
 
       expect(page).to have_content("There was a problem creating the authorization.")
@@ -199,7 +199,7 @@ describe "Via Oberta manual verification", type: :system do
         perform_enqueued_jobs do
           check "I agree with the terms of service"
           select "Passport", from: "authorization_handler_document_type"
-          click_button("Send")
+          click_on("Send")
         end
 
         expect(page).to have_content("Could not verify you")
@@ -210,7 +210,7 @@ describe "Via Oberta manual verification", type: :system do
 
         perform_enqueued_jobs do
           check "I agree with the terms of service"
-          click_button("Send")
+          click_on("Send")
         end
 
         expect(page).to have_content("There was a problem creating the authorization.")
@@ -230,7 +230,7 @@ describe "Via Oberta manual verification", type: :system do
       expect(Decidim::Authorization.last.name).to eq("trusted_ids_handler")
       perform_enqueued_jobs do
         check "I agree with the terms of service"
-        click_button("Send")
+        click_on("Send")
       end
 
       expect(page).to have_content("There was a problem creating the authorization.")
@@ -249,7 +249,7 @@ describe "Via Oberta manual verification", type: :system do
       expect(Decidim::Authorization.last.name).to eq("trusted_ids_handler")
       perform_enqueued_jobs do
         check "I agree with the terms of service"
-        click_button("Send")
+        click_on("Send")
       end
 
       expect(page).to have_content("There was a problem creating the authorization.")
@@ -269,7 +269,7 @@ describe "Via Oberta manual verification", type: :system do
       expect(Decidim::Authorization.last.name).to eq("trusted_ids_handler")
       perform_enqueued_jobs do
         check "I agree with the terms of service"
-        click_button("Send")
+        click_on("Send")
       end
 
       expect(page).to have_content("There was a problem creating the authorization.")
@@ -287,11 +287,11 @@ describe "Via Oberta manual verification", type: :system do
 
     it "has the Via Oberta handler" do
       expect(page).to have_content("Verify with Via Oberta")
-      click_link "Via Oberta"
+      click_on "Via Oberta"
       expect(page).to have_content("Verify with Via Oberta")
       expect(page).to have_content("NIE")
-      expect(page).not_to have_content("NIF")
-      expect(page).not_to have_content("Passport")
+      expect(page).to have_no_content("NIF")
+      expect(page).to have_no_content("Passport")
     end
   end
 
@@ -312,16 +312,16 @@ describe "Via Oberta manual verification", type: :system do
       it "can be renewed" do
         within ".authorizations-list" do
           expect(page).to have_link("Via Oberta")
-          click_link "Via Oberta"
+          click_on "Via Oberta"
         end
 
         within "#renew-modal" do
-          click_link "Continue"
+          click_on "Continue"
         end
 
         perform_enqueued_jobs do
           check "I agree with the terms of service"
-          click_button("Send")
+          click_on("Send")
         end
 
         expect(page).to have_content("You've been successfully authorized.")
@@ -337,23 +337,23 @@ describe "Via Oberta manual verification", type: :system do
         within ".authorizations-list" do
           expect(page).to have_link("Via Oberta")
           expect(page).to have_content("Expired at #{I18n.l(existing_authorization.expires_at, format: :long)}")
-          click_link "Via Oberta"
+          click_on "Via Oberta"
         end
 
         within "#renew-modal" do
-          click_link "Continue"
+          click_on "Continue"
         end
 
         perform_enqueued_jobs do
           check "I agree with the terms of service"
-          click_button("Send")
+          click_on("Send")
         end
 
         expect(page).to have_content("You've been successfully authorized.")
       end
 
       context "when expiration time is customized" do
-        let(:current_config) { create :trusted_ids_organization_config, organization: organization, expiration_days: 350 }
+        let(:current_config) { create(:trusted_ids_organization_config, organization: organization, expiration_days: 350) }
 
         it "hasn't expired yet" do
           expect(existing_authorization.expired?).to be false

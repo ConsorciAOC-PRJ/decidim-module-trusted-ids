@@ -9,7 +9,7 @@
 
 <%= render layout: "layouts/decidim/shared/layout_center" do %>
 
-  <% if !override_login %>
+  <% if override_login %>
     <div class="login__info trusted-ids-login-box">
       <h2 class="h2"><%= t("decidim.trusted_ids.devise.sessions.new.login") %></h2>
       <p><%= t("decidim.trusted_ids.devise.sessions.new.login_subtitle") %></p>
@@ -51,7 +51,7 @@
 
   <span class="login__info-separator"></span>
 
-  <% if !override_login %>
+  <% if override_login %>
     <div class="decidim-login hide">
       <%= render "decidim/trusted_ids/devise/sessions/omniauth_buttons" %>
     </div>

@@ -3,7 +3,7 @@
 require "spec_helper"
 require "shared/system_organization_examples"
 
-describe "Creates an organization", type: :system do
+describe "Creates an organization" do
   let(:admin) { create(:admin) }
   let(:census_config) do
     {
@@ -20,8 +20,8 @@ describe "Creates an organization", type: :system do
     allow(Decidim::TrustedIds).to receive(:census_authorization).and_return(census_config)
     login_as admin, scope: :admin
     visit decidim_system.root_path
-    click_link "Organizations"
-    click_link "New"
+    click_on "Organizations"
+    click_on "New"
   end
 
   it_behaves_like "creates organization"

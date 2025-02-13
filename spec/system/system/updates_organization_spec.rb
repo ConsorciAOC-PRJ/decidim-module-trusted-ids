@@ -3,7 +3,7 @@
 require "spec_helper"
 require "shared/system_organization_examples"
 
-describe "Updates an organization", type: :system do
+describe "Updates an organization" do
   let(:admin) { create(:admin) }
   let!(:organization) { create(:organization, name: "Citizen Corp") }
   let!(:another_organization) { create(:organization) }
@@ -22,14 +22,14 @@ describe "Updates an organization", type: :system do
   before do
     login_as admin, scope: :admin
     visit decidim_system.root_path
-    click_link "Organizations"
+    click_on "Organizations"
     within "table tbody" do
-      first("tr").click_link "Edit"
+      first("tr").click_on "Edit"
     end
   end
 
   it "has default properties" do
-    click_button "Show advanced settings"
+    click_on "Show advanced settings"
     expect(page).to have_content("Via Oberta settings")
     expect(page).to have_field "NIF", with: ""
     expect(page).to have_field "Requester identifier (INE)", with: ""
@@ -43,7 +43,7 @@ describe "Updates an organization", type: :system do
     let(:another_organization) { organization }
 
     it "has defined properties" do
-      click_button "Show advanced settings"
+      click_on "Show advanced settings"
       expect(page).to have_content("Via Oberta settings")
       expect(page).to have_field "NIF", with: "001"
       expect(page).to have_field "Requester identifier (INE)", with: "002"

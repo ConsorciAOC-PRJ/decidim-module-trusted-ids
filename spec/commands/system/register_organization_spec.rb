@@ -6,7 +6,7 @@ require "shared/commands_organization_examples"
 module Decidim::System
   describe RegisterOrganization do
     describe "call" do
-      let!(:another_organization) { create :organization }
+      let!(:another_organization) { create(:organization) }
       let(:form) do
         RegisterOrganizationForm.new(params)
       end

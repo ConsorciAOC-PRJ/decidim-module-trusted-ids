@@ -106,7 +106,7 @@ module Decidim::TrustedIds
     end
 
     context "when identity is missing" do
-      let!(:identity) { create :identity, user: user, provider: "facebook" }
+      let!(:identity) { create(:identity, user: user, provider: "facebook") }
 
       it "does nothing" do
         expect(Decidim::EventsManager).not_to receive(:publish)

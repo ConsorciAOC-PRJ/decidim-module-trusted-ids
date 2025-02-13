@@ -3,7 +3,7 @@
 require "spec_helper"
 require "shared/shared_contexts"
 
-describe "Trusted IDs manual verification", type: :system do
+describe "Trusted IDs manual verification" do
   include_context "with oauth configuration"
 
   let(:user) { create(:user, :confirmed, email: user_email, organization: organization) }
@@ -19,7 +19,7 @@ describe "Trusted IDs manual verification", type: :system do
   it "has the VALid handler" do
     expect(page).to have_content("VÀLid")
     expect(page).to have_content("VÀLid is the digital identity service of the Government of Catalonia.")
-    click_link "VÀLid"
+    click_on "VÀLid"
     expect(page).to have_content("Verify with VÀLid")
     expect(page).to have_button("Cancel verification")
     expect(page).to have_link("Sign in with VÀLid")
@@ -32,7 +32,7 @@ describe "Trusted IDs manual verification", type: :system do
     expect(page).to have_css(".topbar__user__logged")
     expect(page).to have_content("Verify with VÀLid")
     perform_enqueued_jobs do
-      click_link("Sign in with VÀLid")
+      click_on("Sign in with VÀLid")
     end
 
     expect(page).to have_content("Successfully")
@@ -58,7 +58,7 @@ describe "Trusted IDs manual verification", type: :system do
     it "shows an error message" do
       visit decidim_verifications.new_authorization_path(handler: :trusted_ids_handler)
       perform_enqueued_jobs do
-        click_link("Sign in with VÀLid")
+        click_on("Sign in with VÀLid")
       end
       expect(page).to have_content("You are trying to sign in with a different email than the one in your account")
       expect(Decidim::Authorization.last).to be_nil
@@ -71,7 +71,7 @@ describe "Trusted IDs manual verification", type: :system do
       visit decidim_verifications.new_authorization_path(handler: :trusted_ids_handler)
       expect(Decidim::Authorization.last).to be_nil
       perform_enqueued_jobs do
-        click_button "Cancel verification"
+        click_on "Cancel verification"
       end
 
       expect(page).to have_content("VÀLid")
@@ -89,7 +89,7 @@ describe "Trusted IDs manual verification", type: :system do
 
     it "has the VALid handler" do
       expect(page).to have_content("Verify with VÀLid")
-      click_link "Verify with VÀLid"
+      click_on "Verify with VÀLid"
       expect(page).to have_content("Verify with VÀLid")
       expect(page).to have_button("Cancel verification")
       expect(page).to have_link("Sign in with VÀLid")

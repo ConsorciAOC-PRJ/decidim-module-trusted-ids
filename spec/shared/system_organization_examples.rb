@@ -9,7 +9,7 @@ shared_examples "updates organization" do
     check "VÀLid (Direct)"
     check "Via Oberta (Direct)"
 
-    click_button "Show advanced settings"
+    click_on "Show advanced settings"
     expect(page).to have_content("Via Oberta settings")
 
     fill_in "NIF", with: "11"
@@ -17,7 +17,7 @@ shared_examples "updates organization" do
     fill_in "Municipal code", with: "33"
     fill_in "Province code", with: "44"
 
-    click_button "Save"
+    click_on "Save"
 
     expect(page).to have_css("div.flash.success")
     expect(page).to have_content("Citizens Rule!")
@@ -44,9 +44,9 @@ shared_examples "creates organization without census authorization fields" do
     check "VÀLid (Direct)"
     check "Via Oberta (Direct)"
 
-    click_button "Show advanced settings"
-    expect(page).not_to have_content("Via Oberta settings")
-    click_button "Create organization & invite admin"
+    click_on "Show advanced settings"
+    expect(page).to have_no_content("Via Oberta settings")
+    click_on "Create organization & invite admin"
 
     expect(page).to have_css("div.flash.success")
     expect(page).to have_content("Citizen Corp")
@@ -70,7 +70,7 @@ shared_examples "creates organization" do
     check "VÀLid (Direct)"
     check "Via Oberta (Direct)"
 
-    click_button "Show advanced settings"
+    click_on "Show advanced settings"
     expect(page).to have_content("Via Oberta settings")
 
     fill_in "NIF", with: "11"
@@ -78,7 +78,7 @@ shared_examples "creates organization" do
     fill_in "Municipal code", with: "33"
     fill_in "Province code", with: "44"
 
-    click_button "Create organization & invite admin"
+    click_on "Create organization & invite admin"
 
     expect(page).to have_css("div.flash.success")
     expect(page).to have_content("Citizen Corp")

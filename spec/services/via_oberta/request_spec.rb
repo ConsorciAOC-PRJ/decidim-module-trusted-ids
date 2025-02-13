@@ -10,7 +10,7 @@ module Decidim::ViaOberta
 
       include_context "with stubs viaoberta api"
 
-      let(:organization) { create :organization }
+      let(:organization) { create(:organization) }
       let(:document_id) { "RE12345678" }
       let(:document_type) { nil }
       let(:census_authorization) do
@@ -146,7 +146,7 @@ module Decidim::ViaOberta
       it_behaves_like "generates xml"
 
       context "when config exists" do
-        let!(:trusted_ids_organization_config) { create :trusted_ids_organization_config, organization: organization, settings: settings }
+        let!(:trusted_ids_organization_config) { create(:trusted_ids_organization_config, organization: organization, settings: settings) }
         let(:settings) do
           { province_code: province_code, municipal_code: municipal_code, ine: ine, nif: nif, organization_name: organization_name }
         end

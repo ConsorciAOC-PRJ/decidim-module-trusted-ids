@@ -18,8 +18,8 @@ module Decidim::ViaOberta
           tos_agreement: tos_agreement
         }
       end
-      let(:user) { create :user }
-      let(:another_user) { create :user }
+      let(:user) { create(:user) }
+      let(:another_user) { create(:user) }
       let!(:trusted_ids_authorization) { create(:authorization, user: user, name: "trusted_ids_handler", metadata: metadata) }
       let(:valid_document_type) { 2 }
       let(:params_document_type) { nil }
@@ -174,7 +174,7 @@ module Decidim::ViaOberta
       end
 
       context "when impersonating" do
-        let(:user) { create :user, managed: true }
+        let(:user) { create(:user, managed: true) }
         let(:trusted_ids_authorization) { nil }
         let(:attributes) do
           {
@@ -194,7 +194,7 @@ module Decidim::ViaOberta
         end
 
         context "and user is not managed" do
-          let(:user) { create :user, managed: false }
+          let(:user) { create(:user, managed: false) }
 
           it { is_expected.not_to be_valid }
         end

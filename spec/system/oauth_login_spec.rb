@@ -3,7 +3,7 @@
 require "spec_helper"
 require "shared/shared_contexts"
 
-describe "OAuth login button", type: :system do
+describe "OAuth login button" do
   include_context "with oauth configuration"
 
   let(:user) { Decidim::User.find_by(email: email) }
@@ -12,6 +12,7 @@ describe "OAuth login button", type: :system do
   before do
     switch_to_host(organization.host)
     visit decidim.new_user_session_path
+
   end
 
   it "has the valid button" do
@@ -19,15 +20,15 @@ describe "OAuth login button", type: :system do
     expect(page).to have_content("Login into Decidim and start participating")
     expect(page).to have_link("Continue with verified ID")
     expect(page).to have_link("Other methods of unverified identification")
-    expect(page).not_to have_content("Sign in with Valid")
-    expect(page).not_to have_content("Sign in with Facebook")
-    expect(page).not_to have_content("Email")
-    expect(page).not_to have_content("Password")
-    expect(page).not_to have_content("Forgot your password?")
+    expect(page).to have_no_content("Sign in with Valid")
+    expect(page).to have_no_content("Sign in with Facebook")
+    expect(page).to have_no_content("Email")
+    expect(page).to have_no_content("Password")
+    expect(page).to have_no_content("Forgot your password?")
 
-    click_link "Other methods of unverified identification"
+    click_on "Other methods of unverified identification"
 
-    expect(page).not_to have_content("Sign in with Valid")
+    expect(page).to have_no_content("Sign in with Valid")
     expect(page).to have_content("Sign in with Facebook")
     expect(page).to have_content("Email")
     expect(page).to have_content("Password")
@@ -37,7 +38,7 @@ describe "OAuth login button", type: :system do
   it "verifies and notifies the user" do
     expect(Decidim::Authorization.last).to be_nil
     perform_enqueued_jobs do
-      click_link "Continue with verified ID"
+      click_on "Continue with verified ID"
     end
 
     expect(page).to have_content("Successfully")
@@ -58,7 +59,7 @@ describe "OAuth login button", type: :system do
     it "verifies and does not notify the user" do
       expect(Decidim::Authorization.last).to be_nil
       perform_enqueued_jobs do
-        click_link "Continue with verified ID"
+        click_on "Continue with verified ID"
       end
 
       expect(page).to have_content("Successfully")
@@ -82,14 +83,14 @@ describe "OAuth login button", type: :system do
         expect(Decidim::Authorization.count).to eq(1)
         expect(Decidim::Authorization.last).to be_granted
         perform_enqueued_jobs do
-          click_link "Continue with verified ID"
+          click_on "Continue with verified ID"
         end
 
         expect(page).to have_content("Successfully")
         expect(page).to have_content(user.name)
         expect(page).to have_css(".topbar__user__logged")
         expect(page).to have_content("VÀLid")
-        expect(page).not_to have_content("Granted at #{authorization.granted_at.to_s(:long)}")
+        expect(page).to have_no_content("Granted at #{authorization.granted_at.to_s(:long)}")
         expect(page).to have_content("Granted at #{Decidim::Authorization.last.granted_at.to_s(:long)}")
 
         expect(Decidim::Authorization.count).to eq(1)
@@ -106,7 +107,7 @@ describe "OAuth login button", type: :system do
         expect(Decidim::Authorization.last).to be_granted
         expect(Decidim::Authorization.last).to be_expired
         perform_enqueued_jobs do
-          click_link "Continue with verified ID"
+          click_on "Continue with verified ID"
         end
 
         expect(page).to have_content("Successfully")
@@ -129,7 +130,7 @@ describe "OAuth login button", type: :system do
         expect(Decidim::Authorization.count).to eq(1)
         expect(Decidim::Authorization.last).not_to be_granted
         perform_enqueued_jobs do
-          click_link "Continue with verified ID"
+          click_on "Continue with verified ID"
         end
 
         expect(page).to have_content("Successfully")
@@ -156,7 +157,7 @@ describe "OAuth login button", type: :system do
       it "does not verify the user" do
         expect(Decidim::Authorization.last).to be_nil
         perform_enqueued_jobs do
-          click_link "Continue with verified ID"
+          click_on "Continue with verified ID"
         end
 
         expect(page).to have_content("Successfully")
@@ -175,7 +176,7 @@ describe "OAuth login button", type: :system do
         expect(user.identities.count).to eq(1)
         expect(Decidim::Authorization.last).to be_nil
         perform_enqueued_jobs do
-          click_link "Continue with verified ID"
+          click_on "Continue with verified ID"
         end
 
         expect(page).to have_content("Successfully")

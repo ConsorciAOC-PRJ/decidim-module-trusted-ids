@@ -10,8 +10,8 @@ module Decidim::System
         UpdateOrganizationForm.new(params)
       end
 
-      let(:organization) { create :organization }
-      let!(:another_organization) { create :organization }
+      let(:organization) { create(:organization) }
+      let!(:another_organization) { create(:organization) }
       let(:command) { described_class.new(organization.id, form) }
       let(:params) do
         {

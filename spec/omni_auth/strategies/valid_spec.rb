@@ -106,8 +106,7 @@ describe OmniAuth::Strategies::Valid do
 
   describe "#callback_url" do
     it "is a combination of host, script name, and callback path" do
-      allow(strategy).to receive(:full_host).and_return("https://example.com")
-      allow(strategy).to receive(:script_name).and_return("/sub_uri")
+      allow(strategy).to receive_messages(full_host: "https://example.com", script_name: "/sub_uri")
 
       expect(subject.callback_url).to eq("https://example.com/sub_uri/users/auth/valid/callback")
     end
@@ -161,7 +160,7 @@ describe OmniAuth::Strategies::Valid do
     end
 
     context "when nickname already exists" do
-      let!(:existing_user) { create :user, nickname: "arthur" }
+      let!(:existing_user) { create(:user, nickname: "arthur") }
 
       it "returns a new valid nickname" do
         expect(subject.info[:nickname]).to eq("arthur_2")

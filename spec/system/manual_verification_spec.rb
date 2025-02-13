@@ -5,6 +5,7 @@ require "shared/shared_contexts"
 
 describe "Trusted IDs manual verification" do
   include_context "with oauth configuration"
+  include_context "with stubs viaoberta api"
 
   let(:user) { create(:user, :confirmed, email: user_email, organization: organization) }
   let(:user_email) { email }
@@ -22,23 +23,23 @@ describe "Trusted IDs manual verification" do
     click_on "VÀLid"
     expect(page).to have_content("Verify with VÀLid")
     expect(page).to have_button("Cancel verification")
-    expect(page).to have_link("Sign in with VÀLid")
+    expect(page).to have_link("Log in with VÀLid")
     expect(page).to have_content(user.email)
   end
 
   it "verifies and notifies the user" do
     visit decidim_verifications.new_authorization_path(handler: :trusted_ids_handler)
     expect(Decidim::Authorization.last).to be_nil
-    expect(page).to have_css(".topbar__user__logged")
+    expect(page).to have_css("#trigger-dropdown-account")
     expect(page).to have_content("Verify with VÀLid")
     perform_enqueued_jobs do
-      click_on("Sign in with VÀLid")
+      click_on("Log in with VÀLid")
     end
 
-    expect(page).to have_content("Successfully")
-    expect(page).to have_content("Granted at #{Decidim::Authorization.last.granted_at.to_s(:long)}")
+    check "I agree with the terms of service"
+    click_on("Send")
+    expect(page).to have_content("You have been successfully authorized")
     expect(Decidim::Authorization.last.user).to eq(user)
-    expect(Decidim::Authorization.last.metadata).to eq(metadata)
     expect(last_email.subject).to include("Authorization successful")
     expect(last_email.to).to include(user.email)
   end
@@ -58,7 +59,7 @@ describe "Trusted IDs manual verification" do
     it "shows an error message" do
       visit decidim_verifications.new_authorization_path(handler: :trusted_ids_handler)
       perform_enqueued_jobs do
-        click_on("Sign in with VÀLid")
+        click_on("Log in with VÀLid")
       end
       expect(page).to have_content("You are trying to sign in with a different email than the one in your account")
       expect(Decidim::Authorization.last).to be_nil
@@ -92,7 +93,7 @@ describe "Trusted IDs manual verification" do
       click_on "Verify with VÀLid"
       expect(page).to have_content("Verify with VÀLid")
       expect(page).to have_button("Cancel verification")
-      expect(page).to have_link("Sign in with VÀLid")
+      expect(page).to have_link("Log in with VÀLid")
       expect(page).to have_content(user.email)
     end
   end

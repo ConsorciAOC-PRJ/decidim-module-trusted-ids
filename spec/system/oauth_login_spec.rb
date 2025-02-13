@@ -12,7 +12,6 @@ describe "OAuth login button" do
   before do
     switch_to_host(organization.host)
     visit decidim.new_user_session_path
-
   end
 
   it "has the valid button" do
@@ -20,16 +19,16 @@ describe "OAuth login button" do
     expect(page).to have_content("Login into Decidim and start participating")
     expect(page).to have_link("Continue with verified ID")
     expect(page).to have_link("Other methods of unverified identification")
-    expect(page).to have_no_content("Sign in with Valid")
-    expect(page).to have_no_content("Sign in with Facebook")
+    expect(page).to have_no_content("Log in with Valid")
+    expect(page).to have_no_content("Log in with Facebook")
     expect(page).to have_no_content("Email")
     expect(page).to have_no_content("Password")
     expect(page).to have_no_content("Forgot your password?")
 
     click_on "Other methods of unverified identification"
 
-    expect(page).to have_no_content("Sign in with Valid")
-    expect(page).to have_content("Sign in with Facebook")
+    expect(page).to have_no_content("Log in with Valid")
+    expect(page).to have_content("Log in with Facebook")
     expect(page).to have_content("Email")
     expect(page).to have_content("Password")
     expect(page).to have_content("Forgot your password?")

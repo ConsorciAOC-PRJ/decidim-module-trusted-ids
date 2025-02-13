@@ -52,8 +52,8 @@ describe "Via Oberta manual verification" do
       click_on("Send")
     end
 
-    expect(page).to have_content("You've been successfully authorized.")
-    expect(page).to have_content("Granted at #{Decidim::Authorization.last.granted_at.to_s(:long)}")
+    expect(page).to have_content("You have been successfully authorized.")
+    expect(page).to have_content(I18n.l(Decidim::Authorization.last.granted_at, format: :long_with_particles))
     expect(Decidim::Authorization.last.reload.user).to eq(user)
     expect(Decidim::Authorization.last.name).to eq("via_oberta_handler")
   end
@@ -130,8 +130,8 @@ describe "Via Oberta manual verification" do
         click_on("Send")
       end
 
-      expect(page).to have_content("You've been successfully authorized.")
-      expect(page).to have_content("Granted at #{Decidim::Authorization.last.granted_at.to_s(:long)}")
+      expect(page).to have_content("You have been successfully authorized.")
+      expect(page).to have_content(I18n.l(Decidim::Authorization.last.granted_at, format: :long_with_particles))
       expect(Decidim::Authorization.last.reload.user).to eq(user)
       expect(Decidim::Authorization.last.name).to eq("via_oberta_handler")
     end
@@ -161,10 +161,10 @@ describe "Via Oberta manual verification" do
         visit decidim_verifications.new_authorization_path(handler: :dummy_authorization_handler)
         fill_in "Document number", with: "123456789X"
         page.execute_script("$('#authorization_handler_birthday').focus()")
-        page.find(".datepicker-dropdown .day:not(.new)", text: "12").click
+        fill_in :authorization_handler_birthday, with: Time.current.change(day: 12)
 
         click_on "Send"
-        expect(page).to have_content("You've been successfully authorized")
+        expect(page).to have_content("You have been successfully authorized")
 
         expect(Decidim::Authorization.last.name).to eq("dummy_authorization_handler")
       end
@@ -295,14 +295,14 @@ describe "Via Oberta manual verification" do
     end
   end
 
-  context "when authoriazation already exists" do
+  context "when authorization already exists" do
     let!(:existing_authorization) { create(:authorization, name: "via_oberta_handler", user: user, granted_at: granted_at) }
     let(:granted_at) { 2.seconds.ago }
 
     it "can't be renewed yet" do
       within ".authorizations-list" do
         expect(page).to have_no_link("Via Oberta")
-        expect(page).to have_content(I18n.l(authorization.granted_at, format: :long))
+        expect(page).to have_content(I18n.l(authorization.granted_at, format: :long_with_particles))
       end
     end
 
@@ -310,10 +310,7 @@ describe "Via Oberta manual verification" do
       let(:granted_at) { 2.months.ago }
 
       it "can be renewed" do
-        within ".authorizations-list" do
-          expect(page).to have_link("Via Oberta")
-          click_on "Via Oberta"
-        end
+        page.find("div[data-dialog-open='renew-modal']", text: /Via Oberta/).click
 
         within "#renew-modal" do
           click_on "Continue"
@@ -324,7 +321,7 @@ describe "Via Oberta manual verification" do
           click_on("Send")
         end
 
-        expect(page).to have_content("You've been successfully authorized.")
+        expect(page).to have_content("You have been successfully authorized.")
       end
     end
 
@@ -335,12 +332,8 @@ describe "Via Oberta manual verification" do
         expect(existing_authorization.expired?).to be true
         expect(existing_authorization.expires_at).to eq(existing_authorization.granted_at + 90.days)
         within ".authorizations-list" do
-          expect(page).to have_link("Via Oberta")
-          expect(page).to have_content("Expired at #{I18n.l(existing_authorization.expires_at, format: :long)}")
-          click_on "Via Oberta"
-        end
-
-        within "#renew-modal" do
+          page.find("div[data-dialog-open='renew-modal']", text: /Via Oberta/)
+          expect(page).to have_content("Expired at #{I18n.l(existing_authorization.expires_at, format: :long_with_particles)}")
           click_on "Continue"
         end
 
@@ -349,7 +342,7 @@ describe "Via Oberta manual verification" do
           click_on("Send")
         end
 
-        expect(page).to have_content("You've been successfully authorized.")
+        expect(page).to have_content("You have been successfully authorized.")
       end
 
       context "when expiration time is customized" do
@@ -360,8 +353,8 @@ describe "Via Oberta manual verification" do
           expect(existing_authorization.expires_at).to eq(existing_authorization.granted_at + 350.days)
 
           within ".authorizations-list" do
-            expect(page).to have_link("Via Oberta")
-            expect(page).to have_content("Expires at #{I18n.l(existing_authorization.expires_at, format: :long)}")
+            page.find("div[data-dialog-open='renew-modal']", text: /Via Oberta/).click
+            expect(page).to have_content("Expires at #{I18n.l(existing_authorization.expires_at, format: :long_with_particles)}")
           end
         end
       end

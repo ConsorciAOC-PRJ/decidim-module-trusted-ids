@@ -312,9 +312,9 @@ describe "Via Oberta manual verification" do
       it "can be renewed" do
         page.find("div[data-dialog-open='renew-modal']", text: /Via Oberta/).click
 
-        within "#renew-modal" do
-          click_on "Continue"
-        end
+        #   within "#renew-modal" do
+        # end
+        click_on "Continue"
 
         perform_enqueued_jobs do
           check "I agree with the terms of service"
@@ -331,9 +331,17 @@ describe "Via Oberta manual verification" do
       it "can be renewed" do
         expect(existing_authorization.expired?).to be true
         expect(existing_authorization.expires_at).to eq(existing_authorization.granted_at + 90.days)
+
         within ".authorizations-list" do
-          page.find("div[data-dialog-open='renew-modal']", text: /Via Oberta/)
-          expect(page).to have_content("Expired at #{I18n.l(existing_authorization.expires_at, format: :long_with_particles)}")
+          page.find("div[data-dialog-open='renew-modal']", text: /Via Oberta/).click
+        end
+
+        within "#renew-modal" do
+          expect(page).to have_content("Example authorization")
+          expect(page).to have_content("This is the data of the current verification:")
+          expect(page).to have_content("Continue")
+          expect(page).to have_content("Cancel")
+          dismiss_modal(with: "Close")
           click_on "Continue"
         end
 

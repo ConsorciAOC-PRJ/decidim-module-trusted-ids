@@ -62,7 +62,7 @@
   <% end %>
 
   <% if current_organization.sign_in_enabled? %>
-    <div class="row decidim-login<%= " hide " if !override_login %>">
+    <div class="row decidim-login<%= " hide " if override_login %>">
       <%= decidim_form_for(resource, namespace: "session", as: resource_name, url: session_path(resource_name)) do |f| %>
         <div class="form__wrapper">
           <%= f.email_field :email, autocomplete: "email", placeholder: t("placeholder_email", scope: "decidim.devise.shared"), required: true %>

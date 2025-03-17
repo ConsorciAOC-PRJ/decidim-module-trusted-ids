@@ -1225,7 +1225,11 @@ RSpec/DescribeClass:
     - "**/*/spec/**/*_badge_spec.rb"
     - decidim-core/spec/lib/global_engines_spec.rb
     - "**/tasks/**/*"
-    - spec/system/**/*
+    - spec/system/admin/manage_impersonations_spec.rb
+    - spec/system/manual_verification_spec.rb
+    - spec/system/oauth_login_spec.rb
+    - spec/system/system/*_organization_spec.rb
+    - spec/system/via_oberta/**/*
 
 RSpec/EmptyExampleGroup:
   Exclude:

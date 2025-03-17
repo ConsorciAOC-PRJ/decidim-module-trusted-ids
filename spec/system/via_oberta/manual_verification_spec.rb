@@ -312,8 +312,9 @@ describe "Via Oberta manual verification" do
       it "can be renewed" do
         page.find("div[data-dialog-open='renew-modal']", text: /Via Oberta/).click
 
-        #   within "#renew-modal" do
-        # end
+        # this is a hack because there is an error in Decidim when two authorizations can be renewed
+        page.execute_script("document.querySelectorAll('#renew-modal')[1].setAttribute('aria-hidden', 'true');")
+
         click_on "Continue"
 
         perform_enqueued_jobs do
@@ -336,12 +337,14 @@ describe "Via Oberta manual verification" do
           page.find("div[data-dialog-open='renew-modal']", text: /Via Oberta/).click
         end
 
+        # this is a hack because there is an error in Decidim when two authorizations can be renewed
+        page.execute_script("document.querySelectorAll('#renew-modal')[1].setAttribute('aria-hidden', 'true');")
+
         within "#renew-modal" do
-          expect(page).to have_content("Example authorization")
+          expect(page).to have_content("Via Oberta")
           expect(page).to have_content("This is the data of the current verification:")
           expect(page).to have_content("Continue")
           expect(page).to have_content("Cancel")
-          dismiss_modal(with: "Close")
           click_on "Continue"
         end
 

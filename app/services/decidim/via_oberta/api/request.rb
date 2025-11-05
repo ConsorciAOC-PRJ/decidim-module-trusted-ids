@@ -48,7 +48,7 @@ module Decidim
         end
 
         def purpose
-          @purpose ||= ENV["VIA_OBERTA_PURPOSE"]
+          @purpose ||= ENV.fetch("VIA_OBERTA_PURPOSE", nil)
         end
 
         def organization_name

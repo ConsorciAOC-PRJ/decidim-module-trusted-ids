@@ -111,6 +111,7 @@ Environment variable | Description | Default value
 `CENSUS_AUTHORIZATION_ENV` | The environment variable that will be used to store the census authorization. In the case of Via Oberta, calls to the proper URL api. | `production`
 `CENSUS_AUTHORIZATION_API_URL` | The URL of the census API. By default it is empty, if defined, overrides the pre-defined URL obtained from the previous ENV var (if the census authorization is created this way). | `nil`
 `CENSUS_AUTHORIZATION_SYSTEM_ATTRIBUTES` | This var defines which attributes need to be configured at the [/system](https://docs.decidim.org/en/v0.27/admin/system.html) multi-tenant super admin page. These might be secret properties that can be used by the census authorization but might vary from tenant to tenant. Each value must be a word, separated by spaces. See the [screenshots section](#screenshots). | `nif` `ine` `municipal_code` `province_code` `organization_name`
+`VIA_OBERTA_PURPOSE` | The purpose of Via Oberta request.
 
 In` `addition, metadata obtained from the OAuth provider that need to be stored in the `trusted_ids_handler` authorization can be configured through next variables.
 

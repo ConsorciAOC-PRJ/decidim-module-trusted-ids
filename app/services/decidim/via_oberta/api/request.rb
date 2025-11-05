@@ -48,11 +48,7 @@ module Decidim
         end
 
         def purpose
-          @purpose ||= if @env == "production"
-                         "GESTTRIB"
-                       else
-                         "PROVES"
-                       end
+          @purpose ||= ENV["VIA_OBERTA_PURPOSE"]
         end
 
         def organization_name

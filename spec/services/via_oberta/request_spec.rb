@@ -37,13 +37,25 @@ module Decidim::ViaOberta
         allow(Decidim::TrustedIds).to receive(:census_authorization).and_return(census_authorization)
       end
 
-      it "returns a production URL" do
-        expect(subject.url).to eq("https://serveis3.iop.aoc.cat/siri-proxy/services/Sincron?wsdl")
-        expect(subject.purpose).to eq("GESTTRIB")
+      context "when production environment" do
+        before do
+          allow(ENV).to receive(:[]).and_call_original
+          allow(ENV).to receive(:[]).with("VIA_OBERTA_PURPOSE").and_return("GESTTRIB")
+        end
+
+        it "returns a production URL" do
+          expect(subject.url).to eq("https://serveis3.iop.aoc.cat/siri-proxy/services/Sincron?wsdl")
+          expect(subject.purpose).to eq("GESTTRIB")
+        end
       end
 
       context "when preproduction environment" do
         let(:env) { "preproduction" }
+
+        before do
+          allow(ENV).to receive(:[]).and_call_original
+          allow(ENV).to receive(:[]).with("VIA_OBERTA_PURPOSE").and_return("PROVES")
+        end
 
         it "returns a preproduction URL" do
           expect(subject.url).to eq("https://serveis3-pre.iop.aoc.cat/siri-proxy/services/Sincron?wsdl")
@@ -53,6 +65,11 @@ module Decidim::ViaOberta
 
       context "when api_url is set" do
         let(:api_url) { "https://example.com" }
+
+        before do
+          allow(ENV).to receive(:[]).and_call_original
+          allow(ENV).to receive(:[]).with("VIA_OBERTA_PURPOSE").and_return("GESTTRIB")
+        end
 
         it "returns the api_url" do
           expect(subject.url).to eq(api_url)

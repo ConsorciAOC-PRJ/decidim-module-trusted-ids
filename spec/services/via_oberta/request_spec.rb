@@ -39,8 +39,8 @@ module Decidim::ViaOberta
 
       context "when production environment" do
         before do
-          allow(ENV).to receive(:[]).and_call_original
-          allow(ENV).to receive(:[]).with("VIA_OBERTA_PURPOSE").and_return("GESTTRIB")
+          allow(ENV).to receive(:fetch).and_call_original
+          allow(ENV).to receive(:fetch).with("VIA_OBERTA_PURPOSE", nil).and_return("GESTTRIB")
         end
 
         it "returns a production URL" do
@@ -53,8 +53,8 @@ module Decidim::ViaOberta
         let(:env) { "preproduction" }
 
         before do
-          allow(ENV).to receive(:[]).and_call_original
-          allow(ENV).to receive(:[]).with("VIA_OBERTA_PURPOSE").and_return("PROVES")
+          allow(ENV).to receive(:fetch).and_call_original
+          allow(ENV).to receive(:fetch).with("VIA_OBERTA_PURPOSE", nil).and_return("PROVES")
         end
 
         it "returns a preproduction URL" do
@@ -67,8 +67,8 @@ module Decidim::ViaOberta
         let(:api_url) { "https://example.com" }
 
         before do
-          allow(ENV).to receive(:[]).and_call_original
-          allow(ENV).to receive(:[]).with("VIA_OBERTA_PURPOSE").and_return("GESTTRIB")
+          allow(ENV).to receive(:fetch).and_call_original
+          allow(ENV).to receive(:fetch).with("VIA_OBERTA_PURPOSE", nil).and_return("GESTTRIB")
         end
 
         it "returns the api_url" do

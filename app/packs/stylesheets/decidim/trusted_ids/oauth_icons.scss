@@ -30,6 +30,12 @@
   }
 }
 
+.login__omniauth-button {
+  img.icon.external-icon {
+    display: inline-block !important;
+  }
+}
+
 .button--social {
   background-color: var(--primary);
   justify-content: start;

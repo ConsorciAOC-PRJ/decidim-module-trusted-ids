@@ -45,7 +45,7 @@ module Decidim
       }
     end
     let(:provider) { "facebook" }
-    let(:global_attributes) { "site icon_path scope" }
+    let(:global_attributes) { "site scope" }
     let(:client_id) { "client_id" }
     let(:client_secret) { "client_secret" }
     let(:site) { "https://example.org" }
@@ -72,7 +72,7 @@ module Decidim
                                "icon_path" => "icon_path/icon.png",
                                "scope" => "openid profile email"
                              },
-                             "omniauth_global_attributes" => %w(site icon_path scope),
+                             "omniauth_global_attributes" => %w(site scope),
                              "send_verification_notifications" => false,
                              "verification_expiration_time" => 90.days.to_i,
                              "authorization_metadata" => { "assurance_level" => %w(extra assurance_level), "expires_at" => %w(credentials expires_at), "identifier_type" => %w(extra identifier_type), "method" => %w(extra method) },
@@ -122,7 +122,7 @@ module Decidim
                                  "icon_path" => "media/images/valid-icon.png",
                                  "scope" => "autenticacio_usuari"
                                },
-                               "omniauth_global_attributes" => %w(site icon_path scope),
+                               "omniauth_global_attributes" => %w(site scope),
                                "send_verification_notifications" => true,
                                "verification_expiration_time" => 90.days.to_i,
                                "authorization_metadata" => { "assurance_level" => %w(extra assurance_level), "expires_at" => %w(credentials expires_at), "identifier_type" => %w(extra identifier_type), "method" => %w(extra method) },
@@ -140,7 +140,8 @@ module Decidim
         expect(omniauth_config["valid"]).to eq({
                                                  "enabled" => true,
                                                  "client_id" => "client_id",
-                                                 "client_secret" => "client_secret"
+                                                 "client_secret" => "client_secret",
+                                                 "icon_path"=>"media/images/valid-icon.png"
                                                })
       end
     end
@@ -171,7 +172,7 @@ module Decidim
                                  "icon_path" => "media/images/valid-icon.png",
                                  "scope" => "autenticacio_usuari"
                                },
-                               "omniauth_global_attributes" => %w(site icon_path scope),
+                               "omniauth_global_attributes" => %w(site scope),
                                "send_verification_notifications" => true,
                                "verification_expiration_time" => 90.days.to_i,
                                "authorization_metadata" => { "" => %w(), "foo" => %w(inside) },
@@ -200,7 +201,7 @@ module Decidim
                                    "icon_path" => "media/images/facebook-icon.png",
                                    "scope" => "autenticacio_usuari"
                                  },
-                                 "omniauth_global_attributes" => %w(site icon_path scope),
+                                 "omniauth_global_attributes" => %w(site scope),
                                  "send_verification_notifications" => true,
                                  "verification_expiration_time" => 90.days.to_i,
                                  "authorization_metadata" => { "bar" => %w(inside baz) },
@@ -231,7 +232,7 @@ module Decidim
                                  "icon_path" => "media/images/valid-icon.png",
                                  "scope" => "autenticacio_usuari"
                                },
-                               "omniauth_global_attributes" => %w(site icon_path scope),
+                               "omniauth_global_attributes" => %w(site scope),
                                "send_verification_notifications" => true,
                                "verification_expiration_time" => 90.days.to_i,
                                "authorization_metadata" => { "assurance_level" => %w(extra assurance_level), "expires_at" => %w(credentials expires_at), "identifier_type" => %w(extra identifier_type), "method" => %w(extra method) },
@@ -249,7 +250,8 @@ module Decidim
         expect(omniauth_config["valid"]).to eq({
                                                  "client_id" => nil,
                                                  "client_secret" => nil,
-                                                 "enabled" => false
+                                                 "enabled" => false,
+                                                 "icon_path" => "media/images/valid-icon.png"
                                                })
       end
     end

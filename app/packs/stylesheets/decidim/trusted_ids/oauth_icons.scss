@@ -31,6 +31,8 @@
 }
 
 .login__omniauth-button {
+  background-color: var(--primary);
+
   img.icon.external-icon {
     display: inline-block !important;
   }

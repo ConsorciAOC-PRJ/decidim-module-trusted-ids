@@ -141,7 +141,7 @@ module Decidim
                                                  "enabled" => true,
                                                  "client_id" => "client_id",
                                                  "client_secret" => "client_secret",
-                                                 "icon_path"=>"media/images/valid-icon.png"
+                                                 "icon_path" => "media/images/valid-icon.png"
                                                })
       end
     end

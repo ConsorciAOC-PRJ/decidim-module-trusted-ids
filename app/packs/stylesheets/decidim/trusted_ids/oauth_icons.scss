@@ -31,11 +31,13 @@
 }
 
 .login__omniauth-button {
-  background-color: var(--primary);
-
   img.icon.external-icon {
     display: inline-block !important;
   }
+}
+
+.login__omniauth-button>span {
+  color: var(--tertiary) !important;
 }
 
 .button--social,

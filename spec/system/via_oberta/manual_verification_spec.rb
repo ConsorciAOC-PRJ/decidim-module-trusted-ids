@@ -35,20 +35,20 @@ describe "Via Oberta manual verification" do
 
   it "has the Via Oberta handler" do
     expect(page).to have_content("Via Oberta")
-    expect(page).to have_content("This authorization method is granted to all users that are in the Via Oberta census database.")
+    expect(page).to have_content("This authorization is granted to all users who are in the Via Oberta census database.")
     click_on "Via Oberta"
     expect(page).to have_content("Verify with Via Oberta")
     expect(page).to have_content("NIE")
     expect(page).to have_no_content("NIF")
     expect(page).to have_no_content("Passport")
-    expect(page).to have_content('By clicking on the "I agree" button, you agree to the following terms of service')
+    expect(page).to have_content("In order to verify that you are registered as a person in the municipality, an automated query must be made through Via Oberta")
   end
 
   it "verifies and the user" do
     visit decidim_verifications.new_authorization_path(handler: :via_oberta_handler)
     expect(Decidim::Authorization.last.name).to eq("trusted_ids_handler")
     perform_enqueued_jobs do
-      check "I agree with the terms of service"
+      check "I accept the terms of use and service conditions"
       click_on("Send")
     end
 
@@ -68,7 +68,7 @@ describe "Via Oberta manual verification" do
 
     it "has custom terms" do
       click_on "Via Oberta"
-      expect(page).to have_no_content('By clicking on the "I agree" button, you agree to the following terms of service')
+      expect(page).to have_no_content("In order to verify that you are registered as a person in the municipality, an automated query must be made through Via Oberta")
       expect(page).to have_content("Custom terms")
     end
 
@@ -81,7 +81,7 @@ describe "Via Oberta manual verification" do
 
       it "has default terms" do
         click_on "Via Oberta"
-        expect(page).to have_content('By clicking on the "I agree" button, you agree to the following terms of service')
+        expect(page).to have_content("In order to verify that you are registered as a person in the municipality, an automated query must be made through Via Oberta")
       end
     end
   end
@@ -106,7 +106,7 @@ describe "Via Oberta manual verification" do
       visit decidim_verifications.new_authorization_path(handler: :via_oberta_handler)
       expect(Decidim::Authorization.last.name).to eq("trusted_ids_handler")
       perform_enqueued_jobs do
-        check "I agree with the terms of service"
+        check "I accept the terms of use and service conditions"
         click_on("Send")
       end
 
@@ -125,7 +125,7 @@ describe "Via Oberta manual verification" do
       expect(page).to have_content("Could not be obtained automatically. Please select one from the list:")
 
       perform_enqueued_jobs do
-        check "I agree with the terms of service"
+        check "I accept the terms of use and service conditions"
         select "NIF", from: "authorization_handler_document_type"
         click_on("Send")
       end
@@ -142,7 +142,7 @@ describe "Via Oberta manual verification" do
       it "redirects the user with an error" do
         visit decidim_verifications.new_authorization_path(handler: :via_oberta_handler)
         expect(Decidim::Authorization.last&.name).not_to be("via_oberta_handler")
-        expect(page).to have_content("This authorization method requires to previously have the VÀLid authorization granted.")
+        expect(page).to have_content("This authorization method requires having the VÀLid authorization previously granted.")
       end
     end
 
@@ -178,7 +178,7 @@ describe "Via Oberta manual verification" do
       visit decidim_verifications.new_authorization_path(handler: :via_oberta_handler)
       expect(Decidim::Authorization.last.name).to eq("trusted_ids_handler")
       perform_enqueued_jobs do
-        check "I agree with the terms of service"
+        check "I accept the terms of use and service conditions"
         click_on("Send")
       end
 
@@ -197,7 +197,7 @@ describe "Via Oberta manual verification" do
         expect(Decidim::Authorization.last.name).to eq("trusted_ids_handler")
         expect(page).to have_content("Could not be obtained automatically. Please select one from the list:")
         perform_enqueued_jobs do
-          check "I agree with the terms of service"
+          check "I accept the terms of use and service conditions"
           select "Passport", from: "authorization_handler_document_type"
           click_on("Send")
         end
@@ -209,7 +209,7 @@ describe "Via Oberta manual verification" do
         select "NIF", from: "authorization_handler_document_type"
 
         perform_enqueued_jobs do
-          check "I agree with the terms of service"
+          check "I accept the terms of use and service conditions"
           click_on("Send")
         end
 
@@ -229,7 +229,7 @@ describe "Via Oberta manual verification" do
       visit decidim_verifications.new_authorization_path(handler: :via_oberta_handler)
       expect(Decidim::Authorization.last.name).to eq("trusted_ids_handler")
       perform_enqueued_jobs do
-        check "I agree with the terms of service"
+        check "I accept the terms of use and service conditions"
         click_on("Send")
       end
 
@@ -248,7 +248,7 @@ describe "Via Oberta manual verification" do
       visit decidim_verifications.new_authorization_path(handler: :via_oberta_handler)
       expect(Decidim::Authorization.last.name).to eq("trusted_ids_handler")
       perform_enqueued_jobs do
-        check "I agree with the terms of service"
+        check "I accept the terms of use and service conditions"
         click_on("Send")
       end
 
@@ -268,7 +268,7 @@ describe "Via Oberta manual verification" do
       visit decidim_verifications.new_authorization_path(handler: :via_oberta_handler)
       expect(Decidim::Authorization.last.name).to eq("trusted_ids_handler")
       perform_enqueued_jobs do
-        check "I agree with the terms of service"
+        check "I accept the terms of use and service conditions"
         click_on("Send")
       end
 
@@ -318,7 +318,7 @@ describe "Via Oberta manual verification" do
         click_on "Continue"
 
         perform_enqueued_jobs do
-          check "I agree with the terms of service"
+          check "I accept the terms of use and service conditions"
           click_on("Send")
         end
 
@@ -349,7 +349,7 @@ describe "Via Oberta manual verification" do
         end
 
         perform_enqueued_jobs do
-          check "I agree with the terms of service"
+          check "I accept the terms of use and service conditions"
           click_on("Send")
         end
 

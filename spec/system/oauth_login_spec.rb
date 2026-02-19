@@ -16,8 +16,8 @@ describe "OAuth login button" do
 
   it "has the valid button" do
     expect(page).to have_css(".button--valid")
-    expect(page).to have_content("Login into Decidim and start participating")
-    expect(page).to have_link("Continue with verified ID")
+    expect(page).to have_content("Log in to Decidim and participate")
+    expect(page).to have_link("Continue with verified identification")
     expect(page).to have_link("Other methods of unverified identification")
     expect(page).to have_no_content("Log in with Valid")
     expect(page).to have_no_content("Log in with Facebook")
@@ -37,7 +37,7 @@ describe "OAuth login button" do
   it "verifies and notifies the user" do
     expect(Decidim::Authorization.last).to be_nil
     perform_enqueued_jobs do
-      click_on "Continue with verified ID"
+      click_on "Continue with verified identification"
     end
 
     expect(page).to have_content("Successfully")
@@ -57,7 +57,7 @@ describe "OAuth login button" do
     it "verifies and does not notify the user" do
       expect(Decidim::Authorization.last).to be_nil
       perform_enqueued_jobs do
-        click_on "Continue with verified ID"
+        click_on "Continue with verified identification"
       end
 
       expect(page).to have_content("Successfully")
@@ -79,7 +79,7 @@ describe "OAuth login button" do
         expect(Decidim::Authorization.count).to eq(1)
         expect(Decidim::Authorization.last).to be_granted
         perform_enqueued_jobs do
-          click_on "Continue with verified ID"
+          click_on "Continue with verified identification"
         end
 
         expect(page).to have_content("Verify with Via Oberta")
@@ -98,7 +98,7 @@ describe "OAuth login button" do
         expect(Decidim::Authorization.last).to be_granted
         expect(Decidim::Authorization.last).to be_expired
         perform_enqueued_jobs do
-          click_on "Continue with verified ID"
+          click_on "Continue with verified identification"
         end
 
         expect(page).to have_content("Verify with Via Oberta")
@@ -116,7 +116,7 @@ describe "OAuth login button" do
         expect(Decidim::Authorization.count).to eq(1)
         expect(Decidim::Authorization.last).not_to be_granted
         perform_enqueued_jobs do
-          click_on "Continue with verified ID"
+          click_on "Continue with verified identification"
         end
 
         expect(page).to have_content("Verify with Via Oberta")
@@ -139,7 +139,7 @@ describe "OAuth login button" do
       it "does not verify the user" do
         expect(Decidim::Authorization.last).to be_nil
         perform_enqueued_jobs do
-          click_on "Continue with verified ID"
+          click_on "Continue with verified identification"
         end
 
         expect(page).to have_content("Successfully")
@@ -156,7 +156,7 @@ describe "OAuth login button" do
         expect(user.identities.count).to eq(1)
         expect(Decidim::Authorization.last).to be_nil
         perform_enqueued_jobs do
-          click_on "Continue with verified ID"
+          click_on "Continue with verified identification"
         end
 
         expect(page).to have_content("Verify with Via Oberta")

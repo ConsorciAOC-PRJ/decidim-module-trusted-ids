@@ -31,7 +31,9 @@ The OmniAuth method **must** return the `uid` property with an unique identifier
         providers:
           valid:
             name: VÀLid
-            description: VÀLid is the digital identity service of the Government of Catalonia.
+            description: VÀLid is a service that AOC provides to Catalan public administrations
+              to integrate the different available digital identification systems (idCAT
+              Mòbil, digital certificates and Cl@ve).
           foo_bar:
             name: "Foo Bar"
             description: "Foo Bar description"

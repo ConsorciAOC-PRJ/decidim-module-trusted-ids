@@ -19,7 +19,7 @@ describe "Trusted IDs manual verification" do
 
   it "has the VALid handler" do
     expect(page).to have_content("VÀLid")
-    expect(page).to have_content("VÀLid is the digital identity service of the Government of Catalonia.")
+    expect(page).to have_content("VÀLid is a service that AOC provides to Catalan public administrations to integrate the different available digital identification systems (idCAT Mòbil, digital certificates and Cl@ve).")
     click_on "VÀLid"
     expect(page).to have_content("Verify with VÀLid")
     expect(page).to have_button("Cancel verification")
@@ -36,7 +36,7 @@ describe "Trusted IDs manual verification" do
       click_on("Log in with VÀLid")
     end
 
-    check "I agree with the terms of service"
+    check "I accept the terms of use and service conditions"
     click_on("Send")
     expect(page).to have_content("You have been successfully authorized")
     expect(Decidim::Authorization.last.user).to eq(user)
@@ -76,7 +76,7 @@ describe "Trusted IDs manual verification" do
       end
 
       expect(page).to have_content("VÀLid")
-      expect(page).to have_content("VÀLid is the digital identity service of the Government of Catalonia.")
+      expect(page).to have_content("VÀLid is a service that AOC provides to Catalan public administrations to integrate the different available digital identification systems (idCAT Mòbil, digital certificates and Cl@ve).")
 
       expect(Decidim::Authorization.last).to be_nil
       expect(last_email).to be_nil

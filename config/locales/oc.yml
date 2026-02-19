@@ -1,21 +1,128 @@
 ---
 oc:
+  activemodel:
+    attributes:
+      trusted_ids_census_config:
+        census_expiration_apply_all_tenants: 'Aplicar a totes los "tenants" (aquò establís los meteisses jorns de caducitat per a totas las organizacions d''aquesta plataforma). Avís: los valors voids tanben se propagan'
+        census_tos_apply_all_tenants: 'Aplicar a totes los "tenants" (aquò establís los meteisses "Tèrmes d''usatge e condicions" per a totas las organizacions d''aquesta plataforma). Avís: los valors voids tanben se propagan'
+        settings:
+          expiration_days: Expira en (jorns). Se es void, los jorns per defaut son %{days}.
+          ine: Identificador del solicitant (INE)
+          municipal_code: Còdi municipal
+          nif: NIF
+          organization_name: Nom public de l'organizacion
+          province_code: Còdi de província
+          tos: Tèrmes d'usatge e servici per consultar lo cens
+        tos_if_empty_html: 'Se es void, las condicions del servici predeterminadas se tiraràn de la clau I18n <code>decidim.via_oberta.verifications.tos.content_html</code>. Actualament:'
+      via_oberta_handler:
+        document_type: 'Se pòt pas obténer automaticament. Seleccionatz-ne un de la lista:'
   decidim:
-    components:
-      idcat_mobil:
-        name: IdCat Mòbil
+    authorization_handlers:
+      trusted_ids_handler:
+        explanation: Aquesta autorizacion s'atorga a totes los utilizaires que utilizan un metòde d'inici de session amb identificador fidedigne.
+        fields:
+          extra: Informacion addicionala
+          provider: Provesidor
+          uid: ID
+        name: Identificador fidedigne
+      via_oberta_handler:
+        explanation: Aquesta autorizacion s'atorga a totes los utilizaires que son dins la basa de donadas del cens de Via Oberta.
+        fields:
+          document_id: DNI/NIF
+        name: Via Oberta
+    events:
+      trusted_ids:
+        verifications:
+          invalid:
+            email_intro: Es pas estat possible de vos concedir l'autorizacion "%{handler_name}".
+            email_outro: Se vos plai, metètz-vos en contacte amb lo supòrt de la plataforma per comprovar l'error que s'es produch.
+            email_subject: Error d'autorizacion
+            notification_title: Autorizacion pas valida amb lo metòde "%{handler_name}"
+          ok:
+            email_intro: Se vos a concedit l'autorizacion "%{handler_name}".
+            email_outro: Ara podètz realizar totas las accions que requerisson l'autorizacion "%{handler_name}".
+            email_subject: S'es autorizat corrèctament
+            notification_title: Autorizacion corrècta amb lo metòde "%{handler_name}"
+    system:
+      organizations:
+        omniauth_settings:
+          valid:
+            client_id: Client ID
+            client_secret: Clau secreta del client
+            icon_path: Icòna (totjorn en format media/images/some-image.png)
+            scope: Encastre
+            site: URL del provesidor
+    trusted_ids:
+      devise:
+        sessions:
+          new:
+            login: Iniciatz la session
+            login_subtitle: Iniciatz la session a Decidim e participatz.
+            unverified_login: Autres metòdes d'identificacion pas verificada
+            verified_identity: Identificacion digitala verificada amb %{provider}
+            verified_identity_html: |
+              <p>Accedissètz amb de sistèmas reconeguts per de provesidors oficials que acreditan vòstra identitat sus la ret, per d'autenticacions mai seguras.</p>
+              <ul>
+                <li>idCat Mòbil</li>
+                <li>idCat Certificat</li>
+                <li>DNIe</li>
+                <li>Cl@ve PIN</li>
+              </ul>
+            verified_login: Contunhar amb identificacion verificada
+      providers:
+        default:
+          description: Aquesta autorizacion s'atorga a totes los utilizaires que utilizan un metòde d'inici de session amb identificador fidedigne.
+          name: Identificador fidedigne
+        valid:
+          description: VÀLid es un servici que l'AOC met a disposicion de las administracions publicas catalanas amb la finalitat d'integrar los diferents sistèmas d'identificacion digitala disponibles (idCAT Mòbil, certificats digitals e Cl@ve).
+          name: VÀLid
+      sessions:
+        different_omniauth_emails: Sètz a ensajar d'iniciar la session amb una adreça electronica diferenta de la de vòstre compte. Accedissètz amb la meteissa adreça electronica o tampatz la session e enregistratz-vos amb lo boton dirècte per crear un utilizaire novèl.
+      system:
+        settings: "configuracion de %{handler}"
+      verifications:
+        form:
+          cancel: Anullar la verificacion
+          description_html: Per obténer aquesta autorizacion, vos cal verificar vòstra identitat amb lo servici %{provider}. Per aquò, clicatz sul boton "%{link}".<br><br>
+          error_provider_html: "<b>%{provider} es pas disponible.</b> Sembla que aqueste metòde d'inici de session/autorizacion es pas estat activat. Metètz-vos en contacte amb lo supòrt de la plataforma per o resòlvre."
+          warning_html: Asseguratz-vos que l'adreça electronica qu'avètz dins aquesta aplicacion (<em>%{email}</em>) siá la meteissa que la que vos provesís lo servici %{provider}. Se non, la verificacion fracassarà.
     verifications:
-      idcat_mobil:
+      authorizations:
         errors:
-          invalid_method: No vos auetz pogut verificar. Eth metòde de verificacion OAuth2 non ère "idcat_mobil" tau coma se demoraue.
-          invalid_status: No vos auetz pogut verificar. Era verificacion OAuth2 a estat corrècta.
-        invalid:
-          email_intro: Non s'a pogut concedir era autorizacion de IdCat Mòbil.
-          email_outro: Se vos platz, metetz-vos eth contacte damb eth supòrt dera vòsta plataforma entà verificar er error que s'a produsit.
-          email_subject: No vos auetz pogut atoritzar damb IdCat Mòbil
-          notification_title: No vos auetz pogut atoritzar damb IdCat Mòbil
-        ok:
-          email_intro: Se vos a concedit era autorizacion damb IdCat Mòbil.
-          email_outro: Ara podetz realizar totes es accions que requerisquen era autorizacion de IdCat Mòbil.
-          email_subject: As estat autorizat damb IdCat Mòbil.
-          notification_title: Eth autenticació damb IdCat Mòbil a acabat damb succès.
+          already_verified: Ja avètz verificat vòstra identitat amb aqueste metòde.
+          pending_authorization: Aqueste metòde d'autorizacion requerís d'aver prealablament l'autorizacion %{handler_name}.
+        first_login:
+          actions:
+            trusted_ids_generic: Verificatz-vos amb %{provider}
+            via_oberta_handler: Verificatz-vos amb Via Oberta
+      trusted_ids:
+        errors:
+          invalid_census: Se pòt pas verificar. Es possible que las donadas provesidas a la passarela del cens sián pas validas.
+          invalid_id: Se pòt pas verificar. L'identificador del document es pas valid o se tròba pas dins lo cens.
+          invalid_method: Vos avètz pas pogut verificar. Lo metòde de verificacion OAuth2 es pas suportat.
+          invalid_status: Vos avètz pas pogut verificar. La verificacion OAuth2 es estada incorrècta.
+          invalid_type: Se pòt pas verificar. Lo tipe de document es pas valid o es pas dins lo cens.
+          no_identity: Se pòt pas verificar. La verificacion OAuth2 a pas retornat cap d'identificacion.
+    via_oberta:
+      verifications:
+        document_type:
+          nie: NIE
+          nif: NIF
+          others: Permés de residéncia o autres
+          passport: Passapòrt
+        form:
+          code: 'Còdi d''error: %{code}'
+          data: 'Donadas que s''enviaràn:'
+          description_html: <p>Aquesta autorizacion verifica se sètz dins la basa de donadas del cens <b>%{organization_name}</b>.</p> <p>Per realizar aquesta comprovacion, s'enviarà l'informacion seguenta al <a href="https://www.aoc.cat/serveis-aoc/via-oberta/" target="_blank">Servici Via Oberta</a>, provesit per l'<a href="https://www.aoc.cat" target="_blank">Administració Oberta de Catalunya</a></p> <p>Aquesta informacion serà utilizada amb l'unic objectiu de verificar vòstra identitat, mas los registres d'aquesta transaccion pòdon èsser conservats pel provesidor de servicis.</p>
+          document_id: Numèro de document
+          document_type: Tipe de document
+          error: 'Messatge d''error del servici:'
+        tos:
+          agreement: Accepti los tèrmes d'usatge e condicions del servici
+          content_html: |
+            <p>Per poder verificar que constatz coma persona empadronada al municipi, cal far una consulta automatizada mejançant Via Oberta a las donadas localas del padrón municipal d'abitants.</p>
+            <ol>
+            <li>Podètz consultar la politica concreta de tractament/proteccion de donadas al <a href="https://www.aoc.cat/proteccio-dades/">ligam seguent</a></li>
+            <li>Balhatz vòstre consentiment?</li>
+            </ol>
+          title: Tèrmes d'usatge e servici Via Oberta

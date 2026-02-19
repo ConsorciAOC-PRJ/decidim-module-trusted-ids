@@ -1,6 +1,9 @@
 # Changelog
 Following Semantic Versioning 2.
 
+## Version 0.8.1 (MINOR)
+- Change VÀLid description in user's "Authorization methods".
+
 ## Version 0.8.0 (MINOR)
 - Via Oberta: extract purpose to an environment variable. 
 

@@ -18,14 +18,14 @@ describe "OAuth login button" do
     expect(page).to have_css(".button--valid")
     expect(page).to have_content("Log in to Decidim and participate")
     expect(page).to have_link("Continue with verified identification")
-    expect(page).to have_link("Other methods of unverified identification")
+    expect(page).to have_link("Other unverified identification methods")
     expect(page).to have_no_content("Log in with Valid")
     expect(page).to have_no_content("Log in with Facebook")
     expect(page).to have_no_content("Email")
     expect(page).to have_no_content("Password")
     expect(page).to have_no_content("Forgot your password?")
 
-    click_on "Other methods of unverified identification"
+    click_on "Other unverified identification methods"
 
     expect(page).to have_no_content("Log in with Valid")
     expect(page).to have_content("Facebook")

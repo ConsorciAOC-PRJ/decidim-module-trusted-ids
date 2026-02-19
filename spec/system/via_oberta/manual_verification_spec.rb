@@ -111,7 +111,7 @@ describe "Via Oberta manual verification" do
       end
 
       expect(page).to have_content("There was a problem creating the authorization.")
-      expect(page).to have_content(" Document ID is invalid or missing.")
+      expect(page).to have_content("Could not verify you. The document identifier is invalid or not present in the census.")
       expect(Decidim::Authorization.last.reload.name).to eq("trusted_ids_handler")
     end
   end

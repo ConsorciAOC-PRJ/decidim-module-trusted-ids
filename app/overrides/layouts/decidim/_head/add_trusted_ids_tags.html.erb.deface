@@ -1,3 +1,11 @@
+
 <!-- insert_after "erb[loud]:contains('append_stylesheet_pack_tag')" -->
 
+<%#
+  The CSS must be added to the header because the CSS files are not loaded on all screens.
+  To avoid making a more complex override of the Devise view, it is added to the header as is done
+  in other modules like Decidim Awesome.
+%>
+
 <% append_stylesheet_pack_tag "decidim_trusted_ids", media: "all" %>
+

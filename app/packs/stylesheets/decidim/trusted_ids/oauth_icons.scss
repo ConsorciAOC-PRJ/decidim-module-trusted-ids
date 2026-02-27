@@ -30,7 +30,18 @@
   }
 }
 
-.button--social {
+.login__omniauth-button {
+  img.icon.external-icon {
+    display: inline-block !important;
+  }
+}
+
+.login__omniauth-button > span {
+  color: var(--tertiary) !important;
+}
+
+.button--social,
+.button--valid {
   background-color: var(--primary);
   justify-content: start;
   align-items: center;

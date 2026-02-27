@@ -56,7 +56,7 @@ module Decidim
 
     # which of the former attributes can not set a the /system configuration, there are all the same for all tenants
     config_accessor :omniauth_global_attributes do
-      ENV.fetch("OMNIAUTH_GLOBAL_ATTRIBUTES", "site icon_path scope").split.map(&:to_sym)
+      ENV.fetch("OMNIAUTH_GLOBAL_ATTRIBUTES", "site scope").split.map(&:to_sym)
     end
 
     # wheter to use a custom login screen or the default one

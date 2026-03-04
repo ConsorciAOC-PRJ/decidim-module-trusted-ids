@@ -74,7 +74,7 @@ ca:
           description: Aquesta autorització s'atorga a tots els usuaris que utilitzen un mètode d'inici de sessió amb identificador fefaent.
           name: Identificador fefaent
         valid:
-          description: El VÀLid és un servei que l’AOC posa a disposició de les administracions públiques catalanes amb la finalitat d’integrar els diferents sistemes d’identificació digital disponibles (idCAT Mòbil, certificats digitals i Cl@ve).
+          description: El VÀLid és un servei que l’AOC posa a disposició de les administracions públiques catalanes amb la finalitat d’integrar els diferents mecanismes d’identificació digital disponibles (idCAT Mòbil, certificats digitals i Cl@ve).
           name: VÀLid
       sessions:
         different_omniauth_emails: Esteu provant d'iniciar la sessió amb un correu electrònic diferent del vostre compte. Accediu amb el mateix correu electrònic o tanqueu la sessió i registreu-vos amb el botó directe per crear un usuari nou.

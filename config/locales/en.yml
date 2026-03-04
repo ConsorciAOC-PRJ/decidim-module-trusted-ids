@@ -89,7 +89,7 @@ en:
           name: Trusted identifier
         valid:
           description: VÀLid is a service that AOC provides to Catalan public administrations
-            to integrate the different available digital identification systems (idCAT
+            to integrate the different available digital identification mechanisms (idCAT
             Mòbil, digital certificates and Cl@ve).
           name: VÀLid
       sessions:

@@ -74,7 +74,7 @@ es:
           description: Esta autorización se otorga a todos los usuarios que utilizan un método de inicio de sesión con identificador fehaciente.
           name: Identificador fehaciente
         valid:
-          description: VÀLid es un servicio que la AOC pone a disposición de las administraciones públicas catalanas con la finalidad de integrar los diferentes sistemas de identificación digital disponibles (idCAT Mòbil, certificados digitales y Cl@ve).
+          description: VÀLid es un servicio que la AOC pone a disposición de las administraciones públicas catalanas con la finalidad de integrar los diferentes mecanismos de identificación digital disponibles (idCAT Mòbil, certificados digitales y Cl@ve).
           name: VÀLid
       sessions:
         different_omniauth_emails: Estás intentando iniciar sesión con un correo electrónico diferente al de tu cuenta. Accede con el mismo correo electrónico o cierra la sesión y regístrate con el botón directo para crear un usuario nuevo.

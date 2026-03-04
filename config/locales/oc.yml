@@ -74,7 +74,7 @@ oc:
           description: Aquesta autorizacion s'atorga a totes los utilizaires que utilizan un metòde d'inici de session amb identificador fidedigne.
           name: Identificador fidedigne
         valid:
-          description: VÀLid es un servici que l'AOC met a disposicion de las administracions publicas catalanas amb la finalitat d'integrar los diferents sistèmas d'identificacion digitala disponibles (idCAT Mòbil, certificats digitals e Cl@ve).
+          description: VÀLid es un servici que l'AOC met a disposicion de las administracions publicas catalanas amb la finalitat d'integrar los diferents mecanismes d'identificacion digitala disponibles (idCAT Mòbil, certificats digitals e Cl@ve).
           name: VÀLid
       sessions:
         different_omniauth_emails: Sètz a ensajar d'iniciar la session amb una adreça electronica diferenta de la de vòstre compte. Accedissètz amb la meteissa adreça electronica o tampatz la session e enregistratz-vos amb lo boton dirècte per crear un utilizaire novèl.

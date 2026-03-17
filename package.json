@@ -12,7 +12,9 @@
     "lint": "eslint -c .eslintrc.json --ext .js app/packs/",
     "lint-fix": "eslint -c .eslintrc.json --ext .js app/packs/ --fix",
     "stylelint": "stylelint **/*.scss",
-    "stylelint-fix": "stylelint **/*.scss --fix"
+    "stylelint-fix": "stylelint **/*.scss --fix",
+    "prettier": "prettier --check '**/*.scss'",
+    "prettify": "prettier --write '**/*.scss'"
   },
   "repository": {
     "type": "git",
@@ -28,10 +30,7 @@
   },
   "homepage": "https://github.com/ConsorciAOC-PRJ/decidim-module-trusted_ids#readme",
   "stylelint": {
-    "extends": "@decidim/stylelint-config",
-    "rules": {
-      "block-opening-brace-space-before": "always"
-    }
+    "extends": "@decidim/stylelint-config"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.19.1",
@@ -43,15 +42,17 @@
     "@babel/plugin-transform-runtime": "^7.19.6",
     "@babel/preset-env": "^7.20.2",
     "@babel/preset-react": "^7.18.6",
-    "@decidim/dev": "0.31",
+    "@decidim/dev": "^0.31.2",
     "@decidim/eslint-config": "^0.31.2",
-    "@decidim/stylelint-config": "0.31",
+    "@decidim/stylelint-config": "^0.31.2",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^8.2.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-standard": "^3.1.0",
+    "postcss-scss": "^4.0.9",
+    "prettier": "^2.8.8",
     "sass-embedded": "~1.57.1"
   }
 }

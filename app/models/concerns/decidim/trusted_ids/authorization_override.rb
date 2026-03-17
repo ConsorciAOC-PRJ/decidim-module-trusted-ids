@@ -10,7 +10,7 @@ module Decidim
         def expires_at
           return unless workflow_manifest
 
-          expires_in = organization.trusted_ids_census_config&.expiration_days&.days&.to_i || workflow_manifest.expires_in
+          expires_in = organization.trusted_ids_census_config&.expiration_days&.days&.to_i || workflow_manifest.expires_in # rubocop:disable Style/SafeNavigationChainLength
           return if expires_in.zero?
 
           (granted_at || created_at) + expires_in

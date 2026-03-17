@@ -17,7 +17,7 @@ module Decidim
         Decidim::System::RegisterOrganizationForm.include(Decidim::TrustedIds::System::OrganizationFormOverride)
         Decidim::System::UpdateOrganizationForm.include(Decidim::TrustedIds::System::OrganizationFormOverride)
         Decidim::System::UpdateOrganization.include(Decidim::TrustedIds::System::UpdateOrganizationOverride)
-        Decidim::System::RegisterOrganization.include(Decidim::TrustedIds::System::RegisterOrganizationOverride)
+        Decidim::System::CreateOrganization.include(Decidim::TrustedIds::System::RegisterOrganizationOverride)
       end
 
       initializer "decidim_trusted_ids.controller_addons", after: "decidim.action_controller" do
@@ -39,8 +39,8 @@ module Decidim
         omniauth[:scope] = "autenticacio_usuari" if omniauth[:scope].blank?
 
         global_attributes = Decidim::TrustedIds.omniauth_global_attributes
-        # Decidim uses the secrets configuration to decide whether to show the omniauth provider, we add it here
-        Rails.application.secrets[:omniauth][Decidim::TrustedIds.omniauth_provider.to_sym] = omniauth.except(*global_attributes)
+        # Decidim configuration decide whether to show the omniauth provider
+        Decidim.omniauth_providers[Decidim::TrustedIds.omniauth_provider.to_sym] = omniauth.except(*global_attributes)
 
         Rails.application.config.middleware.use OmniAuth::Builder do
           provider Decidim::TrustedIds.omniauth_provider,

@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email = ["ivan@pokecode.net"]
   s.license = "AGPL-3.0"
   s.homepage = "https://github.com/ConsorciAOC-PRJ/decidim-module-trusted-ids"
-  s.required_ruby_version = ">= 3.0.0"
+  s.required_ruby_version = ">= 3.3"
 
   s.name = "decidim-trusted_ids"
   s.summary = "A decidim trusted_ids module"
@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.add_dependency "decidim", Decidim::TrustedIds::COMPAT_DECIDIM_VERSION
   s.add_dependency "decidim-core", Decidim::TrustedIds::COMPAT_DECIDIM_VERSION
   s.add_dependency "decidim-verifications", Decidim::TrustedIds::COMPAT_DECIDIM_VERSION
-  s.add_dependency "deface", ">= 1.5"
-  s.add_development_dependency "decidim-dev", Decidim::TrustedIds::COMPAT_DECIDIM_VERSION
+  s.add_dependency "deface", ">= 1.9"
+  s.add_development_dependency "decidim-dev", Decidim::TrustedIds::COMPAT_DECIDIM_VERSION # rubocop:disable Gemspec/DevelopmentDependencies
   s.metadata["rubygems_mfa_required"] = "true"
 end

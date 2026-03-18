@@ -1,8 +1,13 @@
 # Changelog
 Following Semantic Versioning 2.
 
-## Version 0.8.1 (MINOR)
+## Version 0.8.3 (PATCH)
 - Change VÀLid description in user's "Authorization methods".
+
+## Version 0.8.2 (PATCH)
+- Change omniauth button styles for Vàlid from primary color to secondary.
+
+## Version 0.8.1 (PATCH)
 - Fix omniauth button styles for Vàlid.
 - Show icon input in system for Vàlid omniauth settings. 
 

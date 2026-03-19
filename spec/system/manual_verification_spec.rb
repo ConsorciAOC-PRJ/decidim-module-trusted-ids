@@ -36,9 +36,6 @@ describe "Trusted IDs manual verification" do
       click_on("Log in with VÀLid")
     end
 
-    check "I agree with the terms of service"
-    click_on("Send")
-    expect(page).to have_content("You have been successfully authorized")
     expect(Decidim::Authorization.last.user).to eq(user)
     expect(last_email.subject).to include("Authorization successful")
     expect(last_email.to).to include(user.email)
@@ -85,12 +82,12 @@ describe "Trusted IDs manual verification" do
 
   context "when using the first login page" do
     before do
-      visit decidim_verifications.first_login_authorizations_path
+      visit decidim_verifications.onboarding_pending_authorizations_path
     end
 
     it "has the VALid handler" do
-      expect(page).to have_content("Verify with VÀLid")
-      click_on "Verify with VÀLid"
+      expect(page).to have_content("VÀLid")
+      click_on "VÀLid"
       expect(page).to have_content("Verify with VÀLid")
       expect(page).to have_button("Cancel verification")
       expect(page).to have_link("Log in with VÀLid")

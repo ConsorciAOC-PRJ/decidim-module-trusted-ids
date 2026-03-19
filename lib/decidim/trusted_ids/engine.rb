@@ -17,7 +17,7 @@ module Decidim
         Decidim::System::RegisterOrganizationForm.include(Decidim::TrustedIds::System::OrganizationFormOverride)
         Decidim::System::UpdateOrganizationForm.include(Decidim::TrustedIds::System::OrganizationFormOverride)
         Decidim::System::UpdateOrganization.include(Decidim::TrustedIds::System::UpdateOrganizationOverride)
-        Decidim::System::CreateOrganization.include(Decidim::TrustedIds::System::RegisterOrganizationOverride)
+        Decidim::System::CreateOrganization.include(Decidim::TrustedIds::System::CreateOrganizationOverride)
       end
 
       initializer "decidim_trusted_ids.controller_addons", after: "decidim.action_controller" do

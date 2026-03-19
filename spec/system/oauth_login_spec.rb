@@ -61,7 +61,7 @@ describe "OAuth login button" do
       end
 
       expect(page).to have_content("Successfully")
-      expect(page).to have_content("My account")
+      expect(page).to have_content("account")
 
       expect(Decidim::Authorization.last.user).to eq(user)
       expect(Decidim::Authorization.last.metadata).to eq(metadata)

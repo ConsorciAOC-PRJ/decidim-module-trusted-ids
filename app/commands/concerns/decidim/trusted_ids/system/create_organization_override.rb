@@ -3,7 +3,7 @@
 module Decidim
   module TrustedIds
     module System
-      module RegisterOrganizationOverride
+      module CreateOrganizationOverride
         extend ActiveSupport::Concern
         include NeedsCensusConfig
 

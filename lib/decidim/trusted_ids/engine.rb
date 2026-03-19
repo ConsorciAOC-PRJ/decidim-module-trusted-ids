@@ -13,7 +13,6 @@ module Decidim
         # Non-controller overrides here
         Decidim::Organization.include(Decidim::TrustedIds::OrganizationOverride)
         Decidim::Authorization.include(Decidim::TrustedIds::AuthorizationOverride)
-        Decidim::CreateOmniauthRegistration.include(Decidim::TrustedIds::CreateOmniauthRegistrationOverride)
         Decidim::System::RegisterOrganizationForm.include(Decidim::TrustedIds::System::OrganizationFormOverride)
         Decidim::System::UpdateOrganizationForm.include(Decidim::TrustedIds::System::OrganizationFormOverride)
         Decidim::System::UpdateOrganization.include(Decidim::TrustedIds::System::UpdateOrganizationOverride)
@@ -63,7 +62,7 @@ module Decidim
 
       initializer "decidim_trusted_ids.authorizations" do
         # Triggers user verification after login/registration
-        ActiveSupport::Notifications.subscribe "decidim.user.omniauth_registration" do |_name, data|
+        ActiveSupport::Notifications.subscribe(/decidim\.user\.omniauth_(registration||login)/) do |_name, data|
           Decidim::TrustedIds::OmniauthVerificationJob.perform_later(data)
         end
 

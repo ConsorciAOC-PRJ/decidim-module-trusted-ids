@@ -21,7 +21,8 @@ shared_context "with oauth configuration" do
       uid: "123545",
       info: {
         email: email,
-        name: "VALid User"
+        name: "VALid User",
+        nickname: "valid_user"
       },
       credentials: {
         token: "1/xyQlNh52vZdAp3ABYV_e98lfLbXhSEKc093_EGdc",
@@ -45,7 +46,7 @@ shared_context "with oauth configuration" do
     }
   end
 
-  let(:unique_id) { Digest::SHA512.hexdigest("#{omniauth_hash.uid}-#{user.decidim_organization_id}-#{Rails.application.secret_key_base}") }
+  let(:unique_id) { Digest::SHA512.hexdigest("#{omniauth_hash.uid}-#{organization.id}-#{Rails.application.secret_key_base}") }
   let(:metadata) do
     {
       "uid" => omniauth_hash.uid,

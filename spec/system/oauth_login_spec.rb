@@ -41,15 +41,17 @@ describe "OAuth login button" do
       check "By signing up you agree to the terms of service."
       click_button "Create an account", match: :first
       click_on "Keep unchecked" if page.has_content?("Newsletter notifications")
+
+      expect(page).to have_content("Successfully")
+      expect(page).to have_content("My account")
     end
 
-    expect(page).to have_content("Successfully")
-    expect(page).to have_content("Account")
-
-    expect(Decidim::Authorization.last.user).to eq(user)
-    expect(Decidim::Authorization.last.metadata).to eq(metadata)
+    registered_user = Decidim::User.find_by(email: email)
+    expect(Decidim::Authorization.last.user).to eq(registered_user)
+    expect(Decidim::Authorization.last.metadata["provider"]).to eq("valid")
+    expect(Decidim::Authorization.last.metadata["uid"]).to eq("123545")
     expect(last_email.subject).to include("Authorization successful")
-    expect(last_email.to).to include(user.email)
+    expect(last_email.to).to include(registered_user.email)
   end
 
   context "when user notification is disabled" do
@@ -64,13 +66,15 @@ describe "OAuth login button" do
         check "By signing up you agree to the terms of service."
         click_button "Create an account", match: :first
         click_on "Keep unchecked" if page.has_content?("Newsletter notifications")
+
+        expect(page).to have_content("Successfully")
+        expect(page).to have_content("account")
       end
 
-      expect(page).to have_content("Successfully")
-      expect(page).to have_content("account")
-
-      expect(Decidim::Authorization.last.user).to eq(user)
-      expect(Decidim::Authorization.last.metadata).to eq(metadata)
+      registered_user = Decidim::User.find_by(email: email)
+      expect(Decidim::Authorization.last.user).to eq(registered_user)
+      expect(Decidim::Authorization.last.metadata["provider"]).to eq("valid")
+      expect(Decidim::Authorization.last.metadata["uid"]).to eq("123545")
       expect(Decidim::Authorization.last.unique_id).to eq(unique_id)
     end
   end

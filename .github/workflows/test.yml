@@ -39,7 +39,9 @@ jobs:
           fetch-depth: 1
 
       - name: Install imagemagick and wkhtmltopdf
-        run: sudo apt install imagemagick wkhtmltopdf
+        run: |
+          sudo apt update
+          sudo apt install -y imagemagick wkhtmltopdf
 
       - uses: ruby/setup-ruby@v1
         with:

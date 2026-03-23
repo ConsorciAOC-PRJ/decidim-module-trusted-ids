@@ -122,7 +122,9 @@ module OmniAuth
 
       def sanitized_nickname
         # TODO: restrict nicknamize to the current organization
-        Decidim::UserBaseEntity.nicknamize(raw_info["name"] || raw_info["email"])
+        (raw_info["name"] || raw_info["email"])
+          .parameterize(separator: "_")
+          .first(Decidim::UserBaseEntity.nickname_max_length)
       end
 
       private

@@ -161,8 +161,8 @@ describe OmniAuth::Strategies::Valid do
     context "when nickname already exists" do
       let!(:existing_user) { create(:user, nickname: "arthur") }
 
-      it "returns a new valid nickname" do
-        expect(subject.info[:nickname]).to eq("arthur_2")
+      it "returns the same nickname" do
+        expect(subject.info[:nickname]).to eq("arthur")
       end
     end
   end

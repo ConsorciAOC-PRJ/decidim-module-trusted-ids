@@ -31,18 +31,21 @@
 }
 
 .login__omniauth-button {
+  background-color: var(--secondary) !important;
+  border-color: var(--secondary) !important;
+
   img.icon.external-icon {
     display: inline-block !important;
   }
 }
 
 .login__omniauth-button > span {
-  color: var(--tertiary) !important;
+  color: white !important;
 }
 
 .button--social,
 .button--valid {
-  background-color: var(--primary);
+  background-color: var(--secondary);
   justify-content: start;
   align-items: center;
 }
@@ -50,6 +53,7 @@
 .button--unverified-login {
   border-color: var(--secondary);
   background-color: var(--secondary);
+  color: white;
 }
 
 .trusted-ids-login-box {

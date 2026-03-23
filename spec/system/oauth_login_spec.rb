@@ -38,6 +38,9 @@ describe "OAuth login button" do
     expect(Decidim::Authorization.last).to be_nil
     perform_enqueued_jobs do
       click_on "Continue with verified ID"
+      check "By signing up you agree to the terms of service."
+      click_button "Create an account", match: :first
+      click_on "Keep unchecked" if page.has_content?("Newsletter notifications")
     end
 
     expect(page).to have_content("Successfully")
@@ -58,6 +61,9 @@ describe "OAuth login button" do
       expect(Decidim::Authorization.last).to be_nil
       perform_enqueued_jobs do
         click_on "Continue with verified ID"
+        check "By signing up you agree to the terms of service."
+        click_button "Create an account", match: :first
+        click_on "Keep unchecked" if page.has_content?("Newsletter notifications")
       end
 
       expect(page).to have_content("Successfully")
@@ -82,7 +88,10 @@ describe "OAuth login button" do
           click_on "Continue with verified ID"
         end
 
-        expect(page).to have_content("Verify with Via Oberta")
+        expect(page).to have_content("Successfully")
+
+        visit decidim_verifications.authorizations_path
+
         expect(page).to have_content("Via Oberta")
 
         expect(Decidim::Authorization.count).to eq(1)
@@ -101,7 +110,10 @@ describe "OAuth login button" do
           click_on "Continue with verified ID"
         end
 
-        expect(page).to have_content("Verify with Via Oberta")
+        expect(page).to have_content("Successfully")
+
+        visit decidim_verifications.authorizations_path
+
         expect(page).to have_content("Via Oberta")
 
         expect(Decidim::Authorization.last).to be_granted
@@ -119,7 +131,11 @@ describe "OAuth login button" do
           click_on "Continue with verified ID"
         end
 
-        expect(page).to have_content("Verify with Via Oberta")
+        expect(page).to have_content("Successfully")
+
+        visit decidim_verifications.authorizations_path
+
+        expect(page).to have_content("Via Oberta")
 
         expect(Decidim::Authorization.count).to eq(1)
         expect(Decidim::Authorization.last).to be_granted
@@ -143,7 +159,10 @@ describe "OAuth login button" do
         end
 
         expect(page).to have_content("Successfully")
-        expect(page).to have_content("Verify with Via Oberta")
+
+        visit decidim_verifications.authorizations_path
+
+        expect(page).to have_content("Via Oberta")
 
         expect(Decidim::Authorization.last).to be_nil
       end
@@ -159,7 +178,11 @@ describe "OAuth login button" do
           click_on "Continue with verified ID"
         end
 
-        expect(page).to have_content("Verify with Via Oberta")
+        expect(page).to have_content("Successfully")
+
+        visit decidim_verifications.authorizations_path
+
+        expect(page).to have_content("Via Oberta")
 
         expect(Decidim::Authorization.last.user).to eq(user)
         expect(Decidim::Authorization.last.metadata).to eq(metadata)

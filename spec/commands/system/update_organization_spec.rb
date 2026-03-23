@@ -76,8 +76,7 @@ module Decidim::System
         it "handles machine translations" do
           command.call
           expect(trusted_ids_organization_config.reload.tos["en"]).to eq(trusted_ids_census_tos["en"])
-          expect(trusted_ids_organization_config.tos["es"]).to eq(trusted_ids_census_tos["es"])
-          expect(trusted_ids_organization_config.tos["machine_translations"]).to have_key("ca")
+          expect(trusted_ids_organization_config.tos["ca"]).to eq(trusted_ids_census_tos["ca"])
         end
       end
     end

@@ -121,7 +121,7 @@ module OmniAuth
       end
 
       def sanitized_nickname
-        Decidim::UserBaseEntity.nicknamize(raw_info["name"] || raw_info["email"], request.env["decidim.current_organization"]&.id)
+        Decidim::UserBaseEntity.nicknamize(raw_info["name"] || raw_info["email"], request.env&.dig("decidim.current_organization")&.id)
       end
 
       private

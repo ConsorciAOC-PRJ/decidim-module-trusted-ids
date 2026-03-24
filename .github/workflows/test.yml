@@ -38,10 +38,10 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Install imagemagick and wkhtmltopdf
+      - name: Install imagemagick
         run: |
           sudo apt update
-          sudo apt install -y imagemagick wkhtmltopdf
+          sudo apt install -y imagemagick
 
       - uses: ruby/setup-ruby@v1
         with:
@@ -59,7 +59,7 @@ jobs:
         with:
           chrome-version: 126.0.6478.182
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
 
@@ -70,7 +70,7 @@ jobs:
         name: RSpec
 
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
 
       - uses: actions/upload-artifact@v4
         if: always()

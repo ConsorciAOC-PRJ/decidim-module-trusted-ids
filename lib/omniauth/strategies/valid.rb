@@ -79,7 +79,7 @@ module OmniAuth
 
       # The +request_phase+ is the first phase after the setup/initialization phase.
       #
-      # It is implemented in the OAuth2 superclass, and does the follwing:
+      # It is implemented in the OAuth2 superclass, and does the following:
       # redirect client.auth_code.authorize_url({:redirect_uri => callback_url}.merge(options.authorize_params))
       #
       # We're overriding solely to log.
@@ -121,10 +121,7 @@ module OmniAuth
       end
 
       def sanitized_nickname
-        # TODO: restrict nicknamize to the current organization
-        (raw_info["name"] || raw_info["email"])
-          .parameterize(separator: "_")
-          .first(Decidim::UserBaseEntity.nickname_max_length)
+        Decidim::UserBaseEntity.nicknamize(raw_info["name"] || raw_info["email"], request.env["decidim.current_organization"]&.id)
       end
 
       private

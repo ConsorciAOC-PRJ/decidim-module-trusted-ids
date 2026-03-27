@@ -33,7 +33,7 @@ module OmniAuth
         {
           email: raw_info["email"],
           name: raw_info["name"],
-          nickname: sanitized_nickname,
+          nickname: raw_info["name"].presence || raw_info["email"],
           prefix: raw_info["prefix"],
           phone: raw_info["phone"],
           surname1: raw_info["surname1"],
@@ -118,10 +118,6 @@ module OmniAuth
 
       def callback_url
         full_host + callback_path
-      end
-
-      def sanitized_nickname
-        Decidim::UserBaseEntity.nicknamize(raw_info["name"] || raw_info["email"], request.env&.dig("decidim.current_organization")&.id)
       end
 
       private

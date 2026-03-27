@@ -46,7 +46,7 @@ module Decidim
                    setup: lambda { |env|
                      request = Rack::Request.new(env)
                      organization = Decidim::Organization.find_by(host: request.host)
-                     provider_config = organization.omniauth_settings.filter_map do |key, value|
+                     provider_config = organization.omniauth_settings&.filter_map do |key, value|
                        next unless key.start_with?("omniauth_settings_#{Decidim::TrustedIds.omniauth_provider}")
 
                        attribute = Decidim::OmniauthProvider.extract_setting_key(key, Decidim::TrustedIds.omniauth_provider)

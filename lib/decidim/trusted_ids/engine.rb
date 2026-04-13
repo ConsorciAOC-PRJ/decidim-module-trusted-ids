@@ -62,7 +62,7 @@ module Decidim
 
       initializer "decidim_trusted_ids.authorizations" do
         # Triggers user verification after login/registration
-        ActiveSupport::Notifications.subscribe(/decidim\.user\.omniauth_(registration||login)/) do |_name, data|
+        ActiveSupport::Notifications.subscribe(/decidim\.user\.omniauth_(registration|login)/) do |_name, data|
           Decidim::TrustedIds::OmniauthVerificationJob.perform_later(data)
         end
 

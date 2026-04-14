@@ -6,12 +6,12 @@ ca:
         census_expiration_apply_all_tenants: 'Aplica a tots els "tenants" (això estableix els mateixos dies de caducitat per a totes les organitzacions d''aquesta plataforma). Avís: els valors buits també es propaguen'
         census_tos_apply_all_tenants: 'Aplica a tots els "tenants" (això estableix els mateixos "Termes d''ús i condicions" per a totes les organitzacions d''aquesta plataforma). Avís: els valors buits també es propaguen'
         settings:
-          expiration_days: Expira en (dies). Si és buit, el dies per defecte són %{days}.
+          expiration_days: Expira en (dies). Si és buit, els dies per defecte són %{days}.
           ine: Identificador del sol·licitant (INE)
           municipal_code: Codi municipal
           nif: NIF
           organization_name: Nom públic de l'organització
-          province_code: Codi província
+          province_code: Codi de província
           tos: Termes d'ús i servei per consultar el cens
         tos_if_empty_html: 'Si està buit, les condicions del servei predeterminades s''extreuran de la clau I18n <code>decidim.via_oberta.verifications.tos.content_html</code>. Actualment:'
       via_oberta_handler:
@@ -51,7 +51,7 @@ ca:
             client_secret: Clau secreta del Client
             icon_path: Icona (sempre en format media/images/some-image.png)
             scope: Àmbit
-            site: URL proveïdor
+            site: URL del proveïdor
     trusted_ids:
       devise:
         sessions:
@@ -74,10 +74,10 @@ ca:
           description: Aquesta autorització s'atorga a tots els usuaris que utilitzen un mètode d'inici de sessió amb identificador fefaent.
           name: Identificador fefaent
         valid:
-          description: VÀLid és el servei d'identitat digital de la Generalitat de Catalunya.
+          description: El VÀLid és un servei que l’AOC posa a disposició de les administracions públiques catalanes amb la finalitat d’integrar els diferents mecanismes d’identificació digital disponibles (idCAT Mòbil, certificats digitals i Cl@ve).
           name: VÀLid
       sessions:
-        different_omniauth_emails: Esteu provant d'iniciar la sessió amb un correu electrònic diferent del vostre compte. Accedeix amb el mateix correu electrònic o tanca la sessió i registra't amb el botó directe per crear un usuari nou.
+        different_omniauth_emails: Esteu provant d'iniciar la sessió amb un correu electrònic diferent del vostre compte. Accediu amb el mateix correu electrònic o tanqueu la sessió i registreu-vos amb el botó directe per crear un usuari nou.
       system:
         settings: "%{handler} configuració"
       verifications:
@@ -112,17 +112,17 @@ ca:
           passport: Passaport
         form:
           code: 'Codi d''error: %{code}'
-          data: 'Data per ser enviat:'
-          description_html: <p>Aquesta autorització comprova si sou a la base de dades del cens <b>%{organization_name}</b>.</p> <p>Per dur a terme aquesta comprovació, s'enviarà la informació següent al <a href=" https://www.aoc.cat/serveis-aoc/via-oberta/" target="_blank">Servei Via Oberta</a>, ofert per l' <a href="https://www.aoc.cat " target="_blank">Administració Oberta de Catalunya</a></p> <p>Aquesta informació s'utilitzarà amb l'únic propòsit de verificar la vostra identitat, però els registres d'aquesta transacció poden ser conservats pel proveïdor de serveis.</p>
+          data: 'Dades que s''enviaran:'
+          description_html: <p>Aquesta autorització comprova si sou a la base de dades del cens <b>%{organization_name}</b>.</p> <p>Per dur a terme aquesta comprovació, s'enviarà la informació següent al <a href="https://www.aoc.cat/serveis-aoc/via-oberta/" target="_blank">Servei Via Oberta</a>, ofert per l'<a href="https://www.aoc.cat" target="_blank">Administració Oberta de Catalunya</a></p> <p>Aquesta informació s'utilitzarà amb l'únic propòsit de verificar la vostra identitat, però els registres d'aquesta transacció poden ser conservats pel proveïdor de serveis.</p>
           document_id: Número de document
           document_type: Tipus de document
           error: 'Missatge d''error del servei:'
         tos:
           agreement: Accepto els termes d'ús i condicions del servei
           content_html: |
-            <p>Per a poder verificar que consta com a persona empadronada al municipi, s'ha de fer una consulta automatitzada mitjançant ViaOberta a les dades locals del padró municipal d'habitants. </p>
+            <p>Per a poder verificar que consta com a persona empadronada al municipi, s'ha de fer una consulta automatitzada mitjançant Via Oberta a les dades locals del padró municipal d'habitants.</p>
             <ol>
-            <li>Pots consultar la política concreta de tractament/protecció de dades en el  <a href="https://www.aoc.cat/proteccio-dades/">següent enllaç</a> </li>
-            <li>Presta el seu consentiment?</li>
+            <li>Pots consultar la política concreta de tractament/protecció de dades en el <a href="https://www.aoc.cat/proteccio-dades/">següent enllaç</a></li>
+            <li>Presteu el vostre consentiment?</li>
             </ol>
           title: Termes d'ús i servei Via Oberta

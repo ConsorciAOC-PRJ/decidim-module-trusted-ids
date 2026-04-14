@@ -10,7 +10,7 @@ ca:
           ine: Identificador del sol·licitant (INE)
           municipal_code: Codi municipal
           nif: NIF
-          organization_name: Nom públic de l'organització
+          organization_name: Public organization name
           province_code: Codi província
           tos: Termes d'ús i servei per consultar el cens
         tos_if_empty_html: 'Si està buit, les condicions del servei predeterminades s''extreuran de la clau I18n <code>decidim.via_oberta.verifications.tos.content_html</code>. Actualment:'
@@ -19,14 +19,14 @@ ca:
   decidim:
     authorization_handlers:
       trusted_ids_handler:
-        explanation: Aquesta autorització s'atorga a tots els usuaris que utilitzen un mètode d'inici de sessió amb identificador fefaent.
+        explanation: This authorization is granted to all users who use a login method with a trusted identifier.
         fields:
-          extra: Informació addicional
+          extra: Additional information
           provider: Proveïdor
           uid: ID
-        name: Identificador fefaent
+        name: Trusted identifier
       via_oberta_handler:
-        explanation: Aquesta autorització s'atorga a tots els usuaris que es troben a la base de dades del cens de Via Oberta.
+        explanation: This authorization is granted to all users who are in the Via Oberta census database.
         fields:
           document_id: DNI/NIF
         name: Via Oberta
@@ -51,14 +51,14 @@ ca:
             client_secret: Clau secreta del Client
             icon_path: Icona (sempre en format media/images/some-image.png)
             scope: Àmbit
-            site: URL proveïdor
+            site: Provider URL
     trusted_ids:
       devise:
         sessions:
           new:
-            login: Inicia la sessió
-            login_subtitle: Inicia sessió a Decidim i participa.
-            unverified_login: Altres mètodes d'identificació no verificada
+            login: Log in
+            login_subtitle: Log in to Decidim and participate.
+            unverified_login: Other unverified identification methods
             verified_identity: Identificació digital verificada amb %{provider}
             verified_identity_html: |
               <p>Accedeix amb sistemes reconeguts per proveïdors oficials que acrediten la teva identitat a la xarxa, per autenticacions més segures.</p>
@@ -68,29 +68,29 @@ ca:
                 <li>DNIe</li>
                 <li>Cl@ve PIN</li>
               </ul>
-            verified_login: Continuar amb identificació verificada
+            verified_login: Continue with verified identification
       providers:
         default:
-          description: Aquesta autorització s'atorga a tots els usuaris que utilitzen un mètode d'inici de sessió amb identificador fefaent.
-          name: Identificador fefaent
+          description: This authorization is granted to all users who use a login method with a trusted identifier.
+          name: Trusted identifier
         valid:
-          description: VÀLid és el servei d'identitat digital de la Generalitat de Catalunya.
+          description: VÀLid is a service that AOC provides to Catalan public administrations to integrate the different available digital identification mechanisms (idCAT Mòbil, digital certificates and Cl@ve).
           name: VÀLid
       sessions:
-        different_omniauth_emails: Esteu provant d'iniciar la sessió amb un correu electrònic diferent del vostre compte. Accedeix amb el mateix correu electrònic o tanca la sessió i registra't amb el botó directe per crear un usuari nou.
+        different_omniauth_emails: You are trying to sign in with a different email than the one in your account. Please sign in with the same email or log out and sign up directly to create a new user.
       system:
         settings: "%{handler} configuració"
       verifications:
         form:
           cancel: Cancel·la la verificació
           description_html: Per obtenir aquesta autorització, heu de verificar la vostra identitat amb el servei %{provider}. Per fer-ho, feu clic al botó "%{link}".<br><br>
-          error_provider_html: "<b>%{provider} no està disponible.</b> Sembla que aquest mètode d'inici de sessió/autorització no s'ha activat. Poseu-vos en contacte amb el suport de la plataforma per solucionar-ho."
+          error_provider_html: "<b>%{provider} is not available.</b> It seems that this login/authorization method has not been enabled. Please contact the support team to fix this."
           warning_html: Assegureu-vos que el correu electrònic que teniu en aquesta aplicació (<em>%{email}</em>) sigui el mateix que el que us proporciona el servei %{provider}. En cas contrari, la verificació fallarà.
     verifications:
       authorizations:
         errors:
           already_verified: Ja heu verificat la vostra identitat amb aquest mètode.
-          pending_authorization: Aquest mètode d'autorització requereix tenir prèviament l'autorització %{handler_name}.
+          pending_authorization: This authorization method requires having the %{handler_name} authorization previously granted.
         first_login:
           actions:
             trusted_ids_generic: Verifica't amb %{provider}
@@ -98,11 +98,11 @@ ca:
       trusted_ids:
         errors:
           invalid_census: No s'ha pogut verificar. És possible que les dades proporcionades a la passarel·la del cens no siguin vàlides.
-          invalid_id: No s'ha pogut verificar. L'identificador del document no és vàlid o no es troba en el cens.
+          invalid_id: Could not verify you. The document identifier is invalid or not present in the census.
           invalid_method: No us heu pogut verificar. El mètode de verificació OAuth2 no està suportat.
           invalid_status: No us heu pogut verificar. La verificació OAuth2 ha estat incorrecta.
-          invalid_type: No s'ha pogut verificar. El tipus de document no és vàlid o no està en el cens.
-          no_identity: No s'ha pogut verificar. La verificació OAuth2 no ha retornat cap identificació.
+          invalid_type: Could not verify you. The document type is invalid or not present in the census.
+          no_identity: Could not verify you. OAuth2 verification did not return an identification.
     via_oberta:
       verifications:
         document_type:
@@ -112,17 +112,17 @@ ca:
           passport: Passaport
         form:
           code: 'Codi d''error: %{code}'
-          data: 'Data per ser enviat:'
-          description_html: <p>Aquesta autorització comprova si sou a la base de dades del cens <b>%{organization_name}</b>.</p> <p>Per dur a terme aquesta comprovació, s'enviarà la informació següent al <a href=" https://www.aoc.cat/serveis-aoc/via-oberta/" target="_blank">Servei Via Oberta</a>, ofert per l' <a href="https://www.aoc.cat " target="_blank">Administració Oberta de Catalunya</a></p> <p>Aquesta informació s'utilitzarà amb l'únic propòsit de verificar la vostra identitat, però els registres d'aquesta transacció poden ser conservats pel proveïdor de serveis.</p>
+          data: 'Data that will be sent:'
+          description_html: <p>This authorization checks if you are in the <b>%{organization_name}</b> census database.</p> <p>To perform this check, the following information will be sent to the <a href="https://www.aoc.cat/serveis-aoc/via-oberta/" target="_blank">Via Oberta Service</a>, provided by the <a href="https://www.aoc.cat" target="_blank">Administració Oberta de Catalunya</a></p> <p>This information will be used for the sole purpose of verifying your identity but records of this transaction might be kept by the service provider.</p>
           document_id: Número de document
           document_type: Tipus de document
           error: 'Missatge d''error del servei:'
         tos:
-          agreement: Accepto els termes d'ús i condicions del servei
+          agreement: I accept the terms of use and service conditions
           content_html: |
-            <p>Per a poder verificar que consta com a persona empadronada al municipi, s'ha de fer una consulta automatitzada mitjançant ViaOberta a les dades locals del padró municipal d'habitants. </p>
+            <p>In order to verify that you are registered as a person in the municipality, an automated query must be made through Via Oberta to the local data of the municipal population register.</p>
             <ol>
-            <li>Pots consultar la política concreta de tractament/protecció de dades en el  <a href="https://www.aoc.cat/proteccio-dades/">següent enllaç</a> </li>
-            <li>Presta el seu consentiment?</li>
+            <li>You can consult the specific data processing/protection policy at the <a href="https://www.aoc.cat/proteccio-dades/">following link</a></li>
+            <li>Do you give your consent?</li>
             </ol>
-          title: Termes d'ús i servei Via Oberta
+          title: Via Oberta terms of use and service

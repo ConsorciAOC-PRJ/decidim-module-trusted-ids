@@ -56,7 +56,7 @@ module Decidim
     def cmd_capture(cmd, env: {})
       path = File.expand_path("../../#{test_app}", __dir__)
       Dir.chdir(path) do
-        Open3.capture2(env.merge("RUBYOPT" => "-W0"), cmd)[0]
+        Open3.capture2(env.merge("RUBYOPT" => "-W0", "DISABLE_SPRING" => "1"), cmd)[0]
       end
     end
 
@@ -118,7 +118,7 @@ module Decidim
                                  "enabled" => true,
                                  "client_id" => "client_id",
                                  "client_secret" => "client_secret",
-                                 "site" => "https://identitats.aoc.cat",
+                                 "site" => "https://valid.aoc.cat",
                                  "icon_path" => "media/images/valid-icon.png",
                                  "scope" => "autenticacio_usuari"
                                },
@@ -168,7 +168,7 @@ module Decidim
                                  "enabled" => true,
                                  "client_id" => client_id,
                                  "client_secret" => client_secret,
-                                 "site" => "https://identitats.aoc.cat",
+                                 "site" => "https://valid.aoc.cat",
                                  "icon_path" => "media/images/valid-icon.png",
                                  "scope" => "autenticacio_usuari"
                                },
@@ -197,7 +197,7 @@ module Decidim
                                    "enabled" => true,
                                    "client_id" => client_id,
                                    "client_secret" => client_secret,
-                                   "site" => "https://identitats.aoc.cat",
+                                   "site" => "https://valid.aoc.cat",
                                    "icon_path" => "media/images/facebook-icon.png",
                                    "scope" => "autenticacio_usuari"
                                  },
@@ -228,7 +228,7 @@ module Decidim
                                  "enabled" => false,
                                  "client_id" => nil,
                                  "client_secret" => nil,
-                                 "site" => "https://identitats.aoc.cat",
+                                 "site" => "https://valid.aoc.cat",
                                  "icon_path" => "media/images/valid-icon.png",
                                  "scope" => "autenticacio_usuari"
                                },

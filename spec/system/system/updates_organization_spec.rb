@@ -5,7 +5,7 @@ require "shared/system_organization_examples"
 
 describe "Updates an organization" do
   let(:admin) { create(:admin) }
-  let!(:organization) { create(:organization, name: "Citizen Corp") }
+  let!(:organization) { create(:organization, name: { ca: "", en: "Citizen Corp", es: "" }) }
   let!(:another_organization) { create(:organization) }
   let!(:trusted_ids_organization_config) do
     create(:trusted_ids_organization_config,

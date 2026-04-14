@@ -2,10 +2,10 @@
 
 shared_examples "updates organization" do
   it "edits the data" do
-    fill_in "Name", with: "Citizens Rule!"
+    fill_in :update_organization_name_en, with: "Citizens Rule!"
     fill_in "Host", with: "www.example.org"
     fill_in "Secondary hosts", with: "foobar.example.org\n\rbar.example.org"
-    choose "Do not allow participants to register, but allow existing participants to login"
+    choose "Do not allow participants to create an account, but allow existing participants to log in"
     check "VÀLid (Direct)"
     check "Via Oberta (Direct)"
 
@@ -40,7 +40,7 @@ shared_examples "creates organization without census authorization fields" do
     fill_in "Organization admin email", with: "mayor@example.org"
     check "organization_available_locales_en"
     choose "organization_default_locale_en"
-    choose "Allow participants to register and login"
+    choose "Allow participants to create an account and log in"
     check "VÀLid (Direct)"
     check "Via Oberta (Direct)"
 
@@ -66,7 +66,7 @@ shared_examples "creates organization" do
     fill_in "Organization admin email", with: "mayor@example.org"
     check "organization_available_locales_en"
     choose "organization_default_locale_en"
-    choose "Allow participants to register and login"
+    choose "Allow participants to create an account and log in"
     check "VÀLid (Direct)"
     check "Via Oberta (Direct)"
 

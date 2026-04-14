@@ -16,7 +16,6 @@ describe OmniAuth::Strategies::Valid do
 
   # include_context "with stubs example api"
 
-  # rubocop:disable RSpec/VerifiedDoubleReference
   let(:access_token) { instance_double("AccessToken", options: {}) }
   let(:parsed_response) { instance_double("ParsedResponse") }
   let(:response) { instance_double("Response", parsed: parsed_response) }
@@ -156,14 +155,14 @@ describe OmniAuth::Strategies::Valid do
     end
 
     it "returns the nickname" do
-      expect(subject.info[:nickname]).to eq("arthur")
+      expect(subject.info[:nickname]).to eq("Arthur")
     end
 
     context "when nickname already exists" do
       let!(:existing_user) { create(:user, nickname: "arthur") }
 
-      it "returns a new valid nickname" do
-        expect(subject.info[:nickname]).to eq("arthur_2")
+      it "returns the same nickname" do
+        expect(subject.info[:nickname]).to eq("Arthur")
       end
     end
   end

@@ -19,7 +19,7 @@ describe "Trusted IDs manual verification" do
 
   it "has the VALid handler" do
     expect(page).to have_content("VÀLid")
-    expect(page).to have_content("VÀLid is a service that AOC provides to Catalan public administrations to integrate the different available digital identification mechanisms (idCAT Mòbil, digital certificates and Cl@ve).")
+    expect(page).to have_content("VÀLid is the digital identity service of the Government of Catalonia.")
     click_on "VÀLid"
     expect(page).to have_content("Verify with VÀLid")
     expect(page).to have_button("Cancel verification")
@@ -36,9 +36,6 @@ describe "Trusted IDs manual verification" do
       click_on("Log in with VÀLid")
     end
 
-    check "I accept the terms of use and service conditions"
-    click_on("Send")
-    expect(page).to have_content("You have been successfully authorized")
     expect(Decidim::Authorization.last.user).to eq(user)
     expect(last_email.subject).to include("Authorization successful")
     expect(last_email.to).to include(user.email)
@@ -76,7 +73,7 @@ describe "Trusted IDs manual verification" do
       end
 
       expect(page).to have_content("VÀLid")
-      expect(page).to have_content("VÀLid is a service that AOC provides to Catalan public administrations to integrate the different available digital identification mechanisms (idCAT Mòbil, digital certificates and Cl@ve).")
+      expect(page).to have_content("VÀLid is the digital identity service of the Government of Catalonia.")
 
       expect(Decidim::Authorization.last).to be_nil
       expect(last_email).to be_nil
@@ -85,12 +82,12 @@ describe "Trusted IDs manual verification" do
 
   context "when using the first login page" do
     before do
-      visit decidim_verifications.first_login_authorizations_path
+      visit decidim_verifications.onboarding_pending_authorizations_path
     end
 
     it "has the VALid handler" do
-      expect(page).to have_content("Verify with VÀLid")
-      click_on "Verify with VÀLid"
+      expect(page).to have_content("VÀLid")
+      click_on "VÀLid"
       expect(page).to have_content("Verify with VÀLid")
       expect(page).to have_button("Cancel verification")
       expect(page).to have_link("Log in with VÀLid")

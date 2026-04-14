@@ -48,7 +48,7 @@ module Decidim
         enabled: TrustedIds.to_bool(ENV.fetch("OMNIAUTH_ENABLED_BY_DEFAULT", TrustedIds.omniauth_env("CLIENT_ID").present?)),
         client_id: TrustedIds.omniauth_env("CLIENT_ID"),
         client_secret: TrustedIds.omniauth_env("CLIENT_SECRET"),
-        site: TrustedIds.omniauth_env("SITE", "https://identitats.aoc.cat"),
+        site: TrustedIds.omniauth_env("SITE", "https://valid.aoc.cat"),
         icon_path: TrustedIds.omniauth_env("ICON", "media/images/#{TrustedIds.omniauth_provider.downcase}-icon.png"),
         scope: TrustedIds.omniauth_env("SCOPE", "autenticacio_usuari")
       }

@@ -33,7 +33,7 @@ module OmniAuth
         {
           email: raw_info["email"],
           name: raw_info["name"],
-          nickname: sanitized_nickname,
+          nickname: raw_info["name"].presence || raw_info["email"],
           prefix: raw_info["prefix"],
           phone: raw_info["phone"],
           surname1: raw_info["surname1"],
@@ -79,7 +79,7 @@ module OmniAuth
 
       # The +request_phase+ is the first phase after the setup/initialization phase.
       #
-      # It is implemented in the OAuth2 superclass, and does the follwing:
+      # It is implemented in the OAuth2 superclass, and does the following:
       # redirect client.auth_code.authorize_url({:redirect_uri => callback_url}.merge(options.authorize_params))
       #
       # We're overriding solely to log.
@@ -118,11 +118,6 @@ module OmniAuth
 
       def callback_url
         full_host + callback_path
-      end
-
-      def sanitized_nickname
-        # TODO: restrict nicknamize to the current organization
-        Decidim::UserBaseEntity.nicknamize(raw_info["name"] || raw_info["email"])
       end
 
       private

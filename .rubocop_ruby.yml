@@ -1228,7 +1228,7 @@ RSpec/DescribeClass:
     - spec/system/admin/manage_impersonations_spec.rb
     - spec/system/manual_verification_spec.rb
     - spec/system/oauth_login_spec.rb
-    - spec/system/system/*_organization_spec.rb
+    - spec/system/**/*
     - spec/system/via_oberta/**/*
 
 RSpec/EmptyExampleGroup:

@@ -207,9 +207,9 @@ This module overrides the following Decidim core views and forms to provide the 
 
 - **`decidim/devise/sessions/new.html.erb`** — Overrides the login page to show a VÀLid button above the standard login form when the custom login screen is enabled.
 
-- **`decidim/devise/shared/_omniauth_buttons.html.erb`** — Overrides the shared omniauth buttons partial to rescue `Shakapacker::Manifest::MissingEntryError` when rendering provider icons. This ensures the registration (sign-up) page does not crash if a provider's icon file is missing from the asset manifest. When `icon_path` is blank (nil), the `oauth_icon` helper safely falls back to the registered `valid-fill` icon from Decidim's icon registry.
+- **`decidim/devise/shared/_omniauth_buttons.html.erb`** — Overrides the shared omniauth buttons partial. For the VÀLid provider, instead of calling `oauth_icon` (which falls back to the SVG `valid-fill` icon when `icon_path` is nil), the override reads `icon_path` from the organisation's omniauth settings and falls back to the default PNG (`media/images/valid-icon.png`) when not set. This means the PNG icon is always used for VÀLid on the sign-up / sign-in pages, even for organisations that were created before `icon_path` was a per-tenant field. The whole block is wrapped in a `rescue Shakapacker::Manifest::MissingEntryError` so the page never crashes if the asset is absent from the manifest.
 
-- **`decidim/system/organizations/_omniauth_provider.html.erb`** — Overrides the system admin omniauth provider settings partial to add a `placeholder` attribute to the `icon_path` field. The placeholder shows the default icon path (e.g. `media/images/valid-icon.png`), so admins understand that leaving the field blank will use that default at runtime.
+- **`decidim/system/organizations/_omniauth_provider.html.erb`** — Overrides the system admin omniauth provider settings partial to add a `placeholder` attribute to the `icon_path` field. The placeholder shows the default icon path (e.g. `media/images/valid-icon.png`), so admins understand that leaving the field blank will use that default on save.
 
 ### Forms
 

@@ -5,7 +5,17 @@
       <% link_classes = "login__omniauth-button button--#{normalize_provider_name(provider)}" %>
       <%= link_to decidim.send("user_#{provider}_omniauth_authorize_path"), class: link_classes, method: :post, title: t("devise.shared.links.log_in_with_provider", provider: normalize_provider_name(provider).titleize) do %>
         <%= begin
-              oauth_icon provider
+              if provider.to_s == Decidim::TrustedIds.omniauth_provider.to_s
+                # For the VÀLid provider, fall back to the default PNG icon when
+                # icon_path is not configured in the organization's omniauth settings or in the module's omniauth settings.
+                settings = current_organization.enabled_omniauth_providers[provider]
+                icon_path = settings&.dig(:icon_path).presence ||
+                            Decidim::TrustedIds.omniauth[:icon_path].presence ||
+                            "media/images/#{Decidim::TrustedIds.omniauth_provider.downcase}-icon.png"
+                external_icon(icon_path)
+              else
+                oauth_icon provider
+              end
             rescue ::Shakapacker::Manifest::MissingEntryError
               nil
             end %>

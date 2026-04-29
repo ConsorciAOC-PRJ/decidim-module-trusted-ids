@@ -16,6 +16,10 @@ fr:
         tos_if_empty_html: 'If empty, the default terms of service will be extracted from the I18n key <code>decidim.via_oberta.verifications.tos.content_html</code>. Currently:'
       via_oberta_handler:
         document_type: 'Could not be obtained automatically. Please select one from the list:'
+    errors:
+      messages:
+        icon_path_not_found: the icon file does not exist in the registered asset paths
+        invalid_icon_path_format: must be in the format media/images/filename
   decidim:
     authorization_handlers:
       trusted_ids_handler:
@@ -49,7 +53,7 @@ fr:
           valid:
             client_id: Client ID
             client_secret: Client secret
-            icon_path: Icon (always in the form of media/images/some-image.png)
+            icon_path: Icon path. If is empty, the default icon will be used.
             scope: Scope
             site: Provider URL
     trusted_ids:

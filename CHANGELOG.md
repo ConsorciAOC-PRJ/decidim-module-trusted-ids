@@ -1,6 +1,9 @@
 # Changelog
 Following Semantic Versioning 2.
 
+## Version 0.8.4 (PATCH)
+- Add validations to icon path in Vàlid omniauth settings
+
 ## Version 0.8.3 (PATCH)
 - Change VÀLid description in user's "Authorization methods".
 

@@ -16,6 +16,10 @@ ca:
         tos_if_empty_html: 'Si està buit, les condicions del servei predeterminades s''extreuran de la clau I18n <code>decidim.via_oberta.verifications.tos.content_html</code>. Actualment:'
       via_oberta_handler:
         document_type: 'No s''ha pogut obtenir automàticament. Seleccioneu-ne un de la llista:'
+    errors:
+      messages:
+        icon_path_not_found: the icon file does not exist in the registered asset paths
+        invalid_icon_path_format: must be in the format media/images/filename
   decidim:
     authorization_handlers:
       trusted_ids_handler:
@@ -49,7 +53,7 @@ ca:
           valid:
             client_id: Client ID
             client_secret: Clau secreta del Client
-            icon_path: Icona (sempre en format media/images/some-image.png)
+            icon_path: Icon path. If is empty, the default icon will be used.
             scope: Àmbit
             site: Provider URL
     trusted_ids:

@@ -199,6 +199,25 @@ For the complete list of available options, see the [trusted_ids](lib/decidim/tr
 - If the login screen is customized, it will look like this:
   ![Login screen](docs/login.png)
 
+## Decidim core overrides
+
+This module overrides the following Decidim core views and forms to provide the required behavior:
+
+### Views
+
+- **`decidim/devise/sessions/new.html.erb`** — Overrides the login page to show a VÀLid button above the standard login form when the custom login screen is enabled.
+
+- **`decidim/devise/shared/_omniauth_buttons.html.erb`** — Overrides the shared omniauth buttons partial. For the VÀLid provider, instead of calling `oauth_icon` (which falls back to the SVG `valid-fill` icon when `icon_path` is nil), the override reads `icon_path` from the organisation's omniauth settings and falls back to the default PNG (`media/images/valid-icon.png`) when not set. This means the PNG icon is always used for VÀLid on the sign-up / sign-in pages, even for organisations that were created before `icon_path` was a per-tenant field. The whole block is wrapped in a `rescue Shakapacker::Manifest::MissingEntryError` so the page never crashes if the asset is absent from the manifest.
+
+- **`decidim/system/organizations/_omniauth_provider.html.erb`** — Overrides the system admin omniauth provider settings partial to add a `placeholder` attribute to the `icon_path` field. The placeholder shows the default icon path (e.g. `media/images/valid-icon.png`), so admins understand that leaving the field blank will use that default on save.
+
+### Forms
+
+- **`Decidim::TrustedIds::System::OrganizationFormOverride`** — Included into `Decidim::System::RegisterOrganizationForm` and `Decidim::System::UpdateOrganizationForm`. Adds:
+  - Census configuration fields (expiration days, TOS, census settings).
+  - `validate_icon_path`: validates that if an `icon_path` is provided for the VÀLid provider, it must follow the `media/images/filename.ext` format and the file must exist in the module's `app/packs/images/` directory. This is future-proof: any new icon added there will automatically pass validation. Blank values are always accepted — on save, the encrypted default path is stored automatically.
+  - `EncryptedOmniauthSettingsOverride` (prepended module): when the VÀLid provider is being enabled and `icon_path` is blank, sets the default path (`media/images/valid-icon.png`) via the jsonb sub-attribute setter before calling `super`, so the core encrypts it and stores it in the database. This prevents `external_icon("")` from being called and crashing. Uses `prepend` so `super` correctly calls the core's `encrypted_omniauth_settings`.
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/ConsorciAOC-PRJ/decidim-module-trusted-ids.

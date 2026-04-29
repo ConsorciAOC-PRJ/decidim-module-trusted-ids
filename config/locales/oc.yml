@@ -1,6 +1,10 @@
 ---
 oc:
   activemodel:
+    errors:
+      messages:
+        invalid_icon_path_format: deu aver lo format media/images/filename
+        icon_path_not_found: lo fichièr d'icòna existís pas dins los camins d'assets registrats
     attributes:
       trusted_ids_census_config:
         census_expiration_apply_all_tenants: 'Aplicar a totes los "tenants" (aquò establís los meteisses jorns de caducitat per a totas las organizacions d''aquesta plataforma). Avís: los valors voids tanben se propagan'
@@ -49,7 +53,7 @@ oc:
           valid:
             client_id: Client ID
             client_secret: Clau secreta del client
-            icon_path: Icòna (totjorn en format media/images/some-image.png)
+            icon_path: Icòna. Se es void, l'icòna per defaut serà utilizat.
             scope: Encastre
             site: URL del provesidor
     trusted_ids:

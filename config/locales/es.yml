@@ -1,6 +1,10 @@
 ---
 es:
   activemodel:
+    errors:
+      messages:
+        invalid_icon_path_format: debe tener el formato media/images/filename
+        icon_path_not_found: el archivo del icono no existe en las rutas de assets registradas
     attributes:
       trusted_ids_census_config:
         census_expiration_apply_all_tenants: 'Aplica a todos los "tenants" (esto establece los mismos días de caducidad para todas las organizaciones de esta plataforma). Aviso: los valores vacíos también se propagan'
@@ -49,7 +53,7 @@ es:
           valid:
             client_id: Client ID
             client_secret: Clave secreta del cliente
-            icon_path: Icono (siempre en formato media/images/some-image.png)
+            icon_path: Ruta del icono. Si se deja vacío, se usa el icono por defecto.
             scope: Ámbito
             site: URL del proveedor
     trusted_ids:

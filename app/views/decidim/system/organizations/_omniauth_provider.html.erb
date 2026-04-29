@@ -1,0 +1,31 @@
+<%
+  # Override of decidim-system's _omniauth_provider partial.
+  # Adds a placeholder to the icon_path field showing the default icon path value,
+  # so admins understand that leaving the field blank uses that default.
+  i18n_scope = "decidim.system.organizations.omniauth_settings"
+%>
+
+<%= field_set_tag f.label(provider_name(provider), nil, for: nil), class: "border-2 border-background p-4 form__wrapper last:pb-4" do %>
+  <% if provider_enabled?(provider) %>
+    <p class="help-text"><%= t("enabled_by_default", scope: i18n_scope) %></p>
+  <% end %>
+
+  <%= f.check_box(
+    "omniauth_settings_#{provider}_enabled",
+    label: t("enabled", scope: i18n_scope),
+    label_options: { class: "form__wrapper-checkbox-label" }
+  ) %>
+
+  <% Rails.application.secrets.dig(:omniauth, provider.to_sym).keys.select { |k| k != :enabled }.each do |setting| %>
+  <%
+    placeholder = if provider.to_s == Decidim::TrustedIds.omniauth_provider.to_s && setting.to_s == "icon_path"
+                    Decidim::TrustedIds.omniauth[:icon_path].presence ||
+                      "media/images/#{Decidim::TrustedIds.omniauth_provider.downcase}-icon.png"
+                  end
+  %>
+  <%= f.text_field("omniauth_settings_#{provider}_#{setting}", label: I18n.t(
+        ".#{setting}",
+        scope: "#{i18n_scope}.#{provider}"
+      ), placeholder: placeholder) %>
+  <% end %>
+<% end %>

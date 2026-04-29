@@ -28,6 +28,31 @@ shared_examples "updates organization" do
     expect(organization.trusted_ids_census_config.settings["municipal_code"]).to eq("33")
     expect(organization.trusted_ids_census_config.settings["province_code"]).to eq("44")
   end
+
+  context "when icon_path is left blank" do
+    it "saves successfully and stores the encrypted default icon path" do
+      fill_in "Name", with: "Citizens Rule!"
+      fill_in "Host", with: "www.example.org"
+      choose "Do not allow participants to register, but allow existing participants to login"
+      check "VÀLid (Direct)"
+
+      click_on "Show advanced settings"
+      # Clear the icon_path field to ensure it's blank
+      icon_input = find("input[name*='icon_path']", visible: :all)
+      icon_input.set("")
+
+      click_on "Save"
+
+      expect(page).to have_css("div.flash.success")
+      organization.reload
+      settings = organization.omniauth_settings
+      if settings.present?
+        stored = settings["omniauth_settings_valid_icon_path"]
+        expect(stored).to be_present
+        expect(Decidim::AttributeEncryptor.decrypt(stored)).to start_with("media/images/")
+      end
+    end
+  end
 end
 
 shared_examples "creates organization without census authorization fields" do
@@ -89,5 +114,13 @@ shared_examples "creates organization" do
     expect(organization.trusted_ids_census_config.settings["ine"]).to eq("22")
     expect(organization.trusted_ids_census_config.settings["municipal_code"]).to eq("33")
     expect(organization.trusted_ids_census_config.settings["province_code"]).to eq("44")
+
+    # icon_path should store the encrypted default path when not filled in
+    settings = organization.omniauth_settings
+    if settings.present?
+      stored = settings["omniauth_settings_valid_icon_path"]
+      expect(stored).to be_present
+      expect(Decidim::AttributeEncryptor.decrypt(stored)).to start_with("media/images/")
+    end
   end
 end

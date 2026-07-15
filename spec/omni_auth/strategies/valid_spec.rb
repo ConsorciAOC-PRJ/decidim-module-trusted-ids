@@ -26,7 +26,7 @@ describe OmniAuth::Strategies::Valid do
       app,
       "CLIENT_ID",
       "CLIENT_SECRET",
-      "https://identitats-pre.aoc.cat"
+      "https://valid-pre.aoc.cat"
     )
   end
   let(:app) do
@@ -69,19 +69,19 @@ describe OmniAuth::Strategies::Valid do
     end
 
     it "has the correct site" do
-      expect(subject.client.site).to eq("https://identitats-pre.aoc.cat")
+      expect(subject.client.site).to eq("https://valid-pre.aoc.cat")
     end
 
     it "has the correct authorize url" do
-      expect(subject.client.options[:authorize_url]).to eq("https://identitats-pre.aoc.cat/o/oauth2/auth")
+      expect(subject.client.options[:authorize_url]).to eq("https://valid-pre.aoc.cat/o/oauth2/auth")
     end
 
     it "has the correct token url" do
-      expect(subject.client.options[:token_url]).to eq("https://identitats-pre.aoc.cat/o/oauth2/token")
+      expect(subject.client.options[:token_url]).to eq("https://valid-pre.aoc.cat/o/oauth2/token")
     end
 
     it "has correct authorize params" do
-      # https://identitats-pre.aoc.cat/o/oauth2/auth?client_id=xxxxxx&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fusers%2Fauth%2Fidcat_mobil%2Fcallback&response_type=code&state=2ec1a9a9db94fbce7f19ee30d682ab75f97f4fd67848773c&approval_prompt=auto&scope=autenticacio_usuari&response_type=code
+      # https://valid-pre.aoc.cat/o/oauth2/auth?client_id=xxxxxx&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fusers%2Fauth%2Fidcat_mobil%2Fcallback&response_type=code&state=2ec1a9a9db94fbce7f19ee30d682ab75f97f4fd67848773c&approval_prompt=auto&scope=autenticacio_usuari&response_type=code
       expect(subject.client.id).to eq("CLIENT_ID")
       expect(subject.client.secret).to eq("CLIENT_SECRET")
       expect(subject.client.options[:authorize_params][:scope]).to eq(:autenticacio_usuari)

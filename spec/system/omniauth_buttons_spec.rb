@@ -21,7 +21,7 @@ describe "Omniauth buttons on registration page" do
         omniauth_settings_valid_enabled: enabled,
         omniauth_settings_valid_client_id: Decidim::AttributeEncryptor.encrypt("CLIENT_ID"),
         omniauth_settings_valid_client_secret: Decidim::AttributeEncryptor.encrypt("CLIENT_SECRET"),
-        omniauth_settings_valid_site: Decidim::AttributeEncryptor.encrypt("https://valid-pre.aoc.cat"),
+        omniauth_settings_valid_site: Decidim::AttributeEncryptor.encrypt("https://valid.aoc.cat"),
         omniauth_settings_valid_scope: Decidim::AttributeEncryptor.encrypt("autenticacio_usuari")
         # icon_path intentionally omitted — the override must fall back to the default PNG
       }
@@ -38,7 +38,7 @@ describe "Omniauth buttons on registration page" do
         omniauth_settings_valid_enabled: enabled,
         omniauth_settings_valid_client_id: Decidim::AttributeEncryptor.encrypt("CLIENT_ID"),
         omniauth_settings_valid_client_secret: Decidim::AttributeEncryptor.encrypt("CLIENT_SECRET"),
-        omniauth_settings_valid_site: Decidim::AttributeEncryptor.encrypt("https://valid-pre.aoc.cat"),
+        omniauth_settings_valid_site: Decidim::AttributeEncryptor.encrypt("https://valid.aoc.cat"),
         omniauth_settings_valid_icon_path: Decidim::AttributeEncryptor.encrypt(""),
         omniauth_settings_valid_scope: Decidim::AttributeEncryptor.encrypt("autenticacio_usuari")
       }

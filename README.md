@@ -177,7 +177,7 @@ Decidim::TrustedIds.configure do |config|
     enabled: true,
     client_id: "my-client-id",
     client_secret: "my-client-secret",
-    site: "https://identitats-pre.aoc.cat",
+    site: "https://valid.aoc.cat",
     scope: "autenticacio_usuari",
     icon: "media/images/valid-icon.png"
   },

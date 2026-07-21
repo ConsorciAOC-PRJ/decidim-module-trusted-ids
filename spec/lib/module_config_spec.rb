@@ -118,7 +118,7 @@ module Decidim
                                  "enabled" => true,
                                  "client_id" => "client_id",
                                  "client_secret" => "client_secret",
-                                 "site" => "https://identitats.aoc.cat",
+                                 "site" => "https://valid.aoc.cat",
                                  "icon_path" => "media/images/valid-icon.png",
                                  "scope" => "autenticacio_usuari"
                                },
@@ -168,7 +168,7 @@ module Decidim
                                  "enabled" => true,
                                  "client_id" => client_id,
                                  "client_secret" => client_secret,
-                                 "site" => "https://identitats.aoc.cat",
+                                 "site" => "https://valid.aoc.cat",
                                  "icon_path" => "media/images/valid-icon.png",
                                  "scope" => "autenticacio_usuari"
                                },
@@ -197,7 +197,7 @@ module Decidim
                                    "enabled" => true,
                                    "client_id" => client_id,
                                    "client_secret" => client_secret,
-                                   "site" => "https://identitats.aoc.cat",
+                                   "site" => "https://valid.aoc.cat",
                                    "icon_path" => "media/images/facebook-icon.png",
                                    "scope" => "autenticacio_usuari"
                                  },
@@ -228,7 +228,7 @@ module Decidim
                                  "enabled" => false,
                                  "client_id" => nil,
                                  "client_secret" => nil,
-                                 "site" => "https://identitats.aoc.cat",
+                                 "site" => "https://valid.aoc.cat",
                                  "icon_path" => "media/images/valid-icon.png",
                                  "scope" => "autenticacio_usuari"
                                },

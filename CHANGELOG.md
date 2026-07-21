@@ -1,6 +1,9 @@
 # Changelog
 Following Semantic Versioning 2.
 
+## Version 0.9.0 (MINOR)
+- Update Vàlid domain site.
+
 ## Version 0.8.4 (PATCH)
 - Add validations to icon path in Vàlid omniauth settings
 

@@ -6,7 +6,8 @@ module Decidim::System
   describe UpdateOrganizationForm do
     subject do
       described_class.new(
-        name_en: "Gotham City",
+        name: { en: "Gotham City" },
+        short_name: { en: "Gotham" },
         host: "decide.gotham.gov",
         secondary_hosts: "foo.gotham.gov\r\n\r\nbar.gotham.gov",
         reference_prefix: "JKR",
@@ -72,7 +73,8 @@ module Decidim::System
 
       def form_with_icon_path(path)
         described_class.new(
-          name: "Gotham City",
+          name: { en: "Gotham City" },
+          short_name: { en: "Gotham" },
           host: "decide.gotham.gov",
           users_registration_mode: "enabled",
           omniauth_settings_valid_icon_path: path
@@ -136,7 +138,8 @@ module Decidim::System
       context "when icon_path is blank and other settings are present" do
         let(:form) do
           described_class.new(
-            name: "Gotham City",
+            name: { en: "Gotham City" },
+            short_name: { en: "Gotham" },
             host: "decide.gotham.gov",
             users_registration_mode: "enabled",
             omniauth_settings_valid_enabled: true,
@@ -157,7 +160,8 @@ module Decidim::System
       context "when all omniauth settings are blank" do
         let(:form) do
           described_class.new(
-            name: "Gotham City",
+            name: { en: "Gotham City" },
+            short_name: { en: "Gotham" },
             host: "decide.gotham.gov",
             users_registration_mode: "enabled"
           )

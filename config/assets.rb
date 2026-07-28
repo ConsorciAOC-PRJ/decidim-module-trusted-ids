@@ -4,7 +4,7 @@
 
 base_path = File.expand_path("..", __dir__)
 
-# Register the additonal path for Shakapacker in order to make the module's
+# Register the additional path for Shakapacker in order to make the module's
 # stylesheets available for inclusion.
 Decidim::Shakapacker.register_path("#{base_path}/app/packs")
 

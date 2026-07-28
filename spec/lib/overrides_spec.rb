@@ -17,20 +17,20 @@ checksums = [
     files: {
       "/app/commands/decidim/create_omniauth_registration.rb" => "31ce55b44db4e53151f11524d26d8832",
       "/app/models/decidim/organization.rb" => "977969a742ef2ef7515395fcf6951df7",
-      # in case changes are done into these files, let's update decidim/trusted_ids/devise/*
       "/app/views/decidim/devise/sessions/new.html.erb" => "da0d18178c8dcead2774956e989527c5",
-      "/app/views/decidim/devise/shared/_omniauth_buttons.html.erb" => "688a13e36af349a91e37b04c6caaa3a9"
+      "/app/views/decidim/devise/shared/_omniauth_buttons.html.erb" => "688a13e36af349a91e37b04c6caaa3a9",
+      "/app/views/layouts/decidim/_head.html.erb" => "0faa190f7a4b3db401ffcdfc3d063802"
     }
   },
   {
     package: "decidim-system",
     files: {
-      "/app/forms/decidim/system/register_organization_form.rb" => "7b4eab28179eb466b30383e357e2cc79",
-      "/app/forms/decidim/system/update_organization_form.rb" => "51e2fb7773d646652231133a12fd8ff3",
-      "/app/commands/decidim/system/create_organization.rb" => "b8b20c82fbe8dd4ac412ec3f41b8f3cc",
-      "/app/commands/decidim/system/update_organization.rb" => "58f21a2eb8f6ee9570864c8e26397d5a",
-      "/app/views/decidim/system/organizations/new.html.erb" => "4916cdb428d89de5afe60e279d64112f",
-      "/app/views/decidim/system/organizations/edit.html.erb" => "6428bfb2edcdd36fa01f702f3dbc2f57"
+      "/app/forms/decidim/system/register_organization_form.rb" => "e194bfdb6819aa55b6870307dcd24340",
+      "/app/forms/decidim/system/update_organization_form.rb" => "631ed13dc98e4bdfd39e60157d995672",
+      "/app/commands/decidim/system/create_organization.rb" => "ad7faec3a21ced65054748dc2a4a119b",
+      "/app/commands/decidim/system/update_organization.rb" => "551cb589c40db2a07e294f5dd3f500c0",
+      "/app/views/decidim/system/organizations/_advanced_settings.html.erb" => "7c6710869e89f34f8acccac42cb68a37",
+      "/app/views/decidim/system/organizations/_omniauth_provider.html.erb" => "a43c46748b4ea8cd2a1c1b3a35bd6c8e"
     }
   }
 ]

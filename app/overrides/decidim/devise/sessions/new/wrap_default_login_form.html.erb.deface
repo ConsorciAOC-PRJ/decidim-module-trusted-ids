@@ -1,0 +1,3 @@
+<!-- replace "erb[loud]:contains('decidim_form_for')" -->
+
+<%= decidim_form_for(resource, namespace: "session", as: resource_name, url: session_path(resource_name), html: {class: "new_user decidim-login hide"}) do |f| %>

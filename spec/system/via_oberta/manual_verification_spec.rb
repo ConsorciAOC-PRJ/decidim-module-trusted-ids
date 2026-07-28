@@ -329,7 +329,7 @@ describe "Via Oberta manual verification" do
       let(:granted_at) { 4.months.ago }
 
       it "can be renewed" do
-        # expect(existing_authorization.expired?).to be true
+        expect(existing_authorization.expired?).to be true
         expect(existing_authorization.expires_at).to eq(existing_authorization.granted_at + 90.days)
 
         within ".authorizations-list" do

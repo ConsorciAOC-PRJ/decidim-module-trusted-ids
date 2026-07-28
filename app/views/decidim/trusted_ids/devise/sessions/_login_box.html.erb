@@ -1,0 +1,31 @@
+<%
+  provider = Decidim::TrustedIds.omniauth_provider&.to_sym
+  provider_str = t("decidim.authorization_handlers.trusted_ids_handler.name")
+  icon_path = current_organization.enabled_omniauth_providers[provider]&.dig(:icon_path)
+  override_login = Decidim::TrustedIds.custom_login_screen? && Devise.mappings[:user].omniauthable? && current_organization.enabled_omniauth_providers&.include?(provider)
+  override_login = true
+%>
+
+<% if override_login %>
+  <div class="login__info trusted-ids-login-box">
+    <h2 class="h2"><%= t("decidim.trusted_ids.devise.sessions.new.login") %></h2>
+    <p><%= t("decidim.trusted_ids.devise.sessions.new.login_subtitle") %></p>
+    <h6><%= t("decidim.trusted_ids.devise.sessions.new.verified_identity", provider: provider_str) %></h6>
+    <%= t("decidim.trusted_ids.devise.sessions.new.verified_identity_html") %>
+    <p><%= link_to decidim.send("user_#{provider}_omniauth_authorize_path"), class: "button button--social button--#{normalize_provider_name(provider)}", method: :post do %>
+      <span class="button--social__icon">
+        <%= external_icon icon_path.presence || Decidim::TrustedIds.omniauth[:icon_path] %>
+      </span>
+      <span class="button--social__text">
+        <%= t("decidim.trusted_ids.devise.sessions.new.verified_login") %>
+      </span>
+    <% end %></p>
+    <hr>
+    <p><%= link_to t("decidim.trusted_ids.devise.sessions.new.unverified_login"), "#", class: "button button__lg button__transparent-secondary w-full button--unverified-login", onclick: "document.querySelectorAll('.decidim-login').forEach((el) => el.classList.toggle('hide'));return false" %></p>
+  </div>
+  <div class="decidim-login hide">
+    <%= render partial: "decidim/devise/shared/omniauth_buttons", locals: { is_horizontal: true } %>
+  </div>
+<% else %>
+  <%= render partial: "decidim/devise/shared/omniauth_buttons", locals: { is_horizontal: true } %>
+<% end %>

@@ -31,14 +31,14 @@ shared_examples "updates organization" do
 
   context "when icon_path is left blank" do
     it "saves successfully and stores the encrypted default icon path" do
-      fill_in "Name", with: "Citizens Rule!"
+      fill_in_i18n :update_organization_name, "#update_organization-name-tabs", { en: "Citizens Rule!" }
       fill_in "Host", with: "www.example.org"
-      choose "Do not allow participants to register, but allow existing participants to login"
+      choose "Do not allow participants to create an account, but allow existing participants to log in"
       check "VÀLid (Direct)"
 
       click_on "Show advanced settings"
       # Clear the icon_path field to ensure it's blank
-      icon_input = find("input[name*='icon_path']", visible: :all)
+      icon_input = find_by_id("update_organization_omniauth_settings_valid_icon_path", visible: :all)
       icon_input.set("")
 
       click_on "Save"
@@ -58,6 +58,7 @@ end
 shared_examples "creates organization without census authorization fields" do
   it "creates a new organization" do
     fill_in "Name", with: "Citizen Corp"
+    fill_in "Short name", with: "CCORP"
     fill_in "Host", with: "www.example.org"
     fill_in "Secondary hosts", with: "foo.example.org\n\rbar.example.org"
     fill_in "Reference prefix", with: "CCORP"
@@ -84,6 +85,7 @@ end
 shared_examples "creates organization" do
   it "creates a new organization" do
     fill_in "Name", with: "Citizen Corp"
+    fill_in "Short name", with: "CCORP"
     fill_in "Host", with: "www.example.org"
     fill_in "Secondary hosts", with: "foo.example.org\n\rbar.example.org"
     fill_in "Reference prefix", with: "CCORP"

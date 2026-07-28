@@ -21,7 +21,7 @@ describe "OAuth login button" do
     expect(page).to have_link("Other unverified identification methods")
     expect(page).to have_no_content("Log in with Valid")
     expect(page).to have_no_content("Log in with Facebook")
-    expect(page).to have_no_content("Email")
+    expect(page).to have_no_content("Email address")
     expect(page).to have_no_content("Password")
     expect(page).to have_no_content("Forgot your password?")
 
@@ -29,7 +29,7 @@ describe "OAuth login button" do
 
     expect(page).to have_no_content("Log in with Valid")
     expect(page).to have_content("Facebook")
-    expect(page).to have_content("Email")
+    expect(page).to have_content("Email address")
     expect(page).to have_content("Password")
     expect(page).to have_content("Forgot your password?")
   end

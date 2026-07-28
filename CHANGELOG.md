@@ -1,6 +1,9 @@
 # Changelog
 Following Semantic Versioning 2.
 
+## Version 0.11.0 (MINOR)
+- Adds compatibility for Decidim 0.31
+
 ## Version 0.9.0 (MINOR)
 - Update Vàlid domain site.
 

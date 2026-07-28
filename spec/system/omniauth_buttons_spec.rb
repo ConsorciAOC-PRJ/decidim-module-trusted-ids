@@ -12,7 +12,7 @@ describe "Omniauth buttons on registration page" do
   end
 
   it "shows the VÀLid button" do
-    expect(page).to have_css(".button--valid")
+    expect(page).to have_css(".login__omniauth-button--valid")
   end
 
   context "when icon_path is not set in the organization settings" do
@@ -28,7 +28,7 @@ describe "Omniauth buttons on registration page" do
     end
 
     it "renders the registration page without crashing" do
-      expect(page).to have_css(".button--valid")
+      expect(page).to have_css(".login__omniauth-button--valid")
     end
   end
 
@@ -45,7 +45,7 @@ describe "Omniauth buttons on registration page" do
     end
 
     it "renders the registration page without crashing" do
-      expect(page).to have_css(".button--valid")
+      expect(page).to have_css(".login__omniauth-button--valid")
     end
   end
 end

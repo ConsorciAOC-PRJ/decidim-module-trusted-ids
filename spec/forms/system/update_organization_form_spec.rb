@@ -60,5 +60,113 @@ module Decidim::System
         expect(subject.trusted_ids_census_tos).to eq(trusted_ids_census_config.tos)
       end
     end
+
+    describe "#default_icon_path" do
+      it "returns a path in media/images/ format" do
+        expect(subject.default_icon_path).to start_with("media/images/")
+      end
+    end
+
+    describe "icon_path validation" do
+      let(:icon_path_attr) { :omniauth_settings_valid_icon_path }
+
+      def form_with_icon_path(path)
+        described_class.new(
+          name: "Gotham City",
+          host: "decide.gotham.gov",
+          users_registration_mode: "enabled",
+          omniauth_settings_valid_icon_path: path
+        )
+      end
+
+      context "when icon_path is blank" do
+        it "is valid" do
+          expect(form_with_icon_path("")).to be_valid
+        end
+
+        it "is valid when nil" do
+          expect(form_with_icon_path(nil)).to be_valid
+        end
+      end
+
+      context "when icon_path has wrong format" do
+        let(:form) { form_with_icon_path("invalid/path.png") }
+
+        it "is not valid" do
+          expect(form).not_to be_valid
+        end
+
+        it "adds an error on the icon_path field" do
+          form.valid?
+          expect(form.errors[icon_path_attr]).to be_present
+        end
+      end
+
+      context "when icon_path points to a nonexistent file" do
+        let(:form) { form_with_icon_path("media/images/nonexistent-icon.png") }
+
+        it "is not valid" do
+          expect(form).not_to be_valid
+        end
+
+        it "adds an error on the icon_path field" do
+          form.valid?
+          expect(form.errors[icon_path_attr]).to be_present
+        end
+      end
+
+      context "when icon_path points to an existing file (valid-icon.png)" do
+        it "is valid" do
+          expect(form_with_icon_path("media/images/valid-icon.png")).to be_valid
+        end
+      end
+
+      context "when icon_path points to another existing file (idcat_mobil-icon.svg)" do
+        it "is valid" do
+          expect(form_with_icon_path("media/images/idcat_mobil-icon.svg")).to be_valid
+        end
+      end
+    end
+
+    describe "#encrypted_omniauth_settings" do
+      # attribute(:omniauth_settings, { String => Object }) coerces keys to strings,
+      # so the result hash uses string keys regardless of how they were set.
+      let(:icon_path_attr) { "omniauth_settings_valid_icon_path" }
+
+      context "when icon_path is blank and other settings are present" do
+        let(:form) do
+          described_class.new(
+            name: "Gotham City",
+            host: "decide.gotham.gov",
+            users_registration_mode: "enabled",
+            omniauth_settings_valid_enabled: true,
+            omniauth_settings_valid_icon_path: ""
+          )
+        end
+
+        it "stores the encrypted default icon path" do
+          result = form.encrypted_omniauth_settings
+          expect(result).not_to be_nil
+          stored = result[icon_path_attr]
+          expect(stored).to be_present
+          decrypted = Decidim::AttributeEncryptor.decrypt(stored)
+          expect(decrypted).to start_with("media/images/")
+        end
+      end
+
+      context "when all omniauth settings are blank" do
+        let(:form) do
+          described_class.new(
+            name: "Gotham City",
+            host: "decide.gotham.gov",
+            users_registration_mode: "enabled"
+          )
+        end
+
+        it "returns nil" do
+          expect(form.encrypted_omniauth_settings).to be_nil
+        end
+      end
+    end
   end
 end

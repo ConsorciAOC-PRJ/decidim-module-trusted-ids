@@ -7,7 +7,7 @@ on:
   pull_request:
 
 env:
-  RUBY_VERSION: 3.3.10
+  RUBY_VERSION: 3.3.11
   NODE_VERSION: 22.14.0
   DISABLE_SPRING: 1
   CI: "true"
@@ -46,7 +46,6 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ env.RUBY_VERSION }}
-          rubygems: 3.3.26
           bundler-cache: true
 
       - uses: nanasess/setup-chromedriver@v2

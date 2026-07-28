@@ -1,6 +1,10 @@
 ---
 ca:
   activemodel:
+    errors:
+      messages:
+        invalid_icon_path_format: ha de tenir el format media/images/filename
+        icon_path_not_found: el fitxer de la icona no existeix a les rutes d'assets registrades
     attributes:
       trusted_ids_census_config:
         census_expiration_apply_all_tenants: 'Aplica a tots els "tenants" (això estableix els mateixos dies de caducitat per a totes les organitzacions d''aquesta plataforma). Avís: els valors buits també es propaguen'
@@ -49,7 +53,7 @@ ca:
           valid:
             client_id: Client ID
             client_secret: Clau secreta del Client
-            icon_path: Icona (sempre en format media/images/some-image.png)
+            icon_path: Ruta de la icona. Si és buit, agafarà la icona per defecte.
             scope: Àmbit
             site: URL del proveïdor
     trusted_ids:

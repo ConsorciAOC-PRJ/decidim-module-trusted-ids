@@ -1,6 +1,6 @@
 {
   "name": "decidim-trusted_ids",
-  "version": "0.4.0",
+  "version": "0.12.0",
   "description": "Trusted IDs module for Decidim",
   "main": "index.js",
   "directories": {
@@ -33,26 +33,11 @@
     "extends": "@decidim/stylelint-config"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.19.1",
-    "@babel/plugin-proposal-class-properties": "^7.18.6",
-    "@babel/plugin-proposal-private-methods": "^7.18.6",
-    "@babel/plugin-proposal-private-property-in-object": "^7.20.5",
-    "@babel/plugin-transform-classes": "^7.20.7",
-    "@babel/plugin-transform-regenerator": "^7.20.5",
-    "@babel/plugin-transform-runtime": "^7.19.6",
-    "@babel/preset-env": "^7.20.2",
-    "@babel/preset-react": "^7.18.6",
-    "@decidim/dev": "^0.31.7",
-    "@decidim/eslint-config": "^0.31.7",
-    "@decidim/stylelint-config": "^0.31.7",
-    "eslint": "^8.57.1",
-    "eslint-config-prettier": "^8.2.0",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-standard": "^3.1.0",
-    "postcss-scss": "^4.0.9",
-    "prettier": "^2.8.8",
-    "sass-embedded": "~1.57.1"
-  }
+    "@decidim/dev": "0.31.7",
+    "@decidim/eslint-config": "0.31.7",
+    "@decidim/prettier-config": "0.31.7",
+    "@decidim/stylelint-config": "0.31.7",
+    "@decidim/webpacker": "0.31.7"
+  },
+  "dependencies": {}
 }

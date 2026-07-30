@@ -10,7 +10,7 @@
   <div class="callout secondary"><%= t(".warning_html", email: current_user.email, provider: provider_str) %></div>
 
   <div class="social-register">
-    <%= link_to decidim.send("user_#{provider}_omniauth_authorize_path"), class: "button button--social button--#{normalize_provider_name(provider)}", method: :post do %>
+    <%= link_to decidim.send("user_#{provider}_omniauth_authorize_path"), class: "w-full button button--social button--#{normalize_provider_name(provider)}", method: :post do %>
       <span class="button--social__icon">
         <%= oauth_icon provider %>
       </span>
@@ -29,12 +29,11 @@
 
 <style>
   .social-register,.cancel {
-    margin: 2em 3em;
+    margin: 2em 0;
+    padding: 0;
   }
-  .actions {
-    display: none;
-  }
-  .skip {
+  /* Send and Back buttons are hidden as this page is only informative */
+  #new_authorization_handler .form__wrapper-block {
     display: none;
   }
 </style>

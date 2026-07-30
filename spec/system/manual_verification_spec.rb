@@ -71,8 +71,7 @@ describe "Trusted IDs manual verification" do
         click_on "Cancel verification"
       end
 
-      expect(page).to have_content("VÀLid")
-      expect(page).to have_content("VÀLid is a service that AOC provides to Catalan public administrations")
+      expect(page).to have_content("VÀLid is a service that AOC provides to Catalan public administrations to integrate the different available digital identification mechanisms (idCAT Mòbil, digital certificates and Cl@ve).")
 
       expect(Decidim::Authorization.last).to be_nil
       expect(last_email).to be_nil

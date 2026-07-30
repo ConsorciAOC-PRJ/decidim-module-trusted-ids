@@ -201,15 +201,23 @@ For the complete list of available options, see the [trusted_ids](lib/decidim/tr
 
 ## Decidim core overrides
 
-This module overrides the following Decidim core views and forms to provide the required behavior:
+This module customizes Decidim core behavior through Deface overrides (for views) and module-based form extensions.
 
 ### Views
 
-- **`decidim/devise/sessions/new.html.erb`** — Overrides the login page to show a VÀLid button above the standard login form when the custom login screen is enabled.
+- **`app/overrides/decidim/devise/sessions/new/add_trusted_id_buttons.html.erb.deface`** — Replaces the core call that renders omniauth buttons with `decidim/trusted_ids/devise/sessions/login_box`, showing the VÀLid login box on the login page.
 
-- **`decidim/devise/shared/_omniauth_buttons.html.erb`** — Overrides the shared omniauth buttons partial. For the VÀLid provider, instead of calling `oauth_icon` (which falls back to the SVG `valid-fill` icon when `icon_path` is nil), the override reads `icon_path` from the organisation's omniauth settings and falls back to the default PNG (`media/images/valid-icon.png`) when not set. This means the PNG icon is always used for VÀLid on the sign-up / sign-in pages, even for organisations that were created before `icon_path` was a per-tenant field. The whole block is wrapped in a `rescue Shakapacker::Manifest::MissingEntryError` so the page never crashes if the asset is absent from the manifest.
+- **`app/overrides/decidim/devise/sessions/new/wrap_default_login_form.html.erb.deface`** — Replaces the core `decidim_form_for` line to conditionally hide the default login form when the custom VÀLid login screen is enabled.
 
-- **`decidim/system/organizations/_omniauth_provider.html.erb`** — Overrides the system admin omniauth provider settings partial to add a `placeholder` attribute to the `icon_path` field. The placeholder shows the default icon path (e.g. `media/images/valid-icon.png`), so admins understand that leaving the field blank will use that default on save.
+- **`app/overrides/decidim/devise/shared/_omniauth_buttons/skip_trusted_ids_provider.html.erb.deface`** — Inserts a guard to skip rendering the VÀLid provider in the core omniauth buttons loop on the sessions/new page when the custom login screen is enabled, avoiding duplicated buttons.
+
+- **`app/overrides/decidim/devise/shared/_omniauth_buttons/replace_button_content.html.erb.deface`** — Replaces the core `oauth_icon provider` call for button content. For the VÀLid provider, it resolves `icon_path` from organization/module settings and falls back to `media/images/valid-icon.png`; for other providers it keeps `oauth_icon provider`. It rescues `Shakapacker::Manifest::MissingEntryError` to prevent crashes if the asset is missing.
+
+- **`app/overrides/decidim/system/organizations/_omniauth_provider/add_icon_placeholder.html.erb.deface`** — Replaces the `icon_path` form row rendering in system settings with a module partial that adds a default-placeholder hint.
+
+- **`app/overrides/decidim/system/organizations/_advanced_settings/settings_form.html.erb.deface`** — Inserts the trusted IDs settings partial at the top of the organization advanced settings panel.
+
+- **`app/overrides/layouts/decidim/_head/add_trusted_ids_tags.html.erb.deface`** — Appends the `decidim_trusted_ids` stylesheet pack in the Decidim head layout so trusted IDs styles are available on pages that do not load them by default.
 
 ### Forms
 
@@ -262,7 +270,7 @@ defining these in the commands shown above.
 
 #### Webpacker notes
 
-As latests versions of Decidim, this repository uses Webpacker for Rails. This means that compilation
+As latests versions of Decidim, this repository uses Shakapacker for Rails. This means that compilation
 of assets is required every time a Javascript or CSS file is modified. Usually, this happens
 automatically, but in some cases (specially when actively changes that type of files) you want to 
 speed up the process. 
@@ -270,7 +278,7 @@ speed up the process.
 To do that, start in a separate terminal than the one with `bin/rails s`, and BEFORE it, the following command:
 
 ```bash
-bin/webpack-dev-server
+bin/shakapacker-dev-server
 ```
 
 #### Code Styling

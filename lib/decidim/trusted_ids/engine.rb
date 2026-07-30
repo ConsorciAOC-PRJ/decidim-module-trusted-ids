@@ -92,7 +92,7 @@ module Decidim
 
         set_default.call(
           :send_verification_notifications,
-          if ENV.key?("SEND_VERIFICATION_NOTIFICATIONS")
+          if ENV.has_key?("SEND_VERIFICATION_NOTIFICATIONS")
             Decidim::TrustedIds.to_bool(ENV.fetch("SEND_VERIFICATION_NOTIFICATIONS"))
           else
             true
@@ -102,7 +102,7 @@ module Decidim
         set_default.call(
           :census_authorization,
           {
-            handler: if ENV.key?("CENSUS_AUTHORIZATION_HANDLER")
+            handler: if ENV.has_key?("CENSUS_AUTHORIZATION_HANDLER")
                        ENV.fetch("CENSUS_AUTHORIZATION_HANDLER").to_sym
                      else
                        :via_oberta_handler

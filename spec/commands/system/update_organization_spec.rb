@@ -78,6 +78,7 @@ module Decidim::System
           command.call
           expect(trusted_ids_organization_config.reload.tos["en"]).to eq(trusted_ids_census_tos["en"])
           expect(trusted_ids_organization_config.tos["ca"]).to eq(trusted_ids_census_tos["ca"])
+          expect(trusted_ids_organization_config.tos["machine_translations"]).to have_key("es")
         end
       end
     end

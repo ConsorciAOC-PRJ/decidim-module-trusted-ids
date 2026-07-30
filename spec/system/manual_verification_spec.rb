@@ -18,8 +18,7 @@ describe "Trusted IDs manual verification" do
   end
 
   it "has the VALid handler" do
-    expect(page).to have_content("VÀLid")
-    expect(page).to have_content("VÀLid is a service that AOC provides to Catalan public administrations")
+    expect(page).to have_content("VÀLid is a service that AOC provides to Catalan public administrations to integrate the different available digital identification mechanisms (idCAT Mòbil, digital certificates and Cl@ve).")
     click_on "VÀLid"
     expect(page).to have_content("Verify with VÀLid")
     expect(page).to have_button("Cancel verification")

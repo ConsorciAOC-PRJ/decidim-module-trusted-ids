@@ -30,6 +30,97 @@ module Decidim
         end
       end
 
+      # This initializer is used to configure using ENV variables
+      # Done here to make it compatible with gems like dotenv-rails/figaro/figjam that load configur is initialized
+      initializer "decidim_trusted_ids.configuration" do
+        set_default = lambda do |attribute, value|
+          Decidim::TrustedIds.public_send(attribute).nil? &&
+            Decidim::TrustedIds.public_send("#{attribute}=", value)
+        end
+
+        set_default.call(
+          :omniauth_provider,
+          ENV.fetch("OMNIAUTH_PROVIDER", "valid")
+        )
+
+        set_default.call(
+          :authorization_metadata,
+          Decidim::TrustedIds.omniauth_metadata_attributes || {
+            expires_at: [:credentials, :expires_at],
+            identifier_type: [:extra, :identifier_type],
+            method: [:extra, :method],
+            assurance_level: [:extra, :assurance_level]
+          }
+        )
+
+        set_default.call(
+          :omniauth,
+          {
+            enabled: Decidim::TrustedIds.to_bool(
+              ENV.fetch(
+                "OMNIAUTH_ENABLED_BY_DEFAULT",
+                Decidim::TrustedIds.omniauth_env("CLIENT_ID").present?
+              )
+            ),
+            client_id: Decidim::TrustedIds.omniauth_env("CLIENT_ID"),
+            client_secret: Decidim::TrustedIds.omniauth_env("CLIENT_SECRET"),
+            site: Decidim::TrustedIds.omniauth_env("SITE", "https://valid.aoc.cat"),
+            icon_path: Decidim::TrustedIds.omniauth_env(
+              "ICON",
+              "media/images/#{Decidim::TrustedIds.omniauth_provider.downcase}-icon.png"
+            ),
+            scope: Decidim::TrustedIds.omniauth_env("SCOPE", "autenticacio_usuari")
+          }
+        )
+
+        set_default.call(
+          :omniauth_global_attributes,
+          ENV.fetch("OMNIAUTH_GLOBAL_ATTRIBUTES", "site scope").split.map(&:to_sym)
+        )
+
+        set_default.call(
+          :custom_login_screen,
+          Decidim::TrustedIds.to_bool(
+            ENV.fetch("CUSTOM_LOGIN_SCREEN", true)
+          )
+        )
+
+        set_default.call(
+          :verification_expiration_time,
+          ENV.fetch("VERIFICATION_EXPIRATION_TIME", 90).to_i.days
+        )
+
+        set_default.call(
+          :send_verification_notifications,
+          if ENV.key?("SEND_VERIFICATION_NOTIFICATIONS")
+            Decidim::TrustedIds.to_bool(ENV.fetch("SEND_VERIFICATION_NOTIFICATIONS"))
+          else
+            true
+          end
+        )
+
+        set_default.call(
+          :census_authorization,
+          {
+            handler: if ENV.key?("CENSUS_AUTHORIZATION_HANDLER")
+                       ENV.fetch("CENSUS_AUTHORIZATION_HANDLER").to_sym
+                     else
+                       :via_oberta_handler
+                     end,
+            form: ENV.fetch(
+              "CENSUS_AUTHORIZATION_FORM",
+              "Decidim::ViaOberta::Verifications::ViaObertaHandler"
+            ),
+            env: ENV.fetch("CENSUS_AUTHORIZATION_ENV", "production"),
+            api_url: ENV.fetch("CENSUS_AUTHORIZATION_API_URL", nil),
+            system_attributes: ENV.fetch(
+              "CENSUS_AUTHORIZATION_SYSTEM_ATTRIBUTES",
+              "nif ine municipal_code province_code organization_name"
+            ).split
+          }
+        )
+      end
+
       initializer "decidim_trusted_ids.omniauth" do
         omniauth = Decidim::TrustedIds.omniauth
         next unless omniauth && Decidim::TrustedIds.omniauth_provider.present?

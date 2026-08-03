@@ -28,7 +28,7 @@ module Decidim
           return unless census_response.success?
 
           Digest::SHA256.hexdigest(
-            "#{document_id}-#{user&.decidim_organization_id}-#{Rails.application.secrets.secret_key_base}"
+            "#{document_id}-#{user&.decidim_organization_id}-#{Rails.application.secret_key_base}"
           )
         end
 

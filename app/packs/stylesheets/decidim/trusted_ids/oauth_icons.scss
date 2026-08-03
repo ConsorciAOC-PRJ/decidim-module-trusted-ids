@@ -16,18 +16,6 @@
       display: inline-block !important;
     }
   }
-
-  &.button--valid {
-    .button--social__icon {
-      border-right: 1px solid rgba(0, 0, 0, .075);
-      padding: 0 8px;
-
-      img.icon.external-icon {
-        width: 2.8em;
-        height: auto;
-      }
-    }
-  }
 }
 
 .login__omniauth-button {
@@ -46,8 +34,10 @@
 .button--social,
 .button--valid {
   background-color: var(--secondary);
-  justify-content: start;
+  justify-content: center;
   align-items: center;
+  gap: 0.5rem;
+  padding: 0 0.5rem;
 }
 
 .button--unverified-login {

@@ -13,11 +13,10 @@ module Decidim
         # Non-controller overrides here
         Decidim::Organization.include(Decidim::TrustedIds::OrganizationOverride)
         Decidim::Authorization.include(Decidim::TrustedIds::AuthorizationOverride)
-        Decidim::CreateOmniauthRegistration.include(Decidim::TrustedIds::CreateOmniauthRegistrationOverride)
         Decidim::System::RegisterOrganizationForm.include(Decidim::TrustedIds::System::OrganizationFormOverride)
         Decidim::System::UpdateOrganizationForm.include(Decidim::TrustedIds::System::OrganizationFormOverride)
         Decidim::System::UpdateOrganization.include(Decidim::TrustedIds::System::UpdateOrganizationOverride)
-        Decidim::System::RegisterOrganization.include(Decidim::TrustedIds::System::RegisterOrganizationOverride)
+        Decidim::System::CreateOrganization.include(Decidim::TrustedIds::System::CreateOrganizationOverride)
       end
 
       initializer "decidim_trusted_ids.controller_addons", after: "decidim.action_controller" do
@@ -31,6 +30,97 @@ module Decidim
         end
       end
 
+      # This initializer is used to configure using ENV variables
+      # Done here to make it compatible with gems like dotenv-rails/figaro/figjam that load configur is initialized
+      initializer "decidim_trusted_ids.configuration" do
+        set_default = lambda do |attribute, value|
+          Decidim::TrustedIds.public_send(attribute).nil? &&
+            Decidim::TrustedIds.public_send("#{attribute}=", value)
+        end
+
+        set_default.call(
+          :omniauth_provider,
+          ENV.fetch("OMNIAUTH_PROVIDER", "valid")
+        )
+
+        set_default.call(
+          :authorization_metadata,
+          Decidim::TrustedIds.omniauth_metadata_attributes || {
+            expires_at: [:credentials, :expires_at],
+            identifier_type: [:extra, :identifier_type],
+            method: [:extra, :method],
+            assurance_level: [:extra, :assurance_level]
+          }
+        )
+
+        set_default.call(
+          :omniauth,
+          {
+            enabled: Decidim::TrustedIds.to_bool(
+              ENV.fetch(
+                "OMNIAUTH_ENABLED_BY_DEFAULT",
+                Decidim::TrustedIds.omniauth_env("CLIENT_ID").present?
+              )
+            ),
+            client_id: Decidim::TrustedIds.omniauth_env("CLIENT_ID"),
+            client_secret: Decidim::TrustedIds.omniauth_env("CLIENT_SECRET"),
+            site: Decidim::TrustedIds.omniauth_env("SITE", "https://valid.aoc.cat"),
+            icon_path: Decidim::TrustedIds.omniauth_env(
+              "ICON",
+              "media/images/#{Decidim::TrustedIds.omniauth_provider.downcase}-icon.png"
+            ),
+            scope: Decidim::TrustedIds.omniauth_env("SCOPE", "autenticacio_usuari")
+          }
+        )
+
+        set_default.call(
+          :omniauth_global_attributes,
+          ENV.fetch("OMNIAUTH_GLOBAL_ATTRIBUTES", "site scope").split.map(&:to_sym)
+        )
+
+        set_default.call(
+          :custom_login_screen,
+          Decidim::TrustedIds.to_bool(
+            ENV.fetch("CUSTOM_LOGIN_SCREEN", true)
+          )
+        )
+
+        set_default.call(
+          :verification_expiration_time,
+          ENV.fetch("VERIFICATION_EXPIRATION_TIME", 90).to_i.days
+        )
+
+        set_default.call(
+          :send_verification_notifications,
+          if ENV.has_key?("SEND_VERIFICATION_NOTIFICATIONS")
+            Decidim::TrustedIds.to_bool(ENV.fetch("SEND_VERIFICATION_NOTIFICATIONS"))
+          else
+            true
+          end
+        )
+
+        set_default.call(
+          :census_authorization,
+          {
+            handler: if ENV.has_key?("CENSUS_AUTHORIZATION_HANDLER")
+                       ENV.fetch("CENSUS_AUTHORIZATION_HANDLER").to_sym
+                     else
+                       :via_oberta_handler
+                     end,
+            form: ENV.fetch(
+              "CENSUS_AUTHORIZATION_FORM",
+              "Decidim::ViaOberta::Verifications::ViaObertaHandler"
+            ),
+            env: ENV.fetch("CENSUS_AUTHORIZATION_ENV", "production"),
+            api_url: ENV.fetch("CENSUS_AUTHORIZATION_API_URL", nil),
+            system_attributes: ENV.fetch(
+              "CENSUS_AUTHORIZATION_SYSTEM_ATTRIBUTES",
+              "nif ine municipal_code province_code organization_name"
+            ).split
+          }
+        )
+      end
+
       initializer "decidim_trusted_ids.omniauth" do
         omniauth = Decidim::TrustedIds.omniauth
         next unless omniauth && Decidim::TrustedIds.omniauth_provider.present?
@@ -39,15 +129,15 @@ module Decidim
         omniauth[:scope] = "autenticacio_usuari" if omniauth[:scope].blank?
 
         global_attributes = Decidim::TrustedIds.omniauth_global_attributes
-        # Decidim uses the secrets configuration to decide whether to show the omniauth provider, we add it here
-        Rails.application.secrets[:omniauth][Decidim::TrustedIds.omniauth_provider.to_sym] = omniauth.except(*global_attributes)
+        # Decidim configuration decide whether to show the omniauth provider
+        Decidim.omniauth_providers[Decidim::TrustedIds.omniauth_provider.to_sym] = omniauth.except(*global_attributes)
 
         Rails.application.config.middleware.use OmniAuth::Builder do
           provider Decidim::TrustedIds.omniauth_provider,
                    setup: lambda { |env|
                      request = Rack::Request.new(env)
                      organization = Decidim::Organization.find_by(host: request.host)
-                     provider_config = organization.omniauth_settings.filter_map do |key, value|
+                     provider_config = organization.omniauth_settings&.filter_map do |key, value|
                        next unless key.start_with?("omniauth_settings_#{Decidim::TrustedIds.omniauth_provider}")
 
                        attribute = Decidim::OmniauthProvider.extract_setting_key(key, Decidim::TrustedIds.omniauth_provider)
@@ -63,7 +153,7 @@ module Decidim
 
       initializer "decidim_trusted_ids.authorizations" do
         # Triggers user verification after login/registration
-        ActiveSupport::Notifications.subscribe "decidim.user.omniauth_registration" do |_name, data|
+        ActiveSupport::Notifications.subscribe(/decidim\.user\.omniauth_(registration|login)/) do |_name, data|
           Decidim::TrustedIds::OmniauthVerificationJob.perform_later(data)
         end
 

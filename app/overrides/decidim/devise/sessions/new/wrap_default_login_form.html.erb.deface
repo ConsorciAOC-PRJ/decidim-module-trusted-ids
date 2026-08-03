@@ -1,0 +1,4 @@
+<!-- replace "erb[loud]:contains('decidim_form_for')" -->
+
+<% override_login = Decidim::TrustedIds.custom_login_screen? && Devise.mappings[:user].omniauthable? && current_organization.enabled_omniauth_providers&.include?(Decidim::TrustedIds.omniauth_provider&.to_sym) %>
+<%= decidim_form_for(resource, namespace: "session", as: resource_name, url: session_path(resource_name), html: {class: "new_user decidim-login #{'hide' if override_login}"}) do |f| %>

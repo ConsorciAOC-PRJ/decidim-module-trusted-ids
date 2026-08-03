@@ -1,0 +1,10 @@
+<%
+  placeholder = if provider.to_s == Decidim::TrustedIds.omniauth_provider.to_s && setting.to_s == "icon_path"
+                  Decidim::TrustedIds.omniauth[:icon_path].presence ||
+                    "media/images/#{Decidim::TrustedIds.omniauth_provider.downcase}-icon.png"
+                end
+%>
+<%= f.text_field("omniauth_settings_#{provider}_#{setting}", label: I18n.t(
+      ".#{setting}",
+      scope: [:icon, :icon_path].include?(setting) ? i18n_scope : "#{i18n_scope}.#{provider}"
+    ), placeholder: placeholder) %>

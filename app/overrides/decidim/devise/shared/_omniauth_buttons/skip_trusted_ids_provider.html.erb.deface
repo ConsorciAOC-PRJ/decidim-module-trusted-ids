@@ -1,0 +1,3 @@
+<!-- insert_after "erb[silent]:contains('current_organization.enabled_omniauth_providers.keys.each')" -->
+
+<% next if controller_name == "sessions" && action_name == "new" && provider == Decidim::TrustedIds.omniauth_provider&.to_sym && Decidim::TrustedIds.custom_login_screen? %>

@@ -26,66 +26,31 @@ module Decidim
 
     # The name of the omniauth provider, must be registered in Decidim.
     # Leave it empty to disable omniauth authentication.
-    config_accessor :omniauth_provider do
-      ENV.fetch("OMNIAUTH_PROVIDER", "valid")
-    end
+    config_accessor :omniauth_provider
 
     # From the data obtained we extract metadata to be saved as part of the authorization
     # This data can later be used by the census_authorization handler as to call the webservice
     # A hash with keys and how to find it inside hash comming from the OAuth
-    config_accessor :authorization_metadata do
-      TrustedIds.omniauth_metadata_attributes || {
-        expires_at: [:credentials, :expires_at],
-        identifier_type: [:extra, :identifier_type],
-        method: [:extra, :method],
-        assurance_level: [:extra, :assurance_level]
-      }
-    end
+    config_accessor :authorization_metadata
 
     # setup a hash with :client_id, :client_secret and :site to enable omniauth authentication
-    config_accessor :omniauth do
-      {
-        enabled: TrustedIds.to_bool(ENV.fetch("OMNIAUTH_ENABLED_BY_DEFAULT", TrustedIds.omniauth_env("CLIENT_ID").present?)),
-        client_id: TrustedIds.omniauth_env("CLIENT_ID"),
-        client_secret: TrustedIds.omniauth_env("CLIENT_SECRET"),
-        site: TrustedIds.omniauth_env("SITE", "https://valid.aoc.cat"),
-        icon_path: TrustedIds.omniauth_env("ICON", "media/images/#{TrustedIds.omniauth_provider.downcase}-icon.png"),
-        scope: TrustedIds.omniauth_env("SCOPE", "autenticacio_usuari")
-      }
-    end
+    config_accessor :omniauth
 
     # which of the former attributes can not set a the /system configuration, there are all the same for all tenants
-    config_accessor :omniauth_global_attributes do
-      ENV.fetch("OMNIAUTH_GLOBAL_ATTRIBUTES", "site scope").split.map(&:to_sym)
-    end
+    config_accessor :omniauth_global_attributes
 
     # wheter to use a custom login screen or the default one
-    config_accessor :custom_login_screen do
-      TrustedIds.to_bool(ENV.fetch("CUSTOM_LOGIN_SCREEN", true))
-    end
+    config_accessor :custom_login_screen
 
     # how long the verification will be valid, defaults to 90 days
     # if empty or nil, the verification will never expire
-    config_accessor :verification_expiration_time do
-      ENV.fetch("VERIFICATION_EXPIRATION_TIME", 90).to_i.days
-    end
+    config_accessor :verification_expiration_time
 
     # if false, no notifications will be send to users when automatic verifications are performed
-    config_accessor :send_verification_notifications do
-      ENV.has_key?("SEND_VERIFICATION_NOTIFICATIONS") ? TrustedIds.to_bool(ENV.fetch("SEND_VERIFICATION_NOTIFICATIONS")) : true
-    end
+    config_accessor :send_verification_notifications
 
     # Linked authorization method that will automatically verify users after getting a valid TrustedIds verification
-    config_accessor :census_authorization do
-      {
-        handler: ENV.has_key?("CENSUS_AUTHORIZATION_HANDLER") ? ENV.fetch("CENSUS_AUTHORIZATION_HANDLER").to_sym : :via_oberta_handler,
-        form: ENV.fetch("CENSUS_AUTHORIZATION_FORM", "Decidim::ViaOberta::Verifications::ViaObertaHandler"),
-        env: ENV.fetch("CENSUS_AUTHORIZATION_ENV", "production"),
-        api_url: ENV.fetch("CENSUS_AUTHORIZATION_API_URL", nil),
-        # These setting will be added in the organization form at /system as tenant configurable parameters
-        system_attributes: ENV.fetch("CENSUS_AUTHORIZATION_SYSTEM_ATTRIBUTES", "nif ine municipal_code province_code organization_name").split
-      }
-    end
+    config_accessor :census_authorization
 
     def self.census_config_attributes
       return [] if TrustedIds.census_authorization[:handler].blank?

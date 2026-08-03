@@ -22,7 +22,7 @@ module Decidim
 
         def unique_id
           Digest::SHA512.hexdigest(
-            "#{uid}-#{user&.decidim_organization_id}-#{Rails.application.secrets.secret_key_base}"
+            "#{uid}-#{user&.decidim_organization_id}-#{Rails.application.secret_key_base}"
           )
         end
 
@@ -47,15 +47,15 @@ module Decidim
         end
 
         def trusted_ids_provider?
-          return if errors.any?
-          return if provider == TrustedIds.omniauth_provider.to_s
+          return false if errors.any?
+          return false if provider == TrustedIds.omniauth_provider.to_s
 
           errors.add(:base, I18n.t("decidim.verifications.trusted_ids.errors.invalid_method"))
         end
 
         def exising_trusted_ids_identity?
-          return if errors.any?
-          return if user&.identities&.exists?(provider: TrustedIds.omniauth_provider)
+          return false if errors.any?
+          return false if user&.identities&.exists?(provider: TrustedIds.omniauth_provider)
 
           errors.add(:base, I18n.t("decidim.verifications.trusted_ids.errors.no_identity"))
         end

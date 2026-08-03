@@ -1,0 +1,3 @@
+<!-- replace "erb[loud]:contains('decidim/devise/shared/omniauth_buttons')" -->
+
+<%= render "decidim/trusted_ids/devise/sessions/login_box" %>

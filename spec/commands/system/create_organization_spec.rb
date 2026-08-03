@@ -4,7 +4,7 @@ require "spec_helper"
 require "shared/commands_organization_examples"
 
 module Decidim::System
-  describe RegisterOrganization do
+  describe CreateOrganization do
     describe "call" do
       let!(:another_organization) { create(:organization) }
       let(:form) do
@@ -15,6 +15,7 @@ module Decidim::System
       let(:params) do
         {
           name: "Gotham City",
+          short_name: "Gotham",
           host: "decide.gotham.gov",
           default_locale: "en",
           available_locales: ["en"],

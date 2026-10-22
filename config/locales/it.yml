@@ -31,12 +31,12 @@ it:
     authorization_handlers:
       trusted_ids_handler:
         explanation: This authorization is granted to all users who use a login method
-          with a trusted identifier.
+          with an authenticated identity.
         fields:
           extra: Additional information
           provider: Provider
           uid: ID
-        name: Trusted identifier
+        name: Authenticated identities
       via_oberta_handler:
         explanation: This authorization is granted to all users who are in the Via
           Oberta census database.
@@ -89,8 +89,8 @@ it:
       providers:
         default:
           description: This authorization is granted to all users who use a login
-            method with a trusted identifier.
-          name: Trusted identifier
+            method with an authenticated identity.
+          name: Authenticated identities
         valid:
           description: VÀLid is a service that AOC provides to Catalan public administrations
             to integrate the different available digital identification mechanisms (idCAT

@@ -20,9 +20,9 @@ module Decidim::System
           host: "decide.gotham.gov",
           users_registration_mode: "existing",
           file_upload_settings: Decidim::OrganizationSettings.default(:upload),
-          trusted_ids_census_settings: trusted_ids_census_settings,
-          trusted_ids_census_expiration_days: trusted_ids_census_expiration_days,
-          trusted_ids_census_tos: trusted_ids_census_tos,
+          trusted_ids_census_settings:,
+          trusted_ids_census_expiration_days:,
+          trusted_ids_census_tos:,
           census_expiration_apply_all_tenants: expiration_all_tenants,
           census_tos_apply_all_tenants: tos_all_tenants
         }
@@ -47,7 +47,7 @@ module Decidim::System
       let(:census_config) do
         {
           handler: census_handler,
-          system_attributes: system_attributes
+          system_attributes:
         }
       end
       let(:census_handler) { "via_oberta_handler" }
@@ -62,7 +62,7 @@ module Decidim::System
       it_behaves_like "saves attributes to census config"
 
       context "when trusted_ids_census_config already exists" do
-        let!(:trusted_ids_organization_config) { create(:trusted_ids_organization_config, organization: organization) }
+        let!(:trusted_ids_organization_config) { create(:trusted_ids_organization_config, organization:) }
 
         it "updates trusted_ids_census_config" do
           expect { command.call }.to(change { trusted_ids_organization_config.reload.settings })

@@ -3,10 +3,10 @@
 require "spec_helper"
 
 describe "Manage impersonations" do
-  let(:organization) { create(:organization, available_authorizations: available_authorizations) }
+  let(:organization) { create(:organization, available_authorizations:) }
   let(:available_authorizations) { %w(dummy_authorization_handler trusted_ids_handler via_oberta_handler) }
   let(:document_number) { "123456789X" }
-  let(:user) { create(:user, :admin, :confirmed, :admin_terms_accepted, organization: organization) }
+  let(:user) { create(:user, :admin, :confirmed, :admin_terms_accepted, organization:) }
 
   include_context "with stubs viaoberta api"
 

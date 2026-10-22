@@ -6,11 +6,11 @@ require "shared/shared_contexts"
 describe "Via Oberta manual verification" do
   include_context "with stubs viaoberta api"
 
-  let(:organization) { create(:organization, available_authorizations: available_authorizations) }
+  let(:organization) { create(:organization, available_authorizations:) }
   let!(:current_config) { nil }
   let(:available_authorizations) { [:trusted_ids_handler, :via_oberta_handler, :dummy_authorization] }
-  let(:user) { create(:user, :confirmed, organization: organization) }
-  let!(:authorization) { create(:authorization, name: "trusted_ids_handler", granted_at: 2.days.ago, user: user, metadata: metadata) }
+  let(:user) { create(:user, :confirmed, organization:) }
+  let!(:authorization) { create(:authorization, name: "trusted_ids_handler", granted_at: 2.days.ago, user:, metadata:) }
   let!(:existing_authorization) { nil }
   let(:metadata) do
     {
@@ -59,7 +59,7 @@ describe "Via Oberta manual verification" do
   end
 
   context "when terms and conditions are customized" do
-    let(:current_config) { create(:trusted_ids_organization_config, organization: organization, tos: custom_terms) }
+    let(:current_config) { create(:trusted_ids_organization_config, organization:, tos: custom_terms) }
     let(:custom_terms) do
       {
         en: "<p>Custom terms</p>"
@@ -151,7 +151,7 @@ describe "Via Oberta manual verification" do
     it_behaves_like "census authorization not allowed"
 
     context "when the user has another authorization" do
-      let!(:authorization) { create(:authorization, :granted, name: :dummy_authorization_handler, user: user, metadata: metadata) }
+      let!(:authorization) { create(:authorization, :granted, name: :dummy_authorization_handler, user:, metadata:) }
 
       it_behaves_like "census authorization not allowed"
     end
@@ -295,7 +295,7 @@ describe "Via Oberta manual verification" do
   end
 
   context "when authorization already exists" do
-    let!(:existing_authorization) { create(:authorization, name: "via_oberta_handler", user: user, granted_at: granted_at) }
+    let!(:existing_authorization) { create(:authorization, name: "via_oberta_handler", user:, granted_at:) }
     let(:granted_at) { 2.seconds.ago }
 
     it "can't be renewed yet" do
@@ -356,7 +356,7 @@ describe "Via Oberta manual verification" do
       end
 
       context "when expiration time is customized" do
-        let(:current_config) { create(:trusted_ids_organization_config, organization: organization, expiration_days: 350) }
+        let(:current_config) { create(:trusted_ids_organization_config, organization:, expiration_days: 350) }
 
         it "hasn't expired yet" do
           expect(existing_authorization.expired?).to be false

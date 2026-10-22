@@ -34,7 +34,7 @@ module Decidim
       end
 
       def handler
-        @handler ||= Decidim::AuthorizationHandler.handler_for("trusted_ids_handler", user: user, uid: data[:uid], provider: data[:provider], raw_data: data[:raw_data])
+        @handler ||= Decidim::AuthorizationHandler.handler_for("trusted_ids_handler", user:, uid: data[:uid], provider: data[:provider], raw_data: data[:raw_data])
       end
 
       def authorization

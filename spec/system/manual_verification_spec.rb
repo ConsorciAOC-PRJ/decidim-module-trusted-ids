@@ -7,7 +7,7 @@ describe "Trusted IDs manual verification" do
   include_context "with oauth configuration"
   include_context "with stubs viaoberta api"
 
-  let(:user) { create(:user, :confirmed, email: user_email, organization: organization) }
+  let(:user) { create(:user, :confirmed, email: user_email, organization:) }
   let(:user_email) { email }
   let!(:authorization) { nil }
 
@@ -94,7 +94,7 @@ describe "Trusted IDs manual verification" do
   end
 
   context "when verification is already granted" do
-    let!(:authorization) { create(:authorization, :granted, user: user, name: "trusted_ids_handler") }
+    let!(:authorization) { create(:authorization, :granted, user:, name: "trusted_ids_handler") }
 
     it "redirects back with an error message" do
       visit decidim_verifications.new_authorization_path(handler: :trusted_ids_handler)

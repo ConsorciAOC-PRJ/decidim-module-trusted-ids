@@ -6,7 +6,7 @@ require "shared/shared_contexts"
 module Decidim::ViaOberta
   module Api
     describe Request do
-      subject { described_class.new(document_id: document_id, document_type: document_type, organization: organization) }
+      subject { described_class.new(document_id:, document_type:, organization:) }
 
       include_context "with stubs viaoberta api"
 
@@ -15,11 +15,11 @@ module Decidim::ViaOberta
       let(:document_type) { nil }
       let(:census_authorization) do
         {
-          handler: handler,
-          form: form,
-          env: env,
-          api_url: api_url,
-          system_attributes: system_attributes
+          handler:,
+          form:,
+          env:,
+          api_url:,
+          system_attributes:
         }
       end
       let(:system_attributes) { %w(nif ine municipal_code province_code organization_name) }
@@ -89,7 +89,7 @@ module Decidim::ViaOberta
 
       it "generates different request_id" do
         id = subject.request_id
-        expect(id).not_to eq(described_class.new(document_id: document_id, document_type: document_type, organization: organization).request_id)
+        expect(id).not_to eq(described_class.new(document_id:, document_type:, organization:).request_id)
         # ensure is memoized
         expect(id).to eq(subject.request_id)
       end
@@ -163,9 +163,9 @@ module Decidim::ViaOberta
       it_behaves_like "generates xml"
 
       context "when config exists" do
-        let!(:trusted_ids_organization_config) { create(:trusted_ids_organization_config, organization: organization, settings: settings) }
+        let!(:trusted_ids_organization_config) { create(:trusted_ids_organization_config, organization:, settings:) }
         let(:settings) do
-          { province_code: province_code, municipal_code: municipal_code, ine: ine, nif: nif, organization_name: organization_name }
+          { province_code:, municipal_code:, ine:, nif:, organization_name: }
         end
         let(:organization_name) { "Organization Name" }
         let(:province_code) { "08" }

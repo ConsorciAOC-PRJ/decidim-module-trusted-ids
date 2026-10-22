@@ -9,7 +9,7 @@ checksums = [
   {
     package: "decidim-admin",
     files: {
-      "/app/controllers/decidim/admin/impersonations_controller.rb" => "a0c3b3a8ffcab24ed15c01ab628d4e00"
+      "/app/controllers/decidim/admin/impersonations_controller.rb" => "05adaaeef95e334e8d26afd4506b2a0d"
     }
   },
   {
@@ -19,13 +19,13 @@ checksums = [
       "/app/models/decidim/organization.rb" => "977969a742ef2ef7515395fcf6951df7",
       "/app/views/decidim/devise/sessions/new.html.erb" => "da0d18178c8dcead2774956e989527c5",
       "/app/views/decidim/devise/shared/_omniauth_buttons.html.erb" => "688a13e36af349a91e37b04c6caaa3a9",
-      "/app/views/layouts/decidim/_head.html.erb" => "0faa190f7a4b3db401ffcdfc3d063802"
+      "/app/views/layouts/decidim/_head.html.erb" => "7497bbc152f30dd825de4109afac680a"
     }
   },
   {
     package: "decidim-system",
     files: {
-      "/app/forms/decidim/system/register_organization_form.rb" => "e194bfdb6819aa55b6870307dcd24340",
+      "/app/forms/decidim/system/register_organization_form.rb" => "d68333a13882986bad8ffb2b2bc0aa95",
       "/app/forms/decidim/system/update_organization_form.rb" => "631ed13dc98e4bdfd39e60157d995672",
       "/app/commands/decidim/system/create_organization.rb" => "ad7faec3a21ced65054748dc2a4a119b",
       "/app/commands/decidim/system/update_organization.rb" => "551cb589c40db2a07e294f5dd3f500c0",

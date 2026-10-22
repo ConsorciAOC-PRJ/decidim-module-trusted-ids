@@ -42,7 +42,7 @@ describe "OAuth login button" do
       click_button "Create an account", match: :first
       click_on "Keep unchecked" if page.has_content?("Newsletter notifications")
 
-      expect(page).to have_content("Successfully")
+      expect(page).to have_content("Successfully authenticated from Valid account.")
       expect(page).to have_content("My account")
     end
 
@@ -67,7 +67,7 @@ describe "OAuth login button" do
         click_button "Create an account", match: :first
         click_on "Keep unchecked" if page.has_content?("Newsletter notifications")
 
-        expect(page).to have_content("Successfully")
+        expect(page).to have_content("Successfully authenticated from Valid account.")
         expect(page).to have_content("account")
       end
 
@@ -92,7 +92,7 @@ describe "OAuth login button" do
           click_on "Continue with verified identification"
         end
 
-        expect(page).to have_content("Successfully")
+        expect(page).to have_content("Successfully authenticated from Valid account.")
 
         visit decidim_verifications.authorizations_path
 
@@ -114,7 +114,7 @@ describe "OAuth login button" do
           click_on "Continue with verified identification"
         end
 
-        expect(page).to have_content("Successfully")
+        expect(page).to have_content("Successfully authenticated from Valid account.")
 
         visit decidim_verifications.authorizations_path
 
@@ -135,7 +135,7 @@ describe "OAuth login button" do
           click_on "Continue with verified identification"
         end
 
-        expect(page).to have_content("Successfully")
+        expect(page).to have_content("Successfully authenticated from Valid account.")
 
         visit decidim_verifications.authorizations_path
 
@@ -162,7 +162,7 @@ describe "OAuth login button" do
           click_on "Continue with verified identification"
         end
 
-        expect(page).to have_content("Successfully")
+        expect(page).to have_content("Successfully authenticated from Valid account.")
 
         visit decidim_verifications.authorizations_path
 
@@ -182,7 +182,7 @@ describe "OAuth login button" do
           click_on "Continue with verified identification"
         end
 
-        expect(page).to have_content("Successfully")
+        expect(page).to have_content("Successfully authenticated from Valid account.")
 
         visit decidim_verifications.authorizations_path
 

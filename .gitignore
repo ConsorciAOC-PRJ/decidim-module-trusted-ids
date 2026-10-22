@@ -20,4 +20,5 @@ development_app
 .rbenv-vars
 node_modules
 README.html
-CONTRIBUTING.html
+CONTRIBUTING.html/public/sw.js*
+/public/sw.js*

@@ -13,7 +13,7 @@ module Decidim::TrustedIds
     let!(:user) { create(:user) }
     let(:provider) { "valid" }
     let(:oauth_provider) { provider }
-    let!(:identity) { create(:identity, provider: provider, user: user) }
+    let!(:identity) { create(:identity, provider:, user:) }
     let(:oauth_data) do
       {
         user_id: user.id,
@@ -24,7 +24,7 @@ module Decidim::TrustedIds
         name: "VALid User",
         nickname: nil,
         avatar_url: nil,
-        raw_data: raw_data
+        raw_data:
       }
     end
     let(:raw_data) do
@@ -41,6 +41,7 @@ module Decidim::TrustedIds
 
     class TestRectifyPublisher < Decidim::Command
       include Wisper::Publisher
+
       def initialize(*args); end
     end
 
@@ -106,7 +107,7 @@ module Decidim::TrustedIds
     end
 
     context "when identity is missing" do
-      let!(:identity) { create(:identity, user: user, provider: "facebook") }
+      let!(:identity) { create(:identity, user:, provider: "facebook") }
 
       it "does nothing" do
         expect(Decidim::EventsManager).not_to receive(:publish)

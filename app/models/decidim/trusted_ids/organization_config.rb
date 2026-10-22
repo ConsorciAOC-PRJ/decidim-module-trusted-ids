@@ -5,6 +5,7 @@ module Decidim
     class OrganizationConfig < ApplicationRecord
       include Decidim::TranslatableResource
       include Decidim::TranslatableAttributes
+
       self.table_name = "organization_trusted_ids_configs"
 
       belongs_to :organization,

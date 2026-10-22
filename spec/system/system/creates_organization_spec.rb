@@ -8,7 +8,7 @@ describe "Creates an organization" do
   let(:census_config) do
     {
       handler: census_handler,
-      system_attributes: system_attributes
+      system_attributes:
     }
   end
   let(:census_handler) { "via_oberta_handler" }

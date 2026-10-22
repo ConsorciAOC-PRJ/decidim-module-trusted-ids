@@ -6,7 +6,7 @@ require "shared/shared_contexts"
 describe "OAuth login button" do
   include_context "with oauth configuration"
 
-  let(:user) { Decidim::User.find_by(email: email) }
+  let(:user) { Decidim::User.find_by(email:) }
   let!(:identity) { nil }
 
   before do
@@ -42,11 +42,11 @@ describe "OAuth login button" do
       click_button "Create an account", match: :first
       click_on "Keep unchecked" if page.has_content?("Newsletter notifications")
 
-      expect(page).to have_content("Successfully")
+      expect(page).to have_content("Successfully authenticated from Valid account.")
       expect(page).to have_content("My account")
     end
 
-    registered_user = Decidim::User.find_by(email: email)
+    registered_user = Decidim::User.find_by(email:)
     expect(Decidim::Authorization.last.user).to eq(registered_user)
     expect(Decidim::Authorization.last.metadata["provider"]).to eq("valid")
     expect(Decidim::Authorization.last.metadata["uid"]).to eq("123545")
@@ -67,11 +67,11 @@ describe "OAuth login button" do
         click_button "Create an account", match: :first
         click_on "Keep unchecked" if page.has_content?("Newsletter notifications")
 
-        expect(page).to have_content("Successfully")
+        expect(page).to have_content("Successfully authenticated from Valid account.")
         expect(page).to have_content("account")
       end
 
-      registered_user = Decidim::User.find_by(email: email)
+      registered_user = Decidim::User.find_by(email:)
       expect(Decidim::Authorization.last.user).to eq(registered_user)
       expect(Decidim::Authorization.last.metadata["provider"]).to eq("valid")
       expect(Decidim::Authorization.last.metadata["uid"]).to eq("123545")
@@ -80,10 +80,10 @@ describe "OAuth login button" do
   end
 
   context "when user already exists" do
-    let!(:user) { create(:user, email: email, organization: organization) }
+    let!(:user) { create(:user, email:, organization:) }
 
     context "when user is already authorized" do
-      let!(:authorization) { create(:authorization, name: "trusted_ids_handler", unique_id: unique_id, granted_at: 2.days.ago, user: user) }
+      let!(:authorization) { create(:authorization, name: "trusted_ids_handler", unique_id:, granted_at: 2.days.ago, user:) }
 
       it "renews the authorization and does not notify the user" do
         expect(Decidim::Authorization.count).to eq(1)
@@ -92,7 +92,7 @@ describe "OAuth login button" do
           click_on "Continue with verified identification"
         end
 
-        expect(page).to have_content("Successfully")
+        expect(page).to have_content("Successfully authenticated from Valid account.")
 
         visit decidim_verifications.authorizations_path
 
@@ -104,7 +104,7 @@ describe "OAuth login button" do
     end
 
     context "when authorization is expired" do
-      let!(:authorization) { create(:authorization, name: "trusted_ids_handler", unique_id: unique_id, granted_at: 91.days.ago, user: user) }
+      let!(:authorization) { create(:authorization, name: "trusted_ids_handler", unique_id:, granted_at: 91.days.ago, user:) }
 
       it "renews the authorization and does not notify the user" do
         expect(Decidim::Authorization.count).to eq(1)
@@ -114,7 +114,7 @@ describe "OAuth login button" do
           click_on "Continue with verified identification"
         end
 
-        expect(page).to have_content("Successfully")
+        expect(page).to have_content("Successfully authenticated from Valid account.")
 
         visit decidim_verifications.authorizations_path
 
@@ -126,7 +126,7 @@ describe "OAuth login button" do
     end
 
     context "when authorization is not granted" do
-      let!(:authorization) { create(:authorization, :pending, name: "trusted_ids_handler", unique_id: unique_id, user: user) }
+      let!(:authorization) { create(:authorization, :pending, name: "trusted_ids_handler", unique_id:, user:) }
 
       it "renews the authorization and notifies the user" do
         expect(Decidim::Authorization.count).to eq(1)
@@ -135,7 +135,7 @@ describe "OAuth login button" do
           click_on "Continue with verified identification"
         end
 
-        expect(page).to have_content("Successfully")
+        expect(page).to have_content("Successfully authenticated from Valid account.")
 
         visit decidim_verifications.authorizations_path
 
@@ -162,7 +162,7 @@ describe "OAuth login button" do
           click_on "Continue with verified identification"
         end
 
-        expect(page).to have_content("Successfully")
+        expect(page).to have_content("Successfully authenticated from Valid account.")
 
         visit decidim_verifications.authorizations_path
 
@@ -173,7 +173,7 @@ describe "OAuth login button" do
     end
 
     context "when identity exists" do
-      let!(:identity) { create(:identity, provider: "valid", uid: omniauth_hash.uid, user: user) }
+      let!(:identity) { create(:identity, provider: "valid", uid: omniauth_hash.uid, user:) }
 
       it "verifies and notifies the user" do
         expect(user.identities.count).to eq(1)
@@ -182,7 +182,7 @@ describe "OAuth login button" do
           click_on "Continue with verified identification"
         end
 
-        expect(page).to have_content("Successfully")
+        expect(page).to have_content("Successfully authenticated from Valid account.")
 
         visit decidim_verifications.authorizations_path
 

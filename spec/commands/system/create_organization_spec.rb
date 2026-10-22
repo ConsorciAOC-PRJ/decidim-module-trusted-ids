@@ -24,9 +24,9 @@ module Decidim::System
           reference_prefix: "GC",
           users_registration_mode: "existing",
           file_upload_settings: Decidim::OrganizationSettings.default(:upload),
-          trusted_ids_census_settings: trusted_ids_census_settings,
-          trusted_ids_census_expiration_days: trusted_ids_census_expiration_days,
-          trusted_ids_census_tos: trusted_ids_census_tos,
+          trusted_ids_census_settings:,
+          trusted_ids_census_expiration_days:,
+          trusted_ids_census_tos:,
           census_expiration_apply_all_tenants: expiration_all_tenants,
           census_tos_apply_all_tenants: tos_all_tenants
         }
@@ -52,7 +52,7 @@ module Decidim::System
       let(:census_config) do
         {
           handler: census_handler,
-          system_attributes: system_attributes
+          system_attributes:
         }
       end
       let(:system_attributes) do

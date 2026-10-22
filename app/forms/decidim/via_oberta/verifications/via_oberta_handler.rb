@@ -59,7 +59,7 @@ module Decidim
         end
 
         def census_response
-          @census_response ||= ViaOberta::Api::Request.new(document_id: document_id, document_type: document_type, organization: organization).response
+          @census_response ||= ViaOberta::Api::Request.new(document_id:, document_type:, organization:).response
         end
 
         def existing_via_oberta_identity
@@ -91,7 +91,7 @@ module Decidim
         end
 
         def trusted_authorization
-          @trusted_authorization ||= Decidim::Authorization.find_by(name: "trusted_ids_handler", user: user)
+          @trusted_authorization ||= Decidim::Authorization.find_by(name: "trusted_ids_handler", user:)
         end
 
         def organization

@@ -14,8 +14,8 @@ module Decidim
 
         def metadata
           super.merge(
-            uid: uid,
-            provider: provider,
+            uid:,
+            provider:,
             extra: extra_attributes
           )
         end

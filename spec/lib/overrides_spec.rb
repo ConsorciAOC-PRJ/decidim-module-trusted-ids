@@ -9,13 +9,13 @@ checksums = [
   {
     package: "decidim-admin",
     files: {
-      "/app/controllers/decidim/admin/impersonations_controller.rb" => "05adaaeef95e334e8d26afd4506b2a0d"
+      "/app/controllers/decidim/admin/impersonations_controller.rb" => "850b8ac453d8f0de47eecbfdfdcc84e6"
     }
   },
   {
     package: "decidim-core",
     files: {
-      "/app/commands/decidim/create_omniauth_registration.rb" => "31ce55b44db4e53151f11524d26d8832",
+      "/app/commands/decidim/create_omniauth_registration.rb" => "9c76a3012fffc7fec10ae3fe44046525",
       "/app/models/decidim/organization.rb" => "977969a742ef2ef7515395fcf6951df7",
       "/app/views/decidim/devise/sessions/new.html.erb" => "da0d18178c8dcead2774956e989527c5",
       "/app/views/decidim/devise/shared/_omniauth_buttons.html.erb" => "688a13e36af349a91e37b04c6caaa3a9",

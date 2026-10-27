@@ -5,8 +5,6 @@ require "decidim/trusted_ids/engine"
 
 module Decidim
   module TrustedIds
-    include ActiveSupport::Configurable
-
     def self.omniauth_env(key, default = nil)
       ENV.fetch("#{TrustedIds.omniauth_provider.upcase}_#{key}", default)
     end
@@ -24,33 +22,35 @@ module Decidim
       end
     end
 
+    # Note that initialization on this module is done in the engine.rb file, as it needs to be done using dynamic values from the environment.
+
     # The name of the omniauth provider, must be registered in Decidim.
     # Leave it empty to disable omniauth authentication.
-    config_accessor :omniauth_provider
+    mattr_accessor :omniauth_provider
 
     # From the data obtained we extract metadata to be saved as part of the authorization
     # This data can later be used by the census_authorization handler as to call the webservice
     # A hash with keys and how to find it inside hash comming from the OAuth
-    config_accessor :authorization_metadata
+    mattr_accessor :authorization_metadata
 
     # setup a hash with :client_id, :client_secret and :site to enable omniauth authentication
-    config_accessor :omniauth
+    mattr_accessor :omniauth
 
     # which of the former attributes can not set a the /system configuration, there are all the same for all tenants
-    config_accessor :omniauth_global_attributes
+    mattr_accessor :omniauth_global_attributes
 
     # wheter to use a custom login screen or the default one
-    config_accessor :custom_login_screen
+    mattr_accessor :custom_login_screen
 
     # how long the verification will be valid, defaults to 90 days
     # if empty or nil, the verification will never expire
-    config_accessor :verification_expiration_time
+    mattr_accessor :verification_expiration_time
 
     # if false, no notifications will be send to users when automatic verifications are performed
-    config_accessor :send_verification_notifications
+    mattr_accessor :send_verification_notifications
 
     # Linked authorization method that will automatically verify users after getting a valid TrustedIds verification
-    config_accessor :census_authorization
+    mattr_accessor :census_authorization
 
     def self.census_config_attributes
       return [] if TrustedIds.census_authorization[:handler].blank?

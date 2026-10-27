@@ -170,20 +170,24 @@ If you are using a different source for your settings, you can also configure th
 For instance, create a file `config/initializers/decidim_trusted_ids.rb` with the following content:
 
 ```ruby
-Decidim::TrustedIds.configure do |config|
-  # The name of the omniauth provider, must be registered in Decidim.
-  config.omniauth_provider = "valid"
-  config.omniauth = {
-    enabled: true,
-    client_id: "my-client-id",
-    client_secret: "my-client-secret",
-    site: "https://valid.aoc.cat",
-    scope: "autenticacio_usuari",
-    icon: "media/images/valid-icon.png"
-  },
-  ...
-end
+Decidim::TrustedIds.omniauth_provider = "valid"
+Decidim::TrustedIds.omniauth = {
+  enabled: true,
+  client_id: "my-client-id",
+  client_secret: "my-client-secret",
+  site: "https://valid.aoc.cat",
+  scope: "autenticacio_usuari",
+  icon_path: "media/images/valid-icon.png"
+}
+Decidim::TrustedIds.census_authorization = {
+  handler: :via_oberta_handler,
+  form: "Decidim::ViaOberta::Verifications::ViaObertaHandler",
+  env: "production",
+  system_attributes: %w(nif ine municipal_code province_code organization_name)
+}
 ```
+
+Set only the values you need to override. The available settings are the accessors defined in [`lib/decidim/trusted_ids.rb`](lib/decidim/trusted_ids.rb); assign them directly on `Decidim::TrustedIds` as shown above.
 
 For the complete list of available options, see the [trusted_ids](lib/decidim/trusted_ids.rb) file.
 

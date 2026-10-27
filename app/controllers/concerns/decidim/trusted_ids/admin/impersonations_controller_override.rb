@@ -13,13 +13,13 @@ module Decidim
           helper Decidim::OmniauthHelper
 
           # the internal 1st step verification shouldn't be used for impersonations as it is linked with an OAuth login
-          def other_available_authorization_handlers
+          def other_available_authorization_handlers # rubocop:disable Decidim/EnforcePermissionTo
             Decidim::Verifications::Adapter.from_collection(
               current_organization.available_authorization_handlers - [handler_name, "trusted_ids_handler"]
             )
           end
 
-          def available_authorization_handlers
+          def available_authorization_handlers # rubocop:disable Decidim/EnforcePermissionTo
             Decidim::Verifications::Adapter.from_collection(
               current_organization.available_authorization_handlers - ["trusted_ids_handler"]
             )

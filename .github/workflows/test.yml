@@ -7,7 +7,7 @@ on:
   pull_request:
 
 env:
-  RUBY_VERSION: 3.3.11
+  RUBY_VERSION: 3.4.7
   NODE_VERSION: 22.14.0
   DISABLE_SPRING: 1
   CI: "true"
@@ -38,26 +38,20 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Install imagemagick
+      - name: Install libvips
         run: |
           sudo apt update
-          sudo apt install -y imagemagick
+          sudo apt install -y libvips libvips-tools
 
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ env.RUBY_VERSION }}
           bundler-cache: true
 
-      - uses: nanasess/setup-chromedriver@v2
+      - uses: browser-actions/setup-chrome@v2
         with:
-          chromedriver-version: 126.0.6478.182
-
-      - name: Remove Chrome
-        run: sudo apt remove google-chrome-stable
-
-      - uses: browser-actions/setup-chrome@v1
-        with:
-          chrome-version: 126.0.6478.182
+          chrome-version: 155
+          install-chromedriver: true
 
       - uses: actions/setup-node@v4
         with:

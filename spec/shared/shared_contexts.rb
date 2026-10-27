@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 shared_context "with oauth configuration" do
-  let(:organization) { create(:organization, omniauth_settings: omniauth_settings, available_authorizations: available_authorizations) }
+  let(:organization) { create(:organization, omniauth_settings:, available_authorizations:) }
   let(:available_authorizations) { [:trusted_ids_handler, :via_oberta_handler] }
   let(:enabled) { true }
   let(:omniauth_settings) do
@@ -20,7 +20,7 @@ shared_context "with oauth configuration" do
       provider: "valid",
       uid: "123545",
       info: {
-        email: email,
+        email:,
         name: "VALid User",
         nickname: "valid_user"
       },

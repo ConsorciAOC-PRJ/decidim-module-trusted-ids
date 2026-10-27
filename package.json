@@ -1,6 +1,6 @@
 {
   "name": "decidim-trusted_ids",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "description": "Trusted IDs module for Decidim",
   "main": "index.js",
   "directories": {
@@ -33,11 +33,11 @@
     "extends": "@decidim/stylelint-config"
   },
   "devDependencies": {
-    "@decidim/dev": "0.31.7",
-    "@decidim/eslint-config": "0.31.7",
-    "@decidim/prettier-config": "0.31.7",
-    "@decidim/stylelint-config": "0.31.7",
-    "@decidim/webpacker": "0.31.7"
+    "@decidim/dev": "0.32.2",
+    "@decidim/eslint-config": "0.32.2",
+    "@decidim/prettier-config": "0.32.2",
+    "@decidim/stylelint-config": "0.32.2",
+    "@decidim/webpacker": "0.32.2"
   },
   "dependencies": {}
 }

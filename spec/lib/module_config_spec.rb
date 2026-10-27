@@ -50,8 +50,12 @@ module Decidim
     let(:client_secret) { "client_secret" }
     let(:site) { "https://example.org" }
     let(:icon_path) { "icon_path/icon.png" }
-    let(:config) { JSON.parse cmd_capture("bin/rails runner 'puts Decidim::TrustedIds.config.to_json'", env: env) }
-    let(:omniauth_config) { JSON.parse cmd_capture("bin/rails runner 'puts Decidim::OmniauthProvider.available.to_json'", env: env) }
+    let(:config) do
+      attributes = "%i[omniauth_provider custom_login_screen omniauth omniauth_global_attributes send_verification_notifications verification_expiration_time authorization_metadata census_authorization]"
+      expression = "puts #{attributes}.to_h { |key| [key, Decidim::TrustedIds.public_send(key)] }.to_json"
+      JSON.parse cmd_capture("bin/rails runner '#{expression}'", env:)
+    end
+    let(:omniauth_config) { JSON.parse cmd_capture("bin/rails runner 'puts Decidim::OmniauthProvider.available.to_json'", env:) }
 
     def cmd_capture(cmd, env: {})
       path = File.expand_path("../../#{test_app}", __dir__)

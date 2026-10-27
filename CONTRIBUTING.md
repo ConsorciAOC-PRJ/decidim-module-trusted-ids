@@ -44,9 +44,7 @@ The OmniAuth method **must** return the `uid` property with an unique identifier
 
 4. In your application, use the ENV `OMNIAUTH_PROVIDER=foo_bar` or create an initializer to specify the default OmniAuth provider:
   ```ruby
-  Decidim::TrustedIds.configure do |config|
-    config.omniauth_provider = :foo_bar
-  end
+  Decidim::TrustedIds.omniauth_provider = :foo_bar
   ```
 
 ## Saving metadata extracted from the OAuth provider
@@ -80,14 +78,11 @@ You simply must define a list of fields using the ENV var `CENSUS_AUTHORIZATION_
 
 ```ruby
 # `config/initializers/decidim_trusted_ids.rb`
-Decidim::TrustedIds.configure do |config|
-  config.census_authorization = {
-      handler: :my_authorization_handler,
-      form: "Decidim::MyNameSpace::MyAuthorizationHandler"),
-      #...any_other_thing..,
-      system_attributes: "municipal_code province_code organization_name"
-    }
-end
+Decidim::TrustedIds.census_authorization = {
+  handler: :my_authorization_handler,
+  form: "Decidim::MyNameSpace::MyAuthorizationHandler",
+  system_attributes: %w(municipal_code province_code organization_name)
+}
 ```
 
 This will create the fields to fill in the System Settings page, see the [README "Screenshots"](README.md#screenshots) section.

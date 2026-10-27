@@ -11,7 +11,7 @@ shared_examples "common copies" do |handler, name|
   describe "resource_url" do
     it "is generated correctly" do
       expect(subject.resource_url)
-        .to include("#{resource.organization.host}/authorizations/new?handler=#{handler}")
+        .to include("#{resource.organization.host}/#{I18n.locale}/authorizations/new?handler=#{handler}")
     end
   end
 

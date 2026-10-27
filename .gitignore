@@ -21,3 +21,4 @@ development_app
 node_modules
 README.html
 CONTRIBUTING.html
+/public/sw.js*

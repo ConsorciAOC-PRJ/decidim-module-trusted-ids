@@ -17,7 +17,7 @@ module Decidim
           return if current_user.email == verified_email
 
           flash[:alert] = I18n.t("decidim.trusted_ids.sessions.different_omniauth_emails")
-          redirect_back fallback_location: account_path
+          redirect_back_or_to(account_path)
         end
       end
     end

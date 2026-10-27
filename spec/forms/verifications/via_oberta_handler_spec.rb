@@ -12,23 +12,23 @@ module Decidim::ViaOberta
 
       let(:attributes) do
         {
-          user: user,
+          user:,
           document_id: "anything",
           document_type: params_document_type,
-          tos_agreement: tos_agreement
+          tos_agreement:
         }
       end
       let(:user) { create(:user) }
       let(:another_user) { create(:user) }
-      let!(:trusted_ids_authorization) { create(:authorization, user: user, name: "trusted_ids_handler", metadata: metadata) }
+      let!(:trusted_ids_authorization) { create(:authorization, user:, name: "trusted_ids_handler", metadata:) }
       let(:valid_document_type) { 2 }
       let(:params_document_type) { nil }
       let(:document_id) { "RE12345678" }
       let(:metadata) do
         {
-          uid: uid,
-          provider: provider,
-          extra: extra
+          uid:,
+          provider:,
+          extra:
         }
       end
       let(:provider) { "valid" }
@@ -178,7 +178,7 @@ module Decidim::ViaOberta
         let(:trusted_ids_authorization) { nil }
         let(:attributes) do
           {
-            user: user,
+            user:,
             document_id: "some-id",
             document_type: 3,
             tos_agreement: true
